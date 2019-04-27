@@ -1,0 +1,309 @@
+package com.iseasoft.iseaiptv.ui.fragment;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
+import com.afollestad.appthemeengine.ATE;
+import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.adapters.FolderAdapter;
+import com.iseasoft.iseaiptv.adapters.PlaylistAdapter;
+import com.iseasoft.iseaiptv.dialogs.StorageSelectDialog;
+import com.iseasoft.iseaiptv.http.HttpHandler;
+import com.iseasoft.iseaiptv.listeners.FolderListener;
+import com.iseasoft.iseaiptv.models.M3UPlaylist;
+import com.iseasoft.iseaiptv.parsers.M3UParser;
+import com.iseasoft.iseaiptv.permissions.Nammu;
+import com.iseasoft.iseaiptv.permissions.PermissionCallback;
+import com.iseasoft.iseaiptv.slidinguppanel.SlidingUpPanelLayout;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
+import com.iseasoft.iseaiptv.utils.Utils;
+import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
+import com.iseasoft.iseaiptv.widgets.FastScroller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+/**
+ * Created by nv95 on 10.11.16.
+ */
+
+public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener,
+        FolderListener {
+
+    private static final int COLUMN_WIDTH = 70;
+    private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+            loadFolders();
+        }
+
+        @Override
+        public void permissionRefused() {
+
+        }
+    };
+    private FolderAdapter mAdapter;
+    private RecyclerView recyclerView;
+    private FastScroller fastScroller;
+    private ProgressBar mProgressBar;
+    private SlidingUpPanelLayout panelLayout;
+    private PlaylistAdapter playlistAdapter;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(
+                R.layout.fragment_folders, container, false);
+
+
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle(R.string.folders);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        panelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        return rootView;
+    }
+
+    private void loadFolders() {
+        if (getActivity() != null) {
+            new LoadFolder().execute("");
+        }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        boolean dark = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false);
+        if (dark) {
+            ATE.apply(this, "dark_theme");
+        } else {
+            ATE.apply(this, "light_theme");
+        }
+        if (mAdapter != null) {
+            mAdapter.applyTheme(dark);
+            mAdapter.notifyDataSetChanged();
+        }
+
+        if (Utils.isMarshmallow()) {
+            requestStoragePermission();
+        } else {
+            loadFolders();
+        }
+    }
+
+    private void setItemDecoration() {
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_folders, menu);
+        MenuItem search = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        searchView.setQueryHint("Search channel name");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (TextUtils.isEmpty(query)) {
+                    return filter("");
+                } else {
+                    return filter(query);
+                }
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                //TODO here changes the search text)
+                if (TextUtils.isEmpty(newText)) {
+                    return filter("");
+                } else {
+                    return filter(newText);
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_storages:
+                loadFolders();
+                break;
+            case R.id.action_server:
+                loadServer();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean filter(final String newText) {
+        if (playlistAdapter != null) {
+            playlistAdapter.getFilter().filter(newText);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void loadServer() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        String url = "http://20062016.com:8000/get.php?username=Master99&password=Master99&type=m3u";
+        new LoadServer().execute(url);
+    }
+
+    public void updateTheme() {
+        Context context = getActivity();
+        if (context != null) {
+            boolean dark = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false);
+            mAdapter.applyTheme(dark);
+        }
+    }
+
+    @Override
+    public void onDirSelected(File dir) {
+        mAdapter.updateDataSetAsync(dir);
+    }
+
+    private void requestStoragePermission() {
+        if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && Nammu.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            loadFolders();
+        } else {
+            if (Nammu.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Nammu.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
+                            }
+                        }).show();
+            } else {
+                Nammu.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
+            }
+        }
+    }
+
+    @Override
+    public void onFileSelected(File file) {
+
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            parseAndUpdateUI(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseAndUpdateUI(InputStream inputStream) {
+
+        M3UParser m3UParser = new M3UParser();
+        try {
+            M3UPlaylist playlist = m3UParser.parseFile(inputStream);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (playlistAdapter == null) {
+                    playlistAdapter = new PlaylistAdapter(getActivity());
+                }
+                playlistAdapter.update(playlist.getPlaylistItems());
+                recyclerView.setAdapter(playlistAdapter);
+                int columnWidthInDp = COLUMN_WIDTH;
+                int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
+                Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+                mProgressBar.setVisibility(View.GONE);
+                fastScroller.setVisibility(View.VISIBLE);
+                fastScroller.setRecyclerView(recyclerView);
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class LoadFolder extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            Activity activity = getActivity();
+            if (activity != null) {
+                mAdapter = new FolderAdapter(activity, new File(PreferencesUtility.getInstance(activity).getLastFolder()));
+                mAdapter.setFolderListener(FoldersFragment.this);
+                updateTheme();
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            mProgressBar.setVisibility(View.GONE);
+            fastScroller.setVisibility(View.VISIBLE);
+            fastScroller.setRecyclerView(recyclerView);
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class LoadServer extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... urls) {
+
+            HttpHandler hh = new HttpHandler();
+            InputStream inputStream = hh.makeServiceCall(urls[0]);
+
+            parseAndUpdateUI(inputStream);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+}
