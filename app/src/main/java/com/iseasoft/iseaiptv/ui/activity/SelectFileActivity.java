@@ -15,6 +15,7 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.models.M3UPlaylist;
 import com.iseasoft.iseaiptv.parsers.M3UParser;
+import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.ui.fragment.FoldersFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 
@@ -100,4 +101,11 @@ public class SelectFileActivity extends AppCompatActivity implements FolderListe
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
+        IseaSoft.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 }

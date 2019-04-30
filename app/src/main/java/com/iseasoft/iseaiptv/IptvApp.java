@@ -2,7 +2,7 @@ package com.iseasoft.iseaiptv;
 
 import android.app.Application;
 
-import com.iseasoft.iseaiptv.permissions.Nammu;
+import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -29,6 +29,6 @@ public class IptvApp extends Application {
         }).build();
 
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
-        Nammu.init(this);
+        IseaSoft.init(this);
     }
 }

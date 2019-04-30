@@ -38,10 +38,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Michal Tajchert on 2015-06-04.
+ * Created by iSeaSoft.
  */
-public class Nammu {
-    private static final String TAG = Nammu.class.getSimpleName();
+public class IseaSoft {
+    private static final String TAG = IseaSoft.class.getSimpleName();
     private static final String KEY_PREV_PERMISSIONS = "previous_permissions";
     private static final String KEY_IGNORED_PERMISSIONS = "ignored_permissions";
     private static Context context;
@@ -49,8 +49,8 @@ public class Nammu {
     private static ArrayList<PermissionRequest> permissionRequests = new ArrayList<PermissionRequest>();
 
     public static void init(Context context) {
-        sharedPreferences = context.getSharedPreferences("pl.tajchert.runtimepermissionhelper", Context.MODE_PRIVATE);
-        Nammu.context = context;
+        sharedPreferences = context.getSharedPreferences("com.iseasoft.runtimepermissionhelper", Context.MODE_PRIVATE);
+        IseaSoft.context = context;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Nammu {
     //Permission monitoring part below
 
     /**
-     * Get list of currently granted permissions, without saving it inside Nammu
+     * Get list of currently granted permissions, without saving it inside IseaSoft
      *
      * @return currently granted permissions
      */
@@ -255,7 +255,7 @@ public class Nammu {
      */
     public static void permissionCompare(PermissionListener permissionListener) {
         if (context == null) {
-            throw new RuntimeException("Before comparing permissions you need to call Nammu.init(context)");
+            throw new RuntimeException("Before comparing permissions you need to call IseaSoft.init(context)");
 
         }
         ArrayList<String> previouslyGranted = getPreviousPermissions();
@@ -304,7 +304,7 @@ public class Nammu {
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean checkPermission(String permissionName) {
         if (context == null) {
-            throw new RuntimeException("Before comparing permissions you need to call Nammu.init(context)");
+            throw new RuntimeException("Before comparing permissions you need to call IseaSoft.init(context)");
         }
         return PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permissionName);
     }

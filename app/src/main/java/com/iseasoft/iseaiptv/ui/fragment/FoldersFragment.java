@@ -31,7 +31,7 @@ import com.iseasoft.iseaiptv.http.HttpHandler;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.models.M3UPlaylist;
 import com.iseasoft.iseaiptv.parsers.M3UParser;
-import com.iseasoft.iseaiptv.permissions.Nammu;
+import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
@@ -208,20 +208,20 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     }
 
     private void requestStoragePermission() {
-        if (Nammu.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && Nammu.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && IseaSoft.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             loadFolders();
         } else {
-            if (Nammu.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (IseaSoft.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Nammu.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
+                                IseaSoft.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
                             }
                         }).show();
             } else {
-                Nammu.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
+                IseaSoft.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
             }
         }
     }
