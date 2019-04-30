@@ -204,6 +204,9 @@ public class FolderAdapter extends BaseSongAdapter<FolderAdapter.ItemHolder> imp
             notifyDataSetChanged();
             mBusy = false;
             PreferencesUtility.getInstance(mContext).storeLastFolder(mRoot.getPath());
+            if (folderListener != null) {
+                folderListener.onDirChanged(mRoot);
+            }
         }
     }
 

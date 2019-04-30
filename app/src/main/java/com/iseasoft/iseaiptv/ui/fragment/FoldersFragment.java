@@ -46,13 +46,9 @@ import java.io.InputStream;
  * Created by nv95 on 10.11.16.
  */
 
-public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener,
-        FolderListener {
+public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener {
 
     private static final int COLUMN_WIDTH = 70;
-
-    private RelativeLayout panelLayout;
-
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -64,16 +60,27 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
 
         }
     };
+    private RelativeLayout panelLayout;
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
     private PlaylistAdapter playlistAdapter;
+
+    private FolderListener listener;
 
     public static FoldersFragment newInstance() {
         FoldersFragment fragment = new FoldersFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public FolderListener getListener() {
+        return listener;
+    }
+
+    public void setListener(FolderListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -219,7 +226,6 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
         }
     }
 
-    @Override
     public void onFileSelected(File file) {
 
         try {
@@ -259,7 +265,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
             Activity activity = getActivity();
             if (activity != null) {
                 mAdapter = new FolderAdapter(activity, new File(PreferencesUtility.getInstance(activity).getLastFolder()));
-                mAdapter.setFolderListener(FoldersFragment.this);
+                mAdapter.setFolderListener(getListener());
                 updateTheme();
             }
             return "Executed";

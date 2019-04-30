@@ -10,9 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.ui.fragment.FoldersFragment;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 
-public class SelectFileActivity extends AppCompatActivity {
+import java.io.File;
+
+public class SelectFileActivity extends AppCompatActivity implements FolderListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,8 @@ public class SelectFileActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        updateTitle(PreferencesUtility.getInstance(this).getLastFolder());
+
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         setupSelectFileView();
@@ -37,14 +43,28 @@ public class SelectFileActivity extends AppCompatActivity {
         });
     }
 
+    private void updateTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
     private void setupSelectFileView() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         FoldersFragment foldersFragment = FoldersFragment.newInstance();
+        foldersFragment.setListener(this);
         ft.replace(R.id.select_file_container, foldersFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
     }
 
+    @Override
+    public void onFileSelected(File file) {
+
+    }
+
+    @Override
+    public void onDirChanged(File dir) {
+        updateTitle(dir.getPath());
+    }
 }
