@@ -22,6 +22,13 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.iseasoft.iseaiptv.models.M3UItem;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public final class PreferencesUtility {
 
     public static final String ARTIST_SORT_ORDER = "artist_sort_order";
@@ -51,6 +58,8 @@ public final class PreferencesUtility {
     private static final String ARTIST_ALBUM_IMAGE = "artist_album_image";
     private static final String ARTIST_ALBUM_IMAGE_MOBILE = "artist_album_image_mobile";
     private static final String ALWAYS_LOAD_ALBUM_IMAGES_LASTFM = "always_load_album_images_lastfm";
+    private static final String PLAYLIST_KEY = "playlist";
+    private static final String FAVORITE_CHANNEL_KEY = "favorite_channel_list";
 
     private static PreferencesUtility sInstance;
 
@@ -278,6 +287,42 @@ public final class PreferencesUtility {
 
     public boolean alwaysLoadAlbumImagesFromLastfm() {
         return mPreferences.getBoolean(ALWAYS_LOAD_ALBUM_IMAGES_LASTFM, false);
+    }
+
+    /**
+     * Save and get ArrayList in SharedPreference
+     */
+
+    private <T> void saveArrayList(ArrayList<T> list, String key) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
+    private <T> ArrayList<T> getArrayList(String key) {
+        Gson gson = new Gson();
+        String json = mPreferences.getString(key, null);
+        Type type = new TypeToken<ArrayList<T>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public void savePlayList(ArrayList<String> list) {
+        saveArrayList(list, PLAYLIST_KEY);
+    }
+
+    public ArrayList<String> getPlaylist() {
+        return getArrayList(PLAYLIST_KEY);
+    }
+
+    public void saveFavoriteChannels(ArrayList<M3UItem> list) {
+        saveArrayList(list, FAVORITE_CHANNEL_KEY);
+    }
+
+    public ArrayList<M3UItem> getFavoriteChannels() {
+        return getArrayList(FAVORITE_CHANNEL_KEY);
     }
 }
 

@@ -52,4 +52,6 @@ dependencies {
     }
 
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
