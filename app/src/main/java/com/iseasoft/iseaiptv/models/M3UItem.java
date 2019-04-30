@@ -10,6 +10,8 @@ public class M3UItem {
 
     private String itemIcon;
 
+    private String itemGroup;
+
     public String getItemDuration() {
         return itemDuration;
     }
@@ -40,5 +42,13 @@ public class M3UItem {
 
     public void setItemIcon(String itemIcon) {
         this.itemIcon = itemIcon;
+    }
+
+    public String getItemGroup() {
+        return itemGroup;
+    }
+
+    public void setItemGroup(String itemGroup) {
+        this.itemGroup = itemGroup;
     }
 }

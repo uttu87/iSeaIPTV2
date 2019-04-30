@@ -64,6 +64,12 @@ public class M3UParser {
                     playlistItem.setItemDuration(duration);
                     playlistItem.setItemIcon("");
                 }
+
+                if (dataArray[0].contains(EXT_GROUP)) {
+                    String group = dataArray[0].substring(dataArray[0].indexOf(EXT_GROUP) + EXT_GROUP.length()).replace("=", "").replace("\"", "").replace("\n", "");
+                    playlistItem.setItemGroup(group);
+                }
+
                 try {
                     String url = dataArray[1].substring(dataArray[1].indexOf(EXT_URL)).replace("\n", "").replace("\r", "");
                     String name = dataArray[1].substring(0, dataArray[1].indexOf(EXT_URL)).replace("\n", "");
