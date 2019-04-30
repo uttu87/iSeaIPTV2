@@ -11,14 +11,8 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
@@ -38,11 +33,9 @@ import com.iseasoft.iseaiptv.models.M3UPlaylist;
 import com.iseasoft.iseaiptv.parsers.M3UParser;
 import com.iseasoft.iseaiptv.permissions.Nammu;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
-import com.iseasoft.iseaiptv.slidinguppanel.SlidingUpPanelLayout;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
-import com.iseasoft.iseaiptv.widgets.FastScroller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,6 +50,9 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
         FolderListener {
 
     private static final int COLUMN_WIDTH = 70;
+
+    private RelativeLayout panelLayout;
+
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -70,29 +66,24 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     };
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
-    private FastScroller fastScroller;
     private ProgressBar mProgressBar;
-    private SlidingUpPanelLayout panelLayout;
     private PlaylistAdapter playlistAdapter;
+
+    public static FoldersFragment newInstance() {
+        FoldersFragment fragment = new FoldersFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_folders, container, false);
 
-
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.folders);
-
+        panelLayout = (RelativeLayout) rootView.findViewById(R.id.panel_layout);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        panelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
@@ -138,6 +129,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+       /*
         inflater.inflate(R.menu.menu_folders, menu);
         MenuItem search = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
@@ -162,10 +154,12 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
                 }
             }
         });
+        */
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /*
         switch (item.getItemId()) {
             case R.id.action_storages:
                 loadFolders();
@@ -174,6 +168,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
                 loadServer();
                 break;
         }
+        */
         return super.onOptionsItemSelected(item);
     }
 
@@ -250,8 +245,6 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
                 int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
                 Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
                 mProgressBar.setVisibility(View.GONE);
-                fastScroller.setVisibility(View.VISIBLE);
-                fastScroller.setRecyclerView(recyclerView);
             });
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -277,8 +270,6 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
             mProgressBar.setVisibility(View.GONE);
-            fastScroller.setVisibility(View.VISIBLE);
-            fastScroller.setRecyclerView(recyclerView);
         }
 
         @Override

@@ -172,4 +172,13 @@
         <item name="android:layout_margin">5dp</item>
     </style>
 
+    <style name="PlaylistActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_add_white_24dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

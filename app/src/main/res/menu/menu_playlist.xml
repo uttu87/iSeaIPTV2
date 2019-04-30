@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_url"
+        android:orderInCategory="101"
+        android:title="@string/action_add_url"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_select_file"
+        android:orderInCategory="102"
+        android:title="@string/action_select_file"
+        app:showAsAction="never" />
+</menu>
