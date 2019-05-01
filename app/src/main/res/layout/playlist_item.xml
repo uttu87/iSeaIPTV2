@@ -38,16 +38,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="Abdfsdfdsfsdfsdfsdfsdfsfsdfsfdjcndjsjfskjdfkjsdkfjdskjfkdsfkjdskfjdskfkjsdsdfs" />
+            android:lines="1" />
 
         <TextView
             android:id="@+id/link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="http://google.com/listiptv" />
+            android:lines="1" />
     </LinearLayout>
 
     <ImageView
