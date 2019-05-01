@@ -8,4 +8,9 @@
     tools:context=".ui.activity.PlaylistActivity"
     tools:showIn="@layout/activity_playlist">
 
+    <FrameLayout
+        android:id="@+id/playlist_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>

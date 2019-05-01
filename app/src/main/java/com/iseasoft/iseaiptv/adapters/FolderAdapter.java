@@ -20,6 +20,7 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dataloaders.FolderLoader;
 import com.iseasoft.iseaiptv.dataloaders.SongLoader;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
+import com.iseasoft.iseaiptv.models.Playlist;
 import com.iseasoft.iseaiptv.models.Song;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
@@ -233,6 +234,11 @@ public class FolderAdapter extends BaseSongAdapter<FolderAdapter.ItemHolder> imp
                 albumArt.setImageDrawable(mIcons[3]);
             } else if (f.isFile()) {
 
+                Playlist playlist = new Playlist();
+                playlist.setName(f.getName());
+                playlist.setLink(f.getPath());
+
+                PreferencesUtility.getInstance(mContext).savePlaylist(playlist);
                 if (folderListener != null) {
                     folderListener.onFileSelected(f);
                 }

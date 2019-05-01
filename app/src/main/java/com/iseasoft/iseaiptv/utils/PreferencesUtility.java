@@ -25,6 +25,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.models.Playlist;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -309,12 +310,26 @@ public final class PreferencesUtility {
         return gson.fromJson(json, type);
     }
 
-    public void savePlayList(ArrayList<String> list) {
+    public void savePlaylist(Playlist playlist) {
+        ArrayList<Playlist> playlists = getPlaylist();
+        if (playlists == null) {
+            playlists = new ArrayList<>();
+        }
+        playlists.add(playlist);
+
+        savePlaylist(playlists);
+    }
+
+    public void savePlaylist(ArrayList<Playlist> list) {
         saveArrayList(list, PLAYLIST_KEY);
     }
 
-    public ArrayList<String> getPlaylist() {
-        return getArrayList(PLAYLIST_KEY);
+    public ArrayList<Playlist> getPlaylist() {
+        Gson gson = new Gson();
+        String json = mPreferences.getString(PLAYLIST_KEY, null);
+        Type type = new TypeToken<ArrayList<Playlist>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 
     public void saveFavoriteChannels(ArrayList<M3UItem> list) {

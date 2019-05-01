@@ -24,8 +24,8 @@ import android.widget.RelativeLayout;
 
 import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.adapters.FolderAdapter;
-import com.iseasoft.iseaiptv.adapters.PlaylistAdapter;
 import com.iseasoft.iseaiptv.dialogs.StorageSelectDialog;
 import com.iseasoft.iseaiptv.http.HttpHandler;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
@@ -64,7 +64,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
-    private PlaylistAdapter playlistAdapter;
+    private ChannelAdapter channelAdapter;
 
     private FolderListener listener;
 
@@ -180,8 +180,8 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     }
 
     private boolean filter(final String newText) {
-        if (playlistAdapter != null) {
-            playlistAdapter.getFilter().filter(newText);
+        if (channelAdapter != null) {
+            channelAdapter.getFilter().filter(newText);
             return true;
         } else {
             return false;
@@ -242,11 +242,11 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
         try {
             M3UPlaylist playlist = m3UParser.parseFile(inputStream);
             new Handler(Looper.getMainLooper()).post(() -> {
-                if (playlistAdapter == null) {
-                    playlistAdapter = new PlaylistAdapter(getActivity());
+                if (channelAdapter == null) {
+                    channelAdapter = new ChannelAdapter(getActivity());
                 }
-                playlistAdapter.update(playlist.getPlaylistItems());
-                recyclerView.setAdapter(playlistAdapter);
+                channelAdapter.update(playlist.getPlaylistItems());
+                recyclerView.setAdapter(channelAdapter);
                 int columnWidthInDp = COLUMN_WIDTH;
                 int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
                 Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);

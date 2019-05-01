@@ -1,155 +1,105 @@
 package com.iseasoft.iseaiptv.adapters;
 
-/*
-  Created by fedor on 28.11.2016.
- */
-
-
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.iseasoft.iseaiptv.R;
-import com.iseasoft.iseaiptv.models.M3UItem;
-import com.squareup.picasso.Picasso;
+import com.iseasoft.iseaiptv.listeners.OnPlaylistListener;
+import com.iseasoft.iseaiptv.models.Playlist;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHolder> implements Filterable {
+public class PlaylistAdapter extends RecyclerView.Adapter {
 
-    private final Context mContext;
-    private final LayoutInflater mInflater;
-    private List<M3UItem> mItem = new ArrayList<>();
-    private TextDrawable textDrawable;
-    private ColorGenerator generator = ColorGenerator.MATERIAL;
 
-    public PlaylistAdapter(Context c) {
-        mContext = c;
-        mInflater = LayoutInflater.from(mContext);
+    private List<Playlist> mItems;
+    private Context mContext;
+    private OnPlaylistListener mItemListener;
+
+    public PlaylistAdapter(List<Playlist> items, OnPlaylistListener listener) {
+        this.mItems = items;
+        this.mItemListener = listener;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        mContext = parent.getContext();
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_item, null);
+
+        PlaylistHolder playlistHolder = new PlaylistHolder(v);
+        return playlistHolder;
     }
 
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View sView = mInflater.inflate(R.layout.item_playlist, parent, false);
-        return new ItemHolder(sView);
-    }
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public void onBindViewHolder(final ItemHolder holder, final int position) {
-        final M3UItem item = mItem.get(position);
-        if (item != null) {
-            holder.update(item);
-        }
+        final PlaylistHolder playlistHolder = (PlaylistHolder) holder;
+        final Playlist playlist = mItems.get(position);
+        playlistHolder.setContent(playlist);
+        playlistHolder.setListener(mItemListener);
     }
 
     @Override
     public int getItemCount() {
-        return mItem.size();
+        return mItems.size();
     }
 
-    public void update(List<M3UItem> _list) {
-        this.mItem = _list;
-        notifyDataSetChanged();
-    }
+    public class PlaylistHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() { //TODO search it on github
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                mItem.clear();
-                mItem.addAll((ArrayList<M3UItem>) results.values);
-                notifyDataSetChanged();
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                List<M3UItem> resultList = new ArrayList<>();
-                if (!(constraint.length() == 0)) {
-                    final String filtePatt = constraint.toString().toLowerCase().trim();
-                    for (M3UItem itm : mItem) {
-                        if (itm.getItemName().toLowerCase().contains(filtePatt)) {
-                            resultList.add(itm);
-                        }
-                    }
-                }
-                results.values = resultList;
-                results.count = resultList.size();
-                return results;
-            }
-        };
-    }
-
-    public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        final PackageManager pm = mContext.getPackageManager();
+        ConstraintLayout mainView;
+        ImageView icon;
         TextView name;
-        ImageView cImg;
+        TextView link;
+        ImageView more;
 
-        ItemHolder(View view) {
+        private Playlist playlist;
+        private OnPlaylistListener listener;
+
+        PlaylistHolder(View view) {
             super(view);
-            view.setOnClickListener(this);
-            name = view.findViewById(R.id.item_name);
-            cImg = view.findViewById(R.id.cimg);
+            mainView = view.findViewById(R.id.mainView);
+            icon = view.findViewById(R.id.icon);
+            name = view.findViewById(R.id.name);
+            link = view.findViewById(R.id.link);
+            more = view.findViewById(R.id.more);
         }
 
-        void update(final M3UItem item) {
-            try {
-                name.setText(item.getItemName());
-                int color = generator.getRandomColor();
-                textDrawable = TextDrawable.builder()
-                        .buildRoundRect(String.valueOf(item.getItemName().charAt(0)), color, 100);
+        public OnPlaylistListener getListener() {
+            return listener;
+        }
 
-                if (TextUtils.isEmpty(item.getItemIcon())) {
-                    cImg.setImageDrawable(textDrawable);
-                } else {
-                    Picasso.get()
-                            .load(item.getItemIcon())
-                            .placeholder(textDrawable)
-                            .error(textDrawable)
-                            .into(cImg);
-                }
+        public void setListener(OnPlaylistListener listener) {
+            this.listener = listener;
+        }
 
-            } catch (Exception ignored) {
+        public void setContent(Playlist playlist) {
+            this.playlist = playlist;
+            if (playlist.getLink().startsWith("http")) {
+                icon.setImageResource(R.drawable.ic_link_black_24dp);
+            } else {
+                icon.setImageResource(R.drawable.ic_file_black_24dp);
             }
+            name.setText(playlist.getName());
+            link.setText(playlist.getLink());
         }
 
+        @Override
         public void onClick(View v) {
-            try {
-                /*
-                int position = getLayoutPosition();
-                final M3UItem imm = mItem.get(position);
-                Intent intent = new Intent(mContext, PlayerActivity.class);
+            if (v.getId() == R.id.mainView) {
+                if (listener != null) {
+                    listener.onPlaylistItemClicked(this.playlist);
+                }
+            } else if (v.getId() == R.id.more) {
 
-                Match match = new Match();
-                match.setName(imm.getItemName());
-                match.setStreamUrl(imm.getItemUrl());
-                match.setLeague("1017");
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(MATCH_KEY, match);
-                intent.putExtras(bundle);
-
-                mContext.startActivity(intent);
-                */
-            } catch (Exception ignored) {
             }
         }
     }

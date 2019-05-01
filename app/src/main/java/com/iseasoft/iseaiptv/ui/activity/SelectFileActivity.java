@@ -88,7 +88,7 @@ public class SelectFileActivity extends AppCompatActivity implements FolderListe
             M3UPlaylist playlist = m3UParser.parseFile(inputStream);
             new Handler(Looper.getMainLooper()).post(() -> {
 //                if (playlistAdapter == null) {
-//                    playlistAdapter = new PlaylistAdapter(getActivity());
+//                    playlistAdapter = new ChannelAdapter(getActivity());
 //                }
 //                playlistAdapter.update(playlist.getPlaylistItems());
 //                recyclerView.setAdapter(playlistAdapter);
