@@ -34,7 +34,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         mContext = parent.getContext();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_item, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_playlist, null);
 
         PlaylistHolder playlistHolder = new PlaylistHolder(v);
         return playlistHolder;

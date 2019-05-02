@@ -41,7 +41,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View sView = mInflater.inflate(R.layout.item_playlist, parent, false);
+        final View sView = mInflater.inflate(R.layout.item_channel_list, parent, false);
         return new ItemHolder(sView);
     }
 

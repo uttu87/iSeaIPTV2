@@ -61,6 +61,7 @@ public final class PreferencesUtility {
     private static final String ALWAYS_LOAD_ALBUM_IMAGES_LASTFM = "always_load_album_images_lastfm";
     private static final String PLAYLIST_KEY = "playlist";
     private static final String FAVORITE_CHANNEL_KEY = "favorite_channel_list";
+    private static final String LAST_PLAYLIST = "last_playlist";
 
     private static PreferencesUtility sInstance;
 
@@ -324,7 +325,7 @@ public final class PreferencesUtility {
         }
 
         playlists.add(playlist);
-
+        saveLastPlaylist(playlist);
         savePlaylist(playlists);
     }
 
@@ -336,6 +337,22 @@ public final class PreferencesUtility {
         Gson gson = new Gson();
         String json = mPreferences.getString(PLAYLIST_KEY, null);
         Type type = new TypeToken<ArrayList<Playlist>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public void saveLastPlaylist(Playlist playlist) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(playlist);
+        editor.putString(LAST_PLAYLIST, json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
+    public Playlist getLastPlaylist() {
+        Gson gson = new Gson();
+        String json = mPreferences.getString(LAST_PLAYLIST, null);
+        Type type = new TypeToken<Playlist>() {
         }.getType();
         return gson.fromJson(json, type);
     }

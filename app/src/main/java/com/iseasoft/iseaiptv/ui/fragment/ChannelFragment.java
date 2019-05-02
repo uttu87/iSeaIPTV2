@@ -2,7 +2,6 @@ package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,9 +25,11 @@ import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.adapters.FolderAdapter;
+import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.http.HttpHandler;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.models.M3UPlaylist;
+import com.iseasoft.iseaiptv.models.Playlist;
 import com.iseasoft.iseaiptv.parsers.M3UParser;
 import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
@@ -51,7 +52,7 @@ public class ChannelFragment extends Fragment {
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
-            loadFolders();
+            loadChannels();
         }
 
         @Override
@@ -95,12 +96,6 @@ public class ChannelFragment extends Fragment {
         return rootView;
     }
 
-    private void loadFolders() {
-        if (getActivity() != null) {
-            new LoadFolder().execute("");
-        }
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -118,8 +113,33 @@ public class ChannelFragment extends Fragment {
         if (Utils.isMarshmallow()) {
             requestStoragePermission();
         } else {
-            loadFolders();
+            loadChannels();
         }
+    }
+
+    private void loadChannels() {
+        final Playlist lastPlaylist = PreferencesUtility.getInstance(getActivity()).getLastPlaylist();
+        if (lastPlaylist != null) {
+            if (lastPlaylist.getLink().startsWith("http")) {
+                loadServer(lastPlaylist.getLink());
+            } else {
+                try {
+                    File file = new File(lastPlaylist.getLink());
+                    InputStream inputStream = new FileInputStream(file);
+                    parseAndUpdateUI(inputStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            showChannelPlaceholder();
+            Router.navigateTo(getActivity(), Router.Screens.PLAYLIST);
+        }
+
+    }
+
+    private void showChannelPlaceholder() {
+
     }
 
     private void setItemDecoration() {
@@ -187,9 +207,8 @@ public class ChannelFragment extends Fragment {
         }
     }
 
-    private void loadServer() {
+    private void loadServer(String url) {
         mProgressBar.setVisibility(View.VISIBLE);
-        String url = "http://20062016.com:8000/get.php?username=Master99&password=Master99&type=m3u";
         new LoadServer().execute(url);
     }
 
@@ -203,7 +222,7 @@ public class ChannelFragment extends Fragment {
 
     private void requestStoragePermission() {
         if (IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && IseaSoft.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            loadFolders();
+            loadChannels();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
@@ -220,16 +239,6 @@ public class ChannelFragment extends Fragment {
         }
     }
 
-    public void onFileSelected(File file) {
-
-        try {
-            InputStream inputStream = new FileInputStream(file);
-            parseAndUpdateUI(inputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void parseAndUpdateUI(InputStream inputStream) {
 
         M3UParser m3UParser = new M3UParser();
@@ -241,39 +250,14 @@ public class ChannelFragment extends Fragment {
                 }
                 channelAdapter.update(playlist.getPlaylistItems());
                 recyclerView.setAdapter(channelAdapter);
-                int columnWidthInDp = COLUMN_WIDTH;
-                int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
-                Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+                //int columnWidthInDp = COLUMN_WIDTH;
+                //int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
+                //Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+                Utils.modifyListViewForVertical(getActivity(), recyclerView);
                 mProgressBar.setVisibility(View.GONE);
             });
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class LoadFolder extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            Activity activity = getActivity();
-            if (activity != null) {
-                mAdapter = new FolderAdapter(activity, new File(PreferencesUtility.getInstance(activity).getLastFolder()));
-                mAdapter.setFolderListener(getListener());
-                updateTheme();
-            }
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            mProgressBar.setVisibility(View.GONE);
-        }
-
-        @Override
-        protected void onPreExecute() {
         }
     }
 
