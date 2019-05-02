@@ -35,4 +35,7 @@
     <string name="question">Enjoying iSea IPTV?</string>
     <string name="rating">How about a rating on the Play Store, then?</string>
     <string name="feedback">Would you mind to give us some feedback?</string>
+
+    <string name="favorites">Favorites</string>
+    <string name="all_channels">All channels</string>
 </resources>

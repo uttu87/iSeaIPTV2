@@ -1,14 +1,8 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -28,22 +23,14 @@ import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.adapters.FolderAdapter;
-import com.iseasoft.iseaiptv.helpers.Router;
-import com.iseasoft.iseaiptv.http.HttpHandler;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
-import com.iseasoft.iseaiptv.models.M3UPlaylist;
-import com.iseasoft.iseaiptv.models.Playlist;
-import com.iseasoft.iseaiptv.parsers.M3UParser;
-import com.iseasoft.iseaiptv.permissions.IseaSoft;
-import com.iseasoft.iseaiptv.permissions.PermissionCallback;
-import com.iseasoft.iseaiptv.utils.PreferencesUtility;
+import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.ui.activity.MainActivity;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nv95 on 10.11.16.
@@ -52,17 +39,6 @@ import java.io.InputStream;
 public class ChannelFragment extends Fragment {
 
     private static final int COLUMN_WIDTH = 70;
-    private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
-        @Override
-        public void permissionGranted() {
-            loadChannels();
-        }
-
-        @Override
-        public void permissionRefused() {
-
-        }
-    };
     private RelativeLayout panelLayout;
     private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -70,9 +46,11 @@ public class ChannelFragment extends Fragment {
     private ChannelAdapter channelAdapter;
 
     private FolderListener listener;
+    private String groupName;
 
-    public static ChannelFragment newInstance() {
+    public static ChannelFragment newInstance(String groupName) {
         ChannelFragment fragment = new ChannelFragment();
+        fragment.groupName = groupName;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -112,37 +90,43 @@ public class ChannelFragment extends Fragment {
             mAdapter.applyTheme(dark);
             mAdapter.notifyDataSetChanged();
         }
-
-        if (Utils.isMarshmallow()) {
-            requestStoragePermission();
-        } else {
-            loadChannels();
-        }
+        showChannels();
     }
 
-    private void loadChannels() {
-        final Playlist lastPlaylist = PreferencesUtility.getInstance(getActivity()).getLastPlaylist();
-        if (lastPlaylist != null) {
-            if (lastPlaylist.getLink().startsWith("http")) {
-                loadServer(lastPlaylist.getLink());
-            } else {
-                try {
-                    File file = new File(lastPlaylist.getLink());
-                    InputStream inputStream = new FileInputStream(file);
-                    parseAndUpdateUI(inputStream);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    private void showChannels() {
+        if (channelAdapter == null) {
+            channelAdapter = new ChannelAdapter(getActivity());
+        }
+        channelAdapter.update(getPlaylistItems());
+        recyclerView.setAdapter(channelAdapter);
+        //int columnWidthInDp = COLUMN_WIDTH;
+        //int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
+        //Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+        Utils.modifyListViewForVertical(getActivity(), recyclerView);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    private List<M3UItem> getPlaylistItems() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        List<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
+        if (groupName.equals(getString(R.string.all_channels))) {
+            return allChannels;
+        } else if (groupName.equals(getString(R.string.favorites))) {
+            //return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
+        }
+        ArrayList<M3UItem> list = new ArrayList<>();
+        for (int i = 0; i < allChannels.size(); i++) {
+            M3UItem item = allChannels.get(i);
+            if (groupName.equals(item.getItemGroup())) {
+                list.add(item);
             }
-        } else {
-            showChannelPlaceholder();
-            Router.navigateTo(getActivity(), Router.Screens.PLAYLIST);
         }
-
-    }
-
-    private void showChannelPlaceholder() {
-
+        return list;
     }
 
     private void setItemDecoration() {
@@ -184,6 +168,15 @@ public class ChannelFragment extends Fragment {
             }
         });
 
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                setKeyboardVisibility(false);
+                showChannels();
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -210,11 +203,6 @@ public class ChannelFragment extends Fragment {
         }
     }
 
-    private void loadServer(String url) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        new LoadServer().execute(url);
-    }
-
     public void updateTheme() {
         Context context = getActivity();
         if (context != null) {
@@ -223,65 +211,12 @@ public class ChannelFragment extends Fragment {
         }
     }
 
-    private void requestStoragePermission() {
-        if (IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) && IseaSoft.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            loadChannels();
+    public void setKeyboardVisibility(boolean show) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (show) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         } else {
-            if (IseaSoft.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
-                        Snackbar.LENGTH_INDEFINITE)
-                        .setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                IseaSoft.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
-                            }
-                        }).show();
-            } else {
-                IseaSoft.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
-            }
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
-
-    private void parseAndUpdateUI(InputStream inputStream) {
-
-        M3UParser m3UParser = new M3UParser();
-        try {
-            M3UPlaylist playlist = m3UParser.parseFile(inputStream);
-            new Handler(Looper.getMainLooper()).post(() -> {
-                if (channelAdapter == null) {
-                    channelAdapter = new ChannelAdapter(getActivity());
-                }
-                channelAdapter.update(playlist.getPlaylistItems());
-                recyclerView.setAdapter(channelAdapter);
-                //int columnWidthInDp = COLUMN_WIDTH;
-                //int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
-                //Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
-                Utils.modifyListViewForVertical(getActivity(), recyclerView);
-                mProgressBar.setVisibility(View.GONE);
-            });
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class LoadServer extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... urls) {
-
-            HttpHandler hh = new HttpHandler();
-            InputStream inputStream = hh.makeServiceCall(urls[0]);
-
-            parseAndUpdateUI(inputStream);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
-
-
 }
