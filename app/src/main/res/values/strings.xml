@@ -22,4 +22,17 @@
 
     <string name="empty_playlist_message">Please contact your IPTV provider to get M3U playlist with TV channels</string>
     <string name="add_playlist">Add playlist</string>
+    <string name="add_url_message">Please input a network URL for your playlist</string>
+    <string name="playlist_url">Playlist URL</string>
+    <string name="playlist_name">Playlist name (optionally)</string>
+
+    <string name="common_dialog_ok">OK, sure</string>
+    <string name="common_dialog_yes">Yes!</string>
+    <string name="common_dialog_cancel">No, thanks</string>
+    <string name="common_dialog_not">Not really</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="question">Enjoying iSea IPTV?</string>
+    <string name="rating">How about a rating on the Play Store, then?</string>
+    <string name="feedback">Would you mind to give us some feedback?</string>
 </resources>

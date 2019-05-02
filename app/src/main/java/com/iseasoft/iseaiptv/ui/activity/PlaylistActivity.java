@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.dialogs.AddUrlDialog;
 import com.iseasoft.iseaiptv.ui.fragment.PlaylistFragment;
 
 public class PlaylistActivity extends AppCompatActivity {
@@ -65,6 +66,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_url) {
+            showAddUrlDialog();
             return true;
         }
 
@@ -74,6 +76,10 @@ public class PlaylistActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAddUrlDialog() {
+        AddUrlDialog.newInstance(this).show(getSupportFragmentManager(), AddUrlDialog.TAG);
     }
 
     private void navigateToSelectFile() {

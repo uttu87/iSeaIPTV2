@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.OnPlaylistListener;
@@ -67,10 +68,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter {
         PlaylistHolder(View view) {
             super(view);
             mainView = view.findViewById(R.id.mainView);
+            mainView.setOnClickListener(this);
             icon = view.findViewById(R.id.icon);
             name = view.findViewById(R.id.name);
             link = view.findViewById(R.id.link);
             more = view.findViewById(R.id.more);
+            more.setOnClickListener(this);
         }
 
         public OnPlaylistListener getListener() {
@@ -99,7 +102,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter {
                     listener.onPlaylistItemClicked(this.playlist);
                 }
             } else if (v.getId() == R.id.more) {
-
+                Toast.makeText(mContext, "Clicked on More button", Toast.LENGTH_SHORT).show();
             }
         }
     }

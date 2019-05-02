@@ -154,7 +154,7 @@
         <item name="android:lineSpacingExtra">7sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/cloudy_grey</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:maxLines">5</item>
     </style>
 
@@ -179,6 +179,33 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ISeaIPTV.EditText" parent="android:Widget.Material.EditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:ems">10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/slate</item>
+        <item name="android:textColorHint">@color/slate</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ISeaIPTV.EditText.Bold" parent="ISeaIPTV.EditText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ISeaIPTV.Switch" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/dark_sky_blue</item>
+    </style>
+
+    <style name="ISeaIPTV.InputText" parent="ISeaIPTV.EditText">
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ISeaIPTV.InputText.Bold" parent="ISeaIPTV.InputText">
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

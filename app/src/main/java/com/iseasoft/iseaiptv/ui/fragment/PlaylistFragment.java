@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.PlaylistAdapter;
+import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.OnPlaylistListener;
 import com.iseasoft.iseaiptv.models.Playlist;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
@@ -70,7 +71,8 @@ public class PlaylistFragment extends Fragment {
             playlistAdapter = new PlaylistAdapter(playlists, new OnPlaylistListener() {
                 @Override
                 public void onPlaylistItemClicked(Playlist item) {
-
+                    PreferencesUtility.getInstance(getActivity()).savePlaylist(item);
+                    Router.navigateToMainScreen(getActivity(), true);
                 }
             });
             list.setAdapter(playlistAdapter);

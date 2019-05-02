@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dataloaders.FolderLoader;
 import com.iseasoft.iseaiptv.dataloaders.SongLoader;
+import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.models.Playlist;
 import com.iseasoft.iseaiptv.models.Song;
@@ -243,37 +244,7 @@ public class FolderAdapter extends BaseSongAdapter<FolderAdapter.ItemHolder> imp
                     folderListener.onFileSelected(f);
                 }
 
-                /*
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        int current = -1;
-                        long songId = SongLoader.getSongFromPath(mFileSet.get(getAdapterPosition()).getAbsolutePath(), mContext).id;
-                        int count = 0;
-                        for (Song song : mSongs) {
-                            if (song.id != -1) {
-                                count++;
-                            }
-                        }
-                        long[] ret = new long[count];
-                        int j = 0;
-                        for (int i = 0; i < getItemCount(); i++) {
-                            if (mSongs.get(i).id != -1) {
-                                ret[j] = mSongs.get(i).id;
-                                if (mSongs.get(i).id == songId) {
-                                    current = j;
-                                }
-                                j++;
-                            }
-                        }
-                        //playAll(mContext, ret, current, -1, Utils.IdType.NA,
-                        //       false, mSongs.get(getAdapterPosition()), false);
-                    }
-                }, 100);
-                */
-
-
+                Router.navigateToMainScreen(mContext, true);
             }
         }
 

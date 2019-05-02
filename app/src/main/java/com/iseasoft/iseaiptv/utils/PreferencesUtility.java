@@ -314,7 +314,15 @@ public final class PreferencesUtility {
         ArrayList<Playlist> playlists = getPlaylist();
         if (playlists == null) {
             playlists = new ArrayList<>();
+        } else {
+            for (int i = 0; i < playlists.size(); i++) {
+                Playlist p = playlists.get(i);
+                if (p.getLink().equals(playlist.getLink())) {
+                    playlists.remove(i);
+                }
+            }
         }
+
         playlists.add(playlist);
 
         savePlaylist(playlists);
