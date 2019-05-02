@@ -10,8 +10,10 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
@@ -155,8 +158,8 @@ public class ChannelFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-       /*
-        inflater.inflate(R.menu.menu_folders, menu);
+
+        inflater.inflate(R.menu.main, menu);
         MenuItem search = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         searchView.setQueryHint("Search channel name");
@@ -180,7 +183,7 @@ public class ChannelFragment extends Fragment {
                 }
             }
         });
-        */
+
     }
 
     @Override
