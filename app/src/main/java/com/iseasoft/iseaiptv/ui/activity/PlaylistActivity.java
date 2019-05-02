@@ -1,6 +1,5 @@
 package com.iseasoft.iseaiptv.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +13,7 @@ import android.view.View;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dialogs.AddUrlDialog;
+import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.ui.fragment.PlaylistFragment;
 
 public class PlaylistActivity extends AppCompatActivity {
@@ -83,9 +83,7 @@ public class PlaylistActivity extends AppCompatActivity {
     }
 
     private void navigateToSelectFile() {
-        Intent intent = new Intent(this, SelectFileActivity.class);
-        Bundle bundle = new Bundle();
-        startActivity(intent);
+        Router.navigateTo(this, Router.Screens.SELECT_FILE);
     }
 
 }

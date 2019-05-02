@@ -1,6 +1,5 @@
 package com.iseasoft.iseaiptv.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.helpers.Router;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void navigateToPlaylist() {
-        Intent intent = new Intent(this, PlaylistActivity.class);
-        Bundle bundle = new Bundle();
-        startActivity(intent);
+        Router.navigateTo(this, Router.Screens.PLAYLIST);
     }
 }
