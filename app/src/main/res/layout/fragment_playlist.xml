@@ -8,5 +8,37 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/empty_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:text="@string/empty_playlist_message"
+            android:textColor="@color/slate"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/add_playlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:drawableLeft="@drawable/ic_add_black_24dp"
+            android:gravity="center"
+            android:text="@string/add_playlist"
+            android:textColor="@color/slate"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </FrameLayout>

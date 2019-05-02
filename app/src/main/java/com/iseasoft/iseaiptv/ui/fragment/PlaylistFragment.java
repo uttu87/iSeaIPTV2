@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.PlaylistAdapter;
@@ -20,6 +21,7 @@ import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -30,6 +32,8 @@ public class PlaylistFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.list)
     RecyclerView list;
+    @BindView(R.id.empty_container)
+    LinearLayout emptyContainer;
 
     private PlaylistAdapter playlistAdapter;
 
@@ -56,14 +60,21 @@ public class PlaylistFragment extends Fragment {
 
     private void loadPlaylist() {
         ArrayList<Playlist> playlists = PreferencesUtility.getInstance(getActivity()).getPlaylist();
-        Collections.reverse(playlists);
-        playlistAdapter = new PlaylistAdapter(playlists, new OnPlaylistListener() {
-            @Override
-            public void onPlaylistItemClicked(Playlist item) {
+        if (playlists == null || playlists.size() == 0) {
+            emptyContainer.setVisibility(View.VISIBLE);
+            list.setVisibility(View.GONE);
+        } else {
+            emptyContainer.setVisibility(View.GONE);
+            list.setVisibility(View.VISIBLE);
+            Collections.reverse(playlists);
+            playlistAdapter = new PlaylistAdapter(playlists, new OnPlaylistListener() {
+                @Override
+                public void onPlaylistItemClicked(Playlist item) {
 
-            }
-        });
-        list.setAdapter(playlistAdapter);
+                }
+            });
+            list.setAdapter(playlistAdapter);
+        }
     }
 
     @Override
@@ -71,5 +82,15 @@ public class PlaylistFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    @OnClick(R.id.add_playlist)
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.add_playlist:
+                getActivity().openOptionsMenu();
+                break;
+        }
+    }
+
 
 }

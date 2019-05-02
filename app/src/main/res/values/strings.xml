@@ -20,6 +20,6 @@
     <string name="title_activity_playlist">Playlists</string>
     <string name="title_activity_select_file">SelectFileActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_playlist_message">Please contact your IPTV provider to get M3U playlist with TV channels</string>
+    <string name="add_playlist">Add playlist</string>
 </resources>

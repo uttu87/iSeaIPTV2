@@ -8,7 +8,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"
+        android:background="@color/slate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,6 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:textColor="@color/slate"
+            android:textStyle="bold"
             android:lines="1" />
 
         <TextView
@@ -45,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:textColor="@color/slate"
             android:lines="1" />
     </LinearLayout>
 
