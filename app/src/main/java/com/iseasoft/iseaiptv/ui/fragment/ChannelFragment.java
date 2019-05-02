@@ -15,17 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
 import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
-import com.iseasoft.iseaiptv.adapters.FolderAdapter;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
@@ -39,10 +39,9 @@ import java.util.List;
 public class ChannelFragment extends Fragment {
 
     private static final int COLUMN_WIDTH = 70;
-    private RelativeLayout panelLayout;
-    private FolderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
+    private LinearLayout placeholderContainer;
     private ChannelAdapter channelAdapter;
 
     private FolderListener listener;
@@ -56,22 +55,14 @@ public class ChannelFragment extends Fragment {
         return fragment;
     }
 
-    public FolderListener getListener() {
-        return listener;
-    }
-
-    public void setListener(FolderListener listener) {
-        this.listener = listener;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_folders, container, false);
 
-        panelLayout = (RelativeLayout) rootView.findViewById(R.id.panel_layout);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        placeholderContainer = (LinearLayout) rootView.findViewById(R.id.placeholder_container);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
@@ -86,10 +77,7 @@ public class ChannelFragment extends Fragment {
         } else {
             ATE.apply(this, "light_theme");
         }
-        if (mAdapter != null) {
-            mAdapter.applyTheme(dark);
-            mAdapter.notifyDataSetChanged();
-        }
+
         showChannels();
     }
 
@@ -99,6 +87,12 @@ public class ChannelFragment extends Fragment {
     }
 
     private void showChannels() {
+        if (groupName.equals(getString(R.string.favorites))) {
+            if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
+                showFavoritePlaceholder();
+                return;
+            }
+        }
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity());
         }
@@ -109,6 +103,14 @@ public class ChannelFragment extends Fragment {
         //Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
         Utils.modifyListViewForVertical(getActivity(), recyclerView);
         mProgressBar.setVisibility(View.GONE);
+        placeholderContainer.setVisibility(View.GONE);
+    }
+
+    private void showFavoritePlaceholder() {
+        recyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        placeholderContainer.setVisibility(View.VISIBLE);
+
     }
 
     private List<M3UItem> getPlaylistItems() {
@@ -117,7 +119,7 @@ public class ChannelFragment extends Fragment {
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
         } else if (groupName.equals(getString(R.string.favorites))) {
-            //return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
+            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
         ArrayList<M3UItem> list = new ArrayList<>();
         for (int i = 0; i < allChannels.size(); i++) {
@@ -200,14 +202,6 @@ public class ChannelFragment extends Fragment {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public void updateTheme() {
-        Context context = getActivity();
-        if (context != null) {
-            boolean dark = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false);
-            mAdapter.applyTheme(dark);
         }
     }
 

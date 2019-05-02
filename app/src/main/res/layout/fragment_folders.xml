@@ -31,4 +31,30 @@
         android:paddingTop="?attr/actionBarSize"
         android:tag="tint_accent_color" />
 
+    <LinearLayout
+        android:id="@+id/placeholder_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_favorites"
+            android:textAlignment="center"
+            android:textColor="@color/slate"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/how_to_add_favorite"
+            android:textAlignment="center"
+            android:textColor="@color/slate"
+            android:textSize="15sp" />
+    </LinearLayout>
+
 </RelativeLayout>

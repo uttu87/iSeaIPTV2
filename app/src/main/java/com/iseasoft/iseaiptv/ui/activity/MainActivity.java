@@ -50,6 +50,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int ALL_CHANNELS_TAB = 1;
     private CoordinatorLayout panelLayout;
 
     private ChannelAdapter channelAdapter;
@@ -250,6 +251,7 @@ public class MainActivity extends AppCompatActivity
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (viewPager != null) {
                     setupViewPager(viewPager);
+                    viewPager.setCurrentItem(ALL_CHANNELS_TAB, true);//Set All channels tab
                 }
             });
         } catch (FileNotFoundException e) {

@@ -28,7 +28,7 @@
             app:layout_scrollFlags="scroll|snap"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorAccent"
-            app:tabIndicatorHeight="0dp"
+            app:tabIndicatorHeight="2dp"
             app:tabMinWidth="1dp"
             app:tabMode="scrollable" />
 
