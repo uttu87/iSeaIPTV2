@@ -57,6 +57,9 @@ public class M3UParser {
                 if (dataArray[0].contains(EXT_LOGO)) {
                     String duration = dataArray[0].substring(0, dataArray[0].indexOf(EXT_LOGO)).replace(":", "").replace("\n", "");
                     String icon = dataArray[0].substring(dataArray[0].indexOf(EXT_LOGO) + EXT_LOGO.length()).replace("=", "").replace("\"", "").replace("\n", "");
+                    String[] strings = icon.split(" ");
+                    icon = strings[0];
+
                     playlistItem.setItemDuration(duration);
                     playlistItem.setItemIcon(icon);
                 } else {
@@ -66,7 +69,15 @@ public class M3UParser {
                 }
 
                 if (dataArray[0].contains(EXT_GROUP)) {
-                    String group = dataArray[0].substring(dataArray[0].indexOf(EXT_GROUP) + EXT_GROUP.length()).replace("=", "").replace("\"", "").replace("\n", "");
+                    String group = dataArray[0].substring(dataArray[0].indexOf(EXT_GROUP) + EXT_GROUP.length())
+                            .replace("=", "")
+                            .replace("\"", "")
+                            .replace("\n", "")
+                            .replace(":", "");
+                    if (group.contains(EXT_LOGO)) {
+                        String[] strings = group.split(" ");
+                        group = strings[0];
+                    }
                     playlistItem.setItemGroup(group);
                 }
 

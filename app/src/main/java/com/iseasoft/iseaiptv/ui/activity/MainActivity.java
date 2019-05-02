@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -49,7 +50,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout panelLayout;
+    private CoordinatorLayout panelLayout;
 
     private ChannelAdapter channelAdapter;
     private M3UPlaylist mPlaylist;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        panelLayout = findViewById(R.id.drawer_layout);
+        panelLayout = findViewById(R.id.panel_layout);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -300,6 +301,12 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
+        IseaSoft.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }
