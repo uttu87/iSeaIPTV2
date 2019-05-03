@@ -22,4 +22,6 @@
 
     <include layout="@layout/content_playlist" />
 
+    <include layout="@layout/content_footer" />
+
 </android.support.design.widget.CoordinatorLayout>

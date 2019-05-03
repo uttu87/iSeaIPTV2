@@ -1,6 +1,7 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -21,13 +22,18 @@ import android.widget.SearchView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
+import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
+import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
+
+import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
+import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 /**
  * Created by nv95 on 10.11.16.
@@ -85,7 +91,18 @@ public class ChannelFragment extends Fragment {
             }
         }
         if (channelAdapter == null) {
-            channelAdapter = new ChannelAdapter(getActivity());
+            channelAdapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
+                @Override
+                public void onChannelClicked(M3UItem item) {
+                    Intent intent = new Intent(getActivity(), PlayerActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(CHANNEL_KEY, item);
+                    bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
+                }
+            });
         }
         channelAdapter.update(getPlaylistItems());
         recyclerView.setAdapter(channelAdapter);

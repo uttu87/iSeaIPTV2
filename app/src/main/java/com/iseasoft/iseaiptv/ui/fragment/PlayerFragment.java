@@ -23,9 +23,13 @@ import com.devbrackets.android.exomedia.listener.VideoControlsButtonListener;
 import com.devbrackets.android.exomedia.listener.VideoControlsVisibilityListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.google.android.exoplayer2.util.EventLogger;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
+import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.iseasoft.iseaiptv.utils.Utils;
@@ -66,6 +70,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     RelativeLayout playlistContainer;
     @BindView(R.id.rv_playlist)
     RecyclerView rvPlaylist;
+    @BindView(R.id.publisherAdView)
+    PublisherAdView publisherAdView;
 
     private M3UItem mChannel;
     private ArrayList<M3UItem> mPlaylist;
@@ -125,7 +131,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     private int getChannelPosition() {
         int pos = 0;
         for (int i = 0; i < mPlaylist.size(); i++) {
-            if (mChannel == mPlaylist.get(i)) {
+            M3UItem item = mPlaylist.get(i);
+            if (mChannel.getItemName().equals(item.getItemName()) &&
+                    mChannel.getItemUrl().equals(item.getItemUrl())) {
                 pos = i;
                 break;
             }
@@ -143,13 +151,36 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (savedInstanceState == null) {
             setupVideoView();
             setupPlaylist();
+            setupPublisherBannerAds();
         }
 
         return view;
     }
 
+    private void setupPublisherBannerAds() {
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
+                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
+                .build();
+        publisherAdView.loadAd(adRequest);
+        publisherAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (publisherAdView != null) {
+                    publisherAdView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
     private void setupPlaylist() {
-        ChannelAdapter adapter = new ChannelAdapter(getActivity());
+        ChannelAdapter adapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
+            @Override
+            public void onChannelClicked(M3UItem item) {
+                mChannel = item;
+                playChannel(mChannel);
+            }
+        });
         adapter.update(mPlaylist);
         rvPlaylist.setAdapter(adapter);
         adapter.notifyItemChanged(getChannelPosition());
@@ -174,12 +205,20 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController.setPlaylistButtonClickListener(this);
         mVideoController.setButtonListener(this);
         mVideoController.setVisibilityListener(this);
+        mVideoController.setPreviousButtonEnabled(true);
+        mVideoController.setNextButtonEnabled(true);
         if (mChannel != null) {
             mVideoController.setTitle(mChannel.getItemName());
         }
 
         //For now we just picked an arbitrary item to play
-        videoView.setVideoURI(Uri.parse(mVideoUrl));
+        playChannel(mChannel);
+    }
+
+    private void playChannel(M3UItem channel) {
+        videoView.setVideoURI(Uri.parse(channel.getItemUrl()));
+        mVideoController.setTitle(channel.getItemName());
+        mVideoController.showPlayErrorMessage(false);
     }
 
     private void setUpVideoViewSize(boolean isFullscreen) {
@@ -237,6 +276,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         }
 
         screenModeChange(isFullscreen, false);
+
+        if (publisherAdView != null) {
+            publisherAdView.resume();
+        }
     }
 
     @Override
@@ -244,6 +287,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         super.onPause();
         if (videoView != null) {
             videoView.pause();
+        }
+
+        if (publisherAdView != null) {
+            publisherAdView.pause();
         }
     }
 
@@ -260,6 +307,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController = null;
         mChannel = null;
         fragmentEventListener = null;
+        if (publisherAdView != null) {
+            publisherAdView.destroy();
+        }
         unbinder.unbind();
     }
 
@@ -315,13 +365,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (mRetryCount < MAX_RETRY_COUNT) {
             mRetryCount++;
             videoView.restart();
-            showAds();
             return;
         }
-        if (mVideoController != null) {
-            mVideoController.setReloadButtonVisible(true);
-        }
-        showAds();
     }
 
     @Override
@@ -343,14 +388,12 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (mRetryCount < MAX_RETRY_COUNT) {
             mRetryCount++;
             videoView.restart();
-            showAds();
             return false;
         }
 
         if (mVideoController != null) {
             mVideoController.showPlayErrorMessage(true);
             mVideoController.finishLoading();
-            mVideoController.setReloadButtonVisible(true);
         }
         return false;
     }
@@ -363,13 +406,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     @Override
     public boolean onPreviousClicked() {
         final int position = getChannelPosition();
-        M3UItem item = mPlaylist.get(position);
-        if (item == mChannel) {
-            if (position < mPlaylist.size() - 1) {
-                mChannel = mPlaylist.get(position + 1);
-                mVideoUrl = mChannel.getItemUrl();
-                videoView.setVideoURI(Uri.parse(mVideoUrl));
-            }
+        if (position > 1) {
+            mChannel = mPlaylist.get(position - 1);
+            mVideoUrl = mChannel.getItemUrl();
+            playChannel(mChannel);
         }
         return true;
     }
@@ -377,14 +417,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     @Override
     public boolean onNextClicked() {
         final int position = getChannelPosition();
-        M3UItem item = mPlaylist.get(position);
-        if (item == mChannel) {
-            if (position > 1) {
-                mChannel = mPlaylist.get(position - 1);
-                mVideoUrl = mChannel.getItemUrl();
-                videoView.setVideoURI(Uri.parse(mVideoUrl));
-
-            }
+        if (position < mPlaylist.size() - 1) {
+            mChannel = mPlaylist.get(position + 1);
+            mVideoUrl = mChannel.getItemUrl();
+            playChannel(mChannel);
         }
         return true;
     }

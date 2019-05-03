@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.iseasoft.iseaiptv.R;
@@ -21,12 +20,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class SelectFileActivity extends AppCompatActivity implements FolderListener {
+public class SelectFileActivity extends BaseActivity implements FolderListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
+        super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

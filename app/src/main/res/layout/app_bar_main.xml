@@ -39,6 +39,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <include layout="@layout/content_footer" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/placeholder_container"
         android:layout_width="match_parent"

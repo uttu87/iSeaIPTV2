@@ -6,9 +6,7 @@ package com.iseasoft.iseaiptv.adapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,15 +20,12 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
-import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
-import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHolder> implements Filterable {
 
@@ -39,9 +34,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
     private ArrayList<M3UItem> mItem = new ArrayList<>();
     private TextDrawable textDrawable;
     private ColorGenerator generator = ColorGenerator.MATERIAL;
+    private OnChannelListener listener;
 
-    public ChannelAdapter(Context c) {
+    public ChannelAdapter(Context c, OnChannelListener listener) {
         mContext = c;
+        this.listener = listener;
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -142,14 +139,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
             try {
                 int position = getLayoutPosition();
                 final M3UItem imm = mItem.get(position);
-                Intent intent = new Intent(mContext, PlayerActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(CHANNEL_KEY, imm);
-                bundle.putSerializable(PLAYLIST_KEY, mItem);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
-
+                if (listener != null) {
+                    listener.onChannelClicked(imm);
+                }
             } catch (Exception ignored) {
             }
         }

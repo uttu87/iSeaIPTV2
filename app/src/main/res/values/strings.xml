@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">iSea IPTV</string>
-    <string name="gamob_banner_ad_unit_id"></string>
-    <string name="gamob_interstitial_ad_unit_id"></string>
+    <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
+    <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
