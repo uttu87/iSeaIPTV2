@@ -30,12 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
+import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHolder> implements Filterable {
 
     private final Context mContext;
     private final LayoutInflater mInflater;
-    private List<M3UItem> mItem = new ArrayList<>();
+    private ArrayList<M3UItem> mItem = new ArrayList<>();
     private TextDrawable textDrawable;
     private ColorGenerator generator = ColorGenerator.MATERIAL;
 
@@ -68,7 +69,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
         return mItem.size();
     }
 
-    public void update(List<M3UItem> _list) {
+    public void update(ArrayList<M3UItem> _list) {
         this.mItem.clear();
         this.mItem.addAll(_list);
         notifyDataSetChanged();
@@ -145,6 +146,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(CHANNEL_KEY, imm);
+                bundle.putSerializable(PLAYLIST_KEY, mItem);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
 

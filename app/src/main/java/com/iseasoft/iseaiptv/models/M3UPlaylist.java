@@ -1,6 +1,6 @@
 package com.iseasoft.iseaiptv.models;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class M3UPlaylist {
 
@@ -8,13 +8,13 @@ public class M3UPlaylist {
 
     private String playlistParams;
 
-    private List<M3UItem> playlistItems;
+    private ArrayList<M3UItem> playlistItems;
 
-    public List<M3UItem> getPlaylistItems() {
+    public ArrayList<M3UItem> getPlaylistItems() {
         return playlistItems;
     }
 
-    public void setPlaylistItems(List<M3UItem> playlistItems) {
+    public void setPlaylistItems(ArrayList<M3UItem> playlistItems) {
         this.playlistItems = playlistItems;
     }
 

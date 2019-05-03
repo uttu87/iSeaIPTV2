@@ -47,41 +47,25 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/play_error_container"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/exomedia_min_button_height"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/playing_error"
+            android:textColor="@color/slate"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/exomedia_controls_interactive_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/exomedia_min_button_height"
-            android:layout_centerInParent="true">
-
-            <ImageButton
-                android:id="@+id/exomedia_controls_play_pause_btn"
-                android:layout_width="@dimen/exomedia_min_button_height"
-                android:layout_height="@dimen/exomedia_min_button_height"
-                android:layout_centerInParent="true"
-                android:background="@android:color/transparent"
-                android:minWidth="@dimen/exomedia_min_button_height"
-                android:minHeight="@dimen/exomedia_min_button_height"
-                android:scaleType="centerCrop"
-                android:visibility="visible"
-                app:srcCompat="@drawable/exomedia_ic_play_arrow_white"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/exomedia_controls_reload_btn"
-                android:layout_width="@dimen/exomedia_min_button_height"
-                android:layout_height="@dimen/exomedia_min_button_height"
-                android:layout_centerInParent="true"
-                android:background="@android:color/transparent"
-                android:minWidth="@dimen/exomedia_min_button_height"
-                android:minHeight="@dimen/exomedia_min_button_height"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_reload"
-                tools:ignore="ContentDescription" />
-        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,7 +79,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -143,50 +128,93 @@
                     android:minWidth="@dimen/exomedia_min_button_height"
                     android:minHeight="@dimen/exomedia_min_button_height"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_fullscreen_exit" />
+                    android:src="@drawable/ic_fullscreen_exit"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
+
+                <ImageButton
+                    android:id="@+id/playlist_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/exomedia_leanback_ripple_selector_size"
+                    android:background="@drawable/ic_playlist_play"
+                    android:minWidth="@dimen/exomedia_min_button_height"
+                    android:minHeight="@dimen/exomedia_min_button_height" />
 
                 <ImageButton
                     android:id="@+id/exomedia_controls_previous_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/exomedia_min_button_height"
+                    android:layout_marginEnd="@dimen/exomedia_leanback_ripple_selector_size"
                     android:background="@android:color/transparent"
                     android:minWidth="@dimen/exomedia_min_button_height"
                     android:minHeight="@dimen/exomedia_min_button_height"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/exomedia_ic_skip_previous_white"
                     tools:ignore="ContentDescription,RtlHardcoded"
                     tools:visibility="visible" />
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/play_pause_button"
-                    android:layout_width="@dimen/player_play_button_size"
-                    android:layout_height="@dimen/player_play_button_size"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:visibility="gone" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/exomedia_min_button_height"
+                    android:layout_centerInParent="true">
+
+                    <ImageButton
+                        android:id="@+id/exomedia_controls_play_pause_btn"
+                        android:layout_width="@dimen/exomedia_min_button_height"
+                        android:layout_height="@dimen/exomedia_min_button_height"
+                        android:layout_centerInParent="true"
+                        android:background="@android:color/transparent"
+                        android:minWidth="@dimen/exomedia_min_button_height"
+                        android:minHeight="@dimen/exomedia_min_button_height"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/exomedia_ic_play_arrow_white"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageButton
+                        android:id="@+id/exomedia_controls_reload_btn"
+                        android:layout_width="@dimen/exomedia_min_button_height"
+                        android:layout_height="@dimen/exomedia_min_button_height"
+                        android:layout_centerInParent="true"
+                        android:background="@android:color/transparent"
+                        android:minWidth="@dimen/exomedia_min_button_height"
+                        android:minHeight="@dimen/exomedia_min_button_height"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_reload"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
 
                 <ImageButton
                     android:id="@+id/exomedia_controls_next_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/exomedia_min_button_height"
+                    android:layout_marginStart="@dimen/exomedia_leanback_ripple_selector_size"
                     android:background="@android:color/transparent"
                     android:minWidth="@dimen/exomedia_min_button_height"
                     android:minHeight="@dimen/exomedia_min_button_height"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/exomedia_ic_skip_next_white"
                     tools:ignore="ContentDescription,RtlHardcoded"
                     tools:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/player_mode_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/exomedia_leanback_ripple_selector_size"
+                    android:background="@drawable/md_transparent"
+                    android:minWidth="@dimen/exomedia_min_button_height"
+                    android:minHeight="@dimen/exomedia_min_button_height" />
             </LinearLayout>
         </LinearLayout>
 

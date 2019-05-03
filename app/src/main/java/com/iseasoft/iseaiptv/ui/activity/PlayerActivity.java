@@ -18,10 +18,12 @@ import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
 
+import java.util.ArrayList;
+
 public class PlayerActivity extends AppCompatActivity implements FragmentEventListener {
 
     public static final String CHANNEL_KEY = "channel";
-    M3UItem mChannel;
+    public static final String PLAYLIST_KEY = "playlist";
 
     private PublisherInterstitialAd publisherInterstitialAd;
 
@@ -59,19 +61,20 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_player);
         super.onCreate(savedInstanceState);
-        mChannel = (M3UItem) getIntent().getExtras().getSerializable(CHANNEL_KEY);
-        setupPlayer(mChannel);
+        M3UItem mChannel = (M3UItem) getIntent().getExtras().getSerializable(CHANNEL_KEY);
+        ArrayList<M3UItem> mPlaylist = (ArrayList<M3UItem>) getIntent().getExtras().getSerializable(PLAYLIST_KEY);
+        setupPlayer(mChannel, mPlaylist);
     }
 
     public void setupFullScreenAds() {
         setupPublisherInterstitialAds();
     }
 
-    private void setupPlayer(M3UItem channel) {
+    private void setupPlayer(M3UItem channel, ArrayList<M3UItem> playlist) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        PlayerFragment playerFragment = PlayerFragment.newInstance(channel);
+        PlayerFragment playerFragment = PlayerFragment.newInstance(channel, playlist);
         playerFragment.setFragmentEventListener(this);
         ft.replace(R.id.player_view, playerFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

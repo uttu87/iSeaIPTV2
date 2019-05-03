@@ -28,7 +28,6 @@ import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by nv95 on 10.11.16.
@@ -105,9 +104,9 @@ public class ChannelFragment extends Fragment {
 
     }
 
-    private List<M3UItem> getPlaylistItems() {
+    private ArrayList<M3UItem> getPlaylistItems() {
         MainActivity mainActivity = (MainActivity) getActivity();
-        List<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
+        ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
         } else if (groupName.equals(getString(R.string.favorites))) {

@@ -9,7 +9,6 @@ import com.iseasoft.iseaiptv.models.M3UPlaylist;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -32,7 +31,7 @@ public class M3UParser {
 
     public M3UPlaylist parseFile(InputStream inputStream) throws FileNotFoundException {
         M3UPlaylist m3UPlaylist = new M3UPlaylist();
-        List<M3UItem> playlistItems = new ArrayList<>();
+        ArrayList<M3UItem> playlistItems = new ArrayList<>();
         String stream = convertStreamToString(inputStream);
         String linesArray[] = stream.split(EXT_INF);
         for (int i = 0; i < linesArray.length; i++) {

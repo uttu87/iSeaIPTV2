@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,18 @@ import android.widget.TextView;
 import com.devbrackets.android.exomedia.listener.OnCompletionListener;
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
+import com.devbrackets.android.exomedia.listener.VideoControlsButtonListener;
+import com.devbrackets.android.exomedia.listener.VideoControlsVisibilityListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
+import com.iseasoft.iseaiptv.utils.Utils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +38,7 @@ import butterknife.Unbinder;
 
 import static com.google.android.exoplayer2.Player.REPEAT_MODE_ONE;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
+import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 
 /**
@@ -38,11 +47,11 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
  * create an instance of this fragment.
  */
 public class PlayerFragment extends BaseFragment implements OnPreparedListener, View.OnClickListener,
-        OnCompletionListener, OnErrorListener {
+        OnCompletionListener, OnErrorListener, VideoControlsButtonListener, VideoControlsVisibilityListener {
     private static final String TAG = PlayerFragment.class.getSimpleName();
     private static final float BALANCED_VISIBLE_FRACTION = 0.5625f;
     private static final long OSD_DISP_TIME = 3000;
-    private static final int MAX_RETRY_COUNT = 5;
+    private static final int MAX_RETRY_COUNT = 3;
 
     Unbinder unbinder;
     @BindView(R.id.video_view)
@@ -53,8 +62,13 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     ImageView thumbnailImage;
     @BindView(R.id.thumbnail_seek_time)
     TextView thumbnailSeekTextView;
+    @BindView(R.id.playlist_container)
+    RelativeLayout playlistContainer;
+    @BindView(R.id.rv_playlist)
+    RecyclerView rvPlaylist;
 
     private M3UItem mChannel;
+    private ArrayList<M3UItem> mPlaylist;
     private String mVideoUrl;
     private int playerStatus;
     private boolean isFixedScreen;
@@ -69,6 +83,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     private long lastOsdDispTime;
     private boolean nowOn;
     private int mRetryCount = 0;
+    private boolean isShowingPlaylist = false;
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -82,10 +97,11 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
      * @return A new instance of fragment PlayerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PlayerFragment newInstance(M3UItem item) {
+    public static PlayerFragment newInstance(M3UItem item, ArrayList<M3UItem> playlist) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putSerializable(CHANNEL_KEY, item);
+        args.putSerializable(PLAYLIST_KEY, playlist);
         fragment.setArguments(args);
         return fragment;
     }
@@ -99,10 +115,22 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mChannel = (M3UItem) getArguments().getSerializable(CHANNEL_KEY);
+            mPlaylist = (ArrayList<M3UItem>) getArguments().getSerializable(PLAYLIST_KEY);
             mVideoUrl = mChannel.getItemUrl();
 
         }
         mHeight = 0;
+    }
+
+    private int getChannelPosition() {
+        int pos = 0;
+        for (int i = 0; i < mPlaylist.size(); i++) {
+            if (mChannel == mPlaylist.get(i)) {
+                pos = i;
+                break;
+            }
+        }
+        return pos;
     }
 
     @Override
@@ -114,12 +142,23 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         isFullscreen = true;
         if (savedInstanceState == null) {
             setupVideoView();
+            setupPlaylist();
         }
 
         return view;
     }
 
+    private void setupPlaylist() {
+        ChannelAdapter adapter = new ChannelAdapter(getActivity());
+        adapter.update(mPlaylist);
+        rvPlaylist.setAdapter(adapter);
+        adapter.notifyItemChanged(getChannelPosition());
+        Utils.modifyListViewForVertical(getActivity(), rvPlaylist);
+        isShowingPlaylist = false;
+    }
+
     private void setupVideoView() {
+        mRetryCount = 0;
         setUpVideoViewSize(isFullscreen);
         // Make sure to use the correct VideoView import
         if (mVideoController == null) {
@@ -132,6 +171,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         videoView.setAnalyticsListener(new EventLogger(null));
         mVideoController.setScreenModeChangeButtonClickListener(this);
         mVideoController.setReloadButtonClickListener(this);
+        mVideoController.setPlaylistButtonClickListener(this);
+        mVideoController.setButtonListener(this);
+        mVideoController.setVisibilityListener(this);
         if (mChannel != null) {
             mVideoController.setTitle(mChannel.getItemName());
         }
@@ -166,6 +208,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
         if (videoView != null) {
             videoView.start();
+            mRetryCount = 0;
             videoView.setRepeatMode(REPEAT_MODE_ONE);
 
             if (mVideoController != null) {
@@ -179,9 +222,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void showAds() {
-        if (!isFullscreen) {
-            //((PlayerActivity) getActivity()).setupFullScreenAds();
-        }
+        ((PlayerActivity) getActivity()).setupFullScreenAds();
     }
 
     @Override
@@ -212,6 +253,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (mVideoController != null) {
             mVideoController.setReloadButtonClickListener(null);
             mVideoController.setScreenModeChangeButtonClickListener(null);
+            mVideoController.setButtonListener(null);
+            mVideoController.setPlaylistButtonClickListener(null);
+            mVideoController.setVisibilityListener(null);
         }
         mVideoController = null;
         mChannel = null;
@@ -233,7 +277,15 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                 mVideoController.setReloadButtonVisible(false);
                 videoView.restart();
                 break;
+            case R.id.playlist_play:
+                showPlaylist();
+                break;
         }
+    }
+
+    private void showPlaylist() {
+        isShowingPlaylist = !isShowingPlaylist;
+        playlistContainer.setVisibility(isShowingPlaylist ? View.VISIBLE : View.GONE);
     }
 
     public void screenModeChange(boolean fullscreen, boolean isUserChange) {
@@ -296,9 +348,64 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         }
 
         if (mVideoController != null) {
+            mVideoController.showPlayErrorMessage(true);
             mVideoController.finishLoading();
             mVideoController.setReloadButtonVisible(true);
         }
         return false;
+    }
+
+    @Override
+    public boolean onPlayPauseClicked() {
+        return false;
+    }
+
+    @Override
+    public boolean onPreviousClicked() {
+        final int position = getChannelPosition();
+        M3UItem item = mPlaylist.get(position);
+        if (item == mChannel) {
+            if (position < mPlaylist.size() - 1) {
+                mChannel = mPlaylist.get(position + 1);
+                mVideoUrl = mChannel.getItemUrl();
+                videoView.setVideoURI(Uri.parse(mVideoUrl));
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onNextClicked() {
+        final int position = getChannelPosition();
+        M3UItem item = mPlaylist.get(position);
+        if (item == mChannel) {
+            if (position > 1) {
+                mChannel = mPlaylist.get(position - 1);
+                mVideoUrl = mChannel.getItemUrl();
+                videoView.setVideoURI(Uri.parse(mVideoUrl));
+
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onRewindClicked() {
+        return false;
+    }
+
+    @Override
+    public boolean onFastForwardClicked() {
+        return false;
+    }
+
+    @Override
+    public void onControlsShown() {
+        playlistContainer.setVisibility(isShowingPlaylist ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onControlsHidden() {
+        //playlistContainer.setVisibility(View.GONE);
     }
 }
