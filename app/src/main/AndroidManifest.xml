@@ -29,7 +29,7 @@
             android:name=".ui.activity.PlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_select_file"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.MainActivity"
