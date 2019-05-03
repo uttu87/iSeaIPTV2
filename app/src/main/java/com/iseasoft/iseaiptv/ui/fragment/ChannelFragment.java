@@ -1,6 +1,5 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -84,6 +82,9 @@ public class ChannelFragment extends Fragment {
     }
 
     private void showChannels() {
+        if (groupName == null) {
+            return;
+        }
         if (groupName.equals(getString(R.string.favorites))) {
             if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
                 showFavoritePlaceholder();
@@ -199,15 +200,6 @@ public class ChannelFragment extends Fragment {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public void setKeyboardVisibility(boolean show) {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (show) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        } else {
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

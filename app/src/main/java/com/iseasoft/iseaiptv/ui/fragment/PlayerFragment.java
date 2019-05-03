@@ -1,6 +1,7 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -90,6 +92,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     private boolean nowOn;
     private int mRetryCount = 0;
     private boolean isShowingPlaylist = false;
+    private ChannelAdapter adapter;
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -174,13 +177,15 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void setupPlaylist() {
-        ChannelAdapter adapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
-            @Override
-            public void onChannelClicked(M3UItem item) {
-                mChannel = item;
-                playChannel(mChannel);
-            }
-        });
+        if (adapter == null) {
+            adapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
+                @Override
+                public void onChannelClicked(M3UItem item) {
+                    mChannel = item;
+                    playChannel(mChannel);
+                }
+            });
+        }
         adapter.update(mPlaylist);
         rvPlaylist.setAdapter(adapter);
         adapter.notifyItemChanged(getChannelPosition());
@@ -443,5 +448,14 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     @Override
     public void onControlsHidden() {
         //playlistContainer.setVisibility(View.GONE);
+    }
+
+    public void setKeyboardVisibility(boolean show) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (show) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        } else {
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }
