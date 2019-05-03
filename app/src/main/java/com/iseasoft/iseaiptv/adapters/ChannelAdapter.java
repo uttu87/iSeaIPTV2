@@ -6,7 +6,9 @@ package com.iseasoft.iseaiptv.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,10 +23,13 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
 
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHolder> implements Filterable {
 
@@ -134,22 +139,15 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
 
         public void onClick(View v) {
             try {
-                /*
                 int position = getLayoutPosition();
                 final M3UItem imm = mItem.get(position);
                 Intent intent = new Intent(mContext, PlayerActivity.class);
 
-                Match match = new Match();
-                match.setName(imm.getItemName());
-                match.setStreamUrl(imm.getItemUrl());
-                match.setLeague("1017");
-
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(MATCH_KEY, match);
+                bundle.putSerializable(CHANNEL_KEY, imm);
                 intent.putExtras(bundle);
-
                 mContext.startActivity(intent);
-                */
+
             } catch (Exception ignored) {
             }
         }

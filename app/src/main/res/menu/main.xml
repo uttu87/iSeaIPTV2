@@ -8,9 +8,27 @@
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_switch_view"
+        android:icon="@drawable/ic_list"
         android:orderInCategory="102"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/action_switch_view"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/group"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/list"
+                    android:icon="@drawable/ic_list"
+                    android:title="@string/list" />
+
+                <item
+                    android:id="@+id/grid"
+                    android:icon="@drawable/ic_grid"
+                    android:title="@string/grid" />
+            </group>
+        </menu>
+    </item>
 </menu>

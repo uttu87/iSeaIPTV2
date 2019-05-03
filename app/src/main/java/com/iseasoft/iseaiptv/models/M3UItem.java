@@ -1,6 +1,8 @@
 package com.iseasoft.iseaiptv.models;
 
-public class M3UItem {
+import java.io.Serializable;
+
+public class M3UItem implements Serializable {
 
     private String itemDuration;
 

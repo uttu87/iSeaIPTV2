@@ -41,6 +41,7 @@ public class ChannelFragment extends Fragment {
     private ProgressBar mProgressBar;
     private LinearLayout placeholderContainer;
     private ChannelAdapter channelAdapter;
+    private MenuItem switchListView;
 
     private FolderListener listener;
     private String groupName;
@@ -137,6 +138,7 @@ public class ChannelFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.main, menu);
+        switchListView = menu.findItem(R.id.action_switch_view);
         MenuItem search = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         searchView.setQueryHint("Search channel name");
@@ -159,16 +161,19 @@ public class ChannelFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*
         switch (item.getItemId()) {
-            case R.id.action_storages:
-                loadFolders();
+            case R.id.app_bar_search:
                 break;
-            case R.id.action_server:
-                loadServer();
+            case R.id.list:
+                switchListView.setIcon(R.drawable.ic_list);
+                item.setChecked(true);
+                break;
+            case R.id.grid:
+                switchListView.setIcon(R.drawable.ic_grid);
+                item.setChecked(true);
                 break;
         }
-        */
+
         return super.onOptionsItemSelected(item);
     }
 

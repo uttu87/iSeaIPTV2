@@ -21,14 +21,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.iseasoft.iseaiptv.R;
-import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.http.HttpHandler;
 import com.iseasoft.iseaiptv.models.M3UItem;
@@ -54,12 +52,11 @@ public class MainActivity extends AppCompatActivity
 
     private static final int ALL_CHANNELS_TAB = 1;
     private CoordinatorLayout panelLayout;
-
-    private ChannelAdapter channelAdapter;
-    private M3UPlaylist mPlaylist;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ConstraintLayout placeholderContainer;
+
+    private M3UPlaylist mPlaylist;
 
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null);
 
         panelLayout = findViewById(R.id.panel_layout);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -137,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         TextView playlistLink = header.findViewById(R.id.nav_header_description);
         playlistName.setText(lastPlaylist.getName());
         playlistLink.setText(lastPlaylist.getLink());
+        getSupportActionBar().setTitle(lastPlaylist.getName());
     }
 
     private void showChannelPlaceholder() {
@@ -188,28 +185,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

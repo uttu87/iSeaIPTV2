@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">iSea IPTV</string>
+    <string name="gamob_banner_ad_unit_id"></string>
+    <string name="gamob_interstitial_ad_unit_id"></string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -9,6 +12,9 @@
     <string name="action_add">Add Playlist</string>
     <string name="action_add_url">Add URL</string>
     <string name="action_select_file">Select File</string>
+    <string name="action_switch_view">Switch view</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
 
     <string name="menu_show_as_entry_default">Default</string>
 
@@ -42,4 +48,6 @@
     <string name="no_favorites">No favorites</string>
     <string name="how_to_add_favorite">To add favorite: long press on channel, then select \"Add to favorites\" from the context menu</string>
     <string name="all_channels">All channels</string>
+
+    <string name="playing_error">Error playing channel</string>
 </resources>
