@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     private ChannelAdapter channelAdapter;
     private M3UPlaylist mPlaylist;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
+
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         if (Utils.isMarshmallow()) {
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity
                     parseAndUpdateUI(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    showChannelPlaceholder();
+                    Router.navigateTo(this, Router.Screens.PLAYLIST);
                 }
             }
         } else {
@@ -146,6 +150,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showChannelPlaceholder() {
         //TODO show Main Placeholder
+        tabLayout.setVisibility(View.GONE);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -167,6 +172,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         viewPager.setAdapter(adapter);
+        tabLayout.setVisibility(View.VISIBLE);
     }
 
     private void loadServer(String url) {

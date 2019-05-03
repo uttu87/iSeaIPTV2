@@ -152,33 +152,18 @@ public class ChannelFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (TextUtils.isEmpty(query)) {
-                    return filter("");
-                } else {
-                    return filter(query);
-                }
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                //TODO here changes the search text)
-                if (TextUtils.isEmpty(newText)) {
-                    return filter("");
-                } else {
+                channelAdapter.update(getPlaylistItems());
+                if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);
                 }
-            }
-        });
-
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                setKeyboardVisibility(false);
-                showChannels();
                 return false;
             }
         });
-
     }
 
     @Override
