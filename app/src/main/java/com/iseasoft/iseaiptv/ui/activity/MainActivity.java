@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.iseasoft.iseaiptv.R;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private M3UPlaylist mPlaylist;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private ConstraintLayout placeholderContainer;
 
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -82,15 +84,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,11 +95,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
 
         panelLayout = findViewById(R.id.panel_layout);
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        placeholderContainer = findViewById(R.id.placeholder_container);
 
         if (Utils.isMarshmallow()) {
             requestStoragePermission();
@@ -129,7 +121,6 @@ public class MainActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     showChannelPlaceholder();
-                    Router.navigateTo(this, Router.Screens.PLAYLIST);
                 }
             }
         } else {
@@ -151,6 +142,14 @@ public class MainActivity extends AppCompatActivity
     private void showChannelPlaceholder() {
         //TODO show Main Placeholder
         tabLayout.setVisibility(View.GONE);
+        placeholderContainer.setVisibility(View.VISIBLE);
+        Button btnAdd = findViewById(R.id.btn_add_playlist);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToPlaylist();
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -173,6 +172,7 @@ public class MainActivity extends AppCompatActivity
         }
         viewPager.setAdapter(adapter);
         tabLayout.setVisibility(View.VISIBLE);
+        placeholderContainer.setVisibility(View.GONE);
     }
 
     private void loadServer(String url) {

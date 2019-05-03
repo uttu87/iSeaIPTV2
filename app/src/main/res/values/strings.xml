@@ -26,6 +26,8 @@
     <string name="playlist_url">Playlist URL</string>
     <string name="playlist_name">Playlist name (optionally)</string>
 
+    <string name="no_channels">No channels</string>
+
     <string name="common_dialog_ok">OK, sure</string>
     <string name="common_dialog_yes">Yes!</string>
     <string name="common_dialog_cancel">No, thanks</string>
