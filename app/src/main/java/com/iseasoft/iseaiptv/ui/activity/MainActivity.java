@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         panelLayout = findViewById(R.id.panel_layout);
 
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity
     private void loadChannels() {
         final Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
         if (lastPlaylist != null) {
+            displayPlaylistInfo(lastPlaylist);
             if (lastPlaylist.getLink().startsWith("http")) {
                 loadServer(lastPlaylist.getLink());
             } else {
@@ -130,6 +133,15 @@ public class MainActivity extends AppCompatActivity
             Router.navigateTo(this, Router.Screens.PLAYLIST);
         }
 
+    }
+
+    private void displayPlaylistInfo(Playlist lastPlaylist) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView playlistName = header.findViewById(R.id.nav_header_title);
+        TextView playlistLink = header.findViewById(R.id.nav_header_description);
+        playlistName.setText(lastPlaylist.getName());
+        playlistLink.setText(lastPlaylist.getLink());
     }
 
     private void showChannelPlaceholder() {
@@ -200,19 +212,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            navigateToPlaylist();
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_playlist:
+                navigateToPlaylist();
+                break;
+            case R.id.nav_share:
+                //TODO Share
+                break;
+            case R.id.nav_about:
+                //TODO About
+                break;
+            default:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

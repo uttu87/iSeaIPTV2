@@ -64,7 +64,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
     }
 
     public void update(List<M3UItem> _list) {
-        this.mItem = _list;
+        this.mItem.addAll(_list);
         notifyDataSetChanged();
     }
 

@@ -175,7 +175,7 @@ public class ChannelFragment extends Fragment {
             public boolean onClose() {
                 setKeyboardVisibility(false);
                 showChannels();
-                return true;
+                return false;
             }
         });
 
