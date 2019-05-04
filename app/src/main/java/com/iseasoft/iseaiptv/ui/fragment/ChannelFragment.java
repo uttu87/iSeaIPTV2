@@ -1,9 +1,9 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,7 +21,6 @@ import android.widget.SearchView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
-import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
@@ -30,6 +29,10 @@ import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
@@ -41,13 +44,18 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 public class ChannelFragment extends BaseFragment {
 
     private static final int COLUMN_WIDTH = 80;
-    private RecyclerView recyclerView;
-    private ProgressBar mProgressBar;
-    private LinearLayout placeholderContainer;
-    private ChannelAdapter channelAdapter;
-    private MenuItem switchListView;
 
-    private FolderListener listener;
+    Unbinder unbinder;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
+    @BindView(R.id.placeholder_container)
+    LinearLayout placeholderContainer;
+    MenuItem switchListView;
+
+    private ChannelAdapter channelAdapter;
+
     private String groupName;
 
     public static ChannelFragment newInstance(String groupName) {
@@ -62,12 +70,7 @@ public class ChannelFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_folders, container, false);
-
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        placeholderContainer = (LinearLayout) rootView.findViewById(R.id.placeholder_container);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -105,22 +108,34 @@ public class ChannelFragment extends BaseFragment {
         channelAdapter.update(getPlaylistItems());
         recyclerView.setAdapter(channelAdapter);
         if (isGridView()) {
-            ViewTreeObserver observer = recyclerView.getViewTreeObserver();
-            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    ViewTreeObserver o = recyclerView.getViewTreeObserver();
-                    o.removeOnGlobalLayoutListener(this);
-                    int columnWidthInDp = COLUMN_WIDTH;
-                    int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
-                    Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
-                }
-            });
+            setupGridView();
         } else {
             Utils.modifyListViewForVertical(getActivity(), recyclerView);
         }
         mProgressBar.setVisibility(View.GONE);
         placeholderContainer.setVisibility(View.GONE);
+    }
+
+    private void setupGridView() {
+        ViewTreeObserver observer = recyclerView.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ViewTreeObserver o = recyclerView.getViewTreeObserver();
+                o.removeOnGlobalLayoutListener(this);
+                int columnWidthInDp = COLUMN_WIDTH;
+                int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
+                Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+            }
+        });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (isGridView()) {
+            setupGridView();
+        }
     }
 
     private void showFavoritePlaceholder() {
@@ -233,6 +248,14 @@ public class ChannelFragment extends BaseFragment {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        channelAdapter = null;
+        unbinder.unbind();
+
     }
 
     public void setKeyboardVisibility(boolean show) {
