@@ -34,6 +34,7 @@ import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 
 import java.util.ArrayList;
@@ -208,16 +209,24 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController.setScreenModeChangeButtonClickListener(this);
         mVideoController.setReloadButtonClickListener(this);
         mVideoController.setPlaylistButtonClickListener(this);
+        mVideoController.setFavoriteButtonClickListener(this);
         mVideoController.setButtonListener(this);
         mVideoController.setVisibilityListener(this);
         mVideoController.setPreviousButtonEnabled(true);
         mVideoController.setNextButtonEnabled(true);
-        if (mChannel != null) {
-            mVideoController.setTitle(mChannel.getItemName());
-        }
+
+        mVideoController.setTitle(mChannel.getItemName());
+        updateFavoriteIcon();
+
 
         //For now we just picked an arbitrary item to play
         playChannel(mChannel);
+    }
+
+    private void updateFavoriteIcon() {
+        PreferencesUtility preferencesUtility = PreferencesUtility.getInstance(getActivity());
+        boolean isFaved = preferencesUtility.checkFavorite(mChannel);
+        mVideoController.setFavorited(isFaved);
     }
 
     private void playChannel(M3UItem channel) {
@@ -311,6 +320,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         }
         mVideoController = null;
         mChannel = null;
+        mPlaylist = null;
         fragmentEventListener = null;
         if (publisherAdView != null) {
             publisherAdView.destroy();
@@ -335,7 +345,21 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             case R.id.playlist_play:
                 showPlaylist();
                 break;
+            case R.id.favorite:
+                favorite();
+                break;
         }
+    }
+
+    private void favorite() {
+        PreferencesUtility preferencesUtility = PreferencesUtility.getInstance(getActivity());
+        boolean isFaved = preferencesUtility.checkFavorite(mChannel);
+        if (!isFaved) {
+            preferencesUtility.addFavorite(mChannel);
+        } else {
+            preferencesUtility.removeFavorite(mChannel);
+        }
+        updateFavoriteIcon();
     }
 
     private void showPlaylist() {
@@ -442,12 +466,11 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     @Override
     public void onControlsShown() {
-        playlistContainer.setVisibility(isShowingPlaylist ? View.VISIBLE : View.GONE);
+        playlistContainer.setVisibility(View.GONE);
     }
 
     @Override
     public void onControlsHidden() {
-        //playlistContainer.setVisibility(View.GONE);
     }
 
     public void setKeyboardVisibility(boolean show) {

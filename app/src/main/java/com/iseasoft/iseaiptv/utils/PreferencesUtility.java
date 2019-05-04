@@ -357,12 +357,60 @@ public final class PreferencesUtility {
         return gson.fromJson(json, type);
     }
 
+    public boolean checkFavorite(M3UItem channel) {
+        ArrayList<M3UItem> favList = getFavoriteChannels();
+        if (favList == null || favList.size() == 0) {
+            return false;
+        }
+        for (M3UItem item : favList) {
+            if (item.getItemName().equals(channel.getItemName())
+                    && item.getItemUrl().equals(channel.getItemUrl())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addFavorite(M3UItem channel) {
+        ArrayList<M3UItem> favList = getFavoriteChannels();
+        if (favList == null) {
+            favList = new ArrayList<>();
+        }
+
+        if (!checkFavorite(channel)) {
+            favList.add(channel);
+            saveFavoriteChannels(favList);
+        }
+    }
+
+    public void removeFavorite(M3UItem channel) {
+        ArrayList<M3UItem> favList = getFavoriteChannels();
+        if (favList == null || favList.size() == 0) {
+            return;
+        }
+
+        if (checkFavorite(channel)) {
+            for (M3UItem item : favList) {
+                if (item.getItemName().equals(channel.getItemName())
+                        && item.getItemUrl().equals(channel.getItemUrl())) {
+                    favList.remove(item);
+                    saveFavoriteChannels(favList);
+                    break;
+                }
+            }
+        }
+    }
+
     public void saveFavoriteChannels(ArrayList<M3UItem> list) {
         saveArrayList(list, FAVORITE_CHANNEL_KEY);
     }
 
     public ArrayList<M3UItem> getFavoriteChannels() {
-        return getArrayList(FAVORITE_CHANNEL_KEY);
+        Gson gson = new Gson();
+        String json = mPreferences.getString(FAVORITE_CHANNEL_KEY, null);
+        Type type = new TypeToken<ArrayList<M3UItem>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 }
 

@@ -14,6 +14,7 @@ public class ISeaLiveVideoController extends VideoControlsMobile {
     private ImageView screenModeChangeButton;
     private ImageButton btnReload;
     private ImageButton btnPlaylist;
+    private ImageButton btnFavorite;
     private RelativeLayout playErrorContainer;
 
     public ISeaLiveVideoController(Context context) {
@@ -50,6 +51,12 @@ public class ISeaLiveVideoController extends VideoControlsMobile {
         }
     }
 
+    public void setFavoriteButtonClickListener(OnClickListener playlistButtonClickListener) {
+        if (btnFavorite != null) {
+            btnFavorite.setOnClickListener(playlistButtonClickListener);
+        }
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.isealive_video_controls;
@@ -61,6 +68,7 @@ public class ISeaLiveVideoController extends VideoControlsMobile {
         screenModeChangeButton = findViewById(R.id.button_screen_mode_change);
         btnReload = findViewById(R.id.exomedia_controls_reload_btn);
         btnPlaylist = findViewById(R.id.playlist_play);
+        btnFavorite = findViewById(R.id.favorite);
         playErrorContainer = findViewById(R.id.play_error_container);
     }
 
@@ -75,6 +83,10 @@ public class ISeaLiveVideoController extends VideoControlsMobile {
 
     public void showPlayErrorMessage(boolean show) {
         playErrorContainer.setVisibility(show ? VISIBLE : GONE);
+    }
+
+    public void setFavorited(boolean faved) {
+        btnFavorite.setBackgroundResource(faved ? R.drawable.ic_favorited : R.drawable.ic_favorite);
     }
 
     @Override
