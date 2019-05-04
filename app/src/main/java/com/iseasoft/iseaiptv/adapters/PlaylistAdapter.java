@@ -3,28 +3,31 @@ package com.iseasoft.iseaiptv.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.OnPlaylistListener;
 import com.iseasoft.iseaiptv.models.Playlist;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class PlaylistAdapter extends RecyclerView.Adapter {
 
 
-    private List<Playlist> mItems;
+    private ArrayList<Playlist> mItems;
     private Context mContext;
     private OnPlaylistListener mItemListener;
 
-    public PlaylistAdapter(List<Playlist> items, OnPlaylistListener listener) {
+    public PlaylistAdapter(ArrayList<Playlist> items, OnPlaylistListener listener) {
         this.mItems = items;
         this.mItemListener = listener;
     }
@@ -99,11 +102,38 @@ public class PlaylistAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             if (v.getId() == R.id.mainView) {
                 if (listener != null) {
-                    listener.onPlaylistItemClicked(this.playlist);
+                    listener.onPlaylistItemClicked(playlist);
                 }
             } else if (v.getId() == R.id.more) {
-                Toast.makeText(mContext, "Clicked on More button", Toast.LENGTH_SHORT).show();
+                PopupMenu popupMenu = new PopupMenu(mContext, more);
+                popupMenu.inflate(R.menu.menu_playlist_options);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_open:
+                                if (listener != null) {
+                                    listener.onPlaylistItemClicked(playlist);
+                                }
+                                break;
+                            case R.id.action_delete:
+                                delete();
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
+        }
+
+        private void delete() {
+            int pos = getLayoutPosition();
+            notifyItemRemoved(pos);
+            mItems.remove(playlist);
+            Collections.reverse(mItems);
+            PreferencesUtility.getInstance(mContext).savePlaylist(mItems);
+            Collections.reverse(mItems);
         }
     }
 }
