@@ -205,6 +205,9 @@ public class MainActivity extends BaseActivity
             case R.id.nav_playlist:
                 navigateToPlaylist();
                 break;
+            case R.id.nav_live_stream:
+                openPlayStreamDialog();
+                break;
             case R.id.nav_share:
                 shareApp();
                 break;

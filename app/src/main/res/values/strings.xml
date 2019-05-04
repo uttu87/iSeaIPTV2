@@ -18,6 +18,9 @@
     <string name="action_add_url">Add URL</string>
     <string name="action_select_file">Select File</string>
     <string name="action_switch_view">Switch view</string>
+    <string name="open_network_stream">Open IPTV Stream</string>
+    <string name="add_link">Please enter a stream URL</string>
+    <string name="open_network_stream_hint">http://example.com/stream.m3u8\nhttp://example.com/stream.ts\nhttp://example.com/stream.mp4</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
     <string name="added_favorite_message">This channel was added to Favorites</string>

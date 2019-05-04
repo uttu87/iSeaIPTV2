@@ -8,6 +8,11 @@
             android:id="@+id/nav_playlist"
             android:icon="@drawable/ic_playlist"
             android:title="Playlist" />
+
+        <item
+            android:id="@+id/nav_live_stream"
+            android:icon="@drawable/ic_live_stream"
+            android:title="@string/open_network_stream" />
     </group>
 
     <item android:title="Communicate">

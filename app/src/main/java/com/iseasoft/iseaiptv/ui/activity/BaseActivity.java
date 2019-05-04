@@ -19,6 +19,7 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.BuildConfig;
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.dialogs.PlayStreamDialog;
 import com.iseasoft.iseaiptv.ui.fragment.AboutFragment;
 
 import java.util.ArrayList;
@@ -195,6 +196,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void showAbout() {
         AboutFragment fragment = new AboutFragment();
         fragment.show(getSupportFragmentManager(), AboutFragment.TAG);
+    }
+
+    protected void openPlayStreamDialog() {
+        PlayStreamDialog dialog = PlayStreamDialog.newInstance(this);
+        dialog.show(getSupportFragmentManager(), PlayStreamDialog.TAG);
     }
 
 }
