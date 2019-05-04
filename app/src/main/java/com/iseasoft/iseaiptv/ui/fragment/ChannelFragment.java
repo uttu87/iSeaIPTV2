@@ -2,7 +2,6 @@ package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,9 +38,9 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
  * Created by nv95 on 10.11.16.
  */
 
-public class ChannelFragment extends Fragment {
+public class ChannelFragment extends BaseFragment {
 
-    private static final int COLUMN_WIDTH = 70;
+    private static final int COLUMN_WIDTH = 80;
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
     private LinearLayout placeholderContainer;
@@ -77,11 +77,6 @@ public class ChannelFragment extends Fragment {
         showChannels();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
     private void showChannels() {
         if (groupName == null) {
             return;
@@ -93,7 +88,9 @@ public class ChannelFragment extends Fragment {
             }
         }
         if (channelAdapter == null) {
-            channelAdapter = new ChannelAdapter(getActivity(), R.layout.item_channel_list, new OnChannelListener() {
+            channelAdapter = new ChannelAdapter(getActivity(),
+                    isGridView() ? R.layout.item_channel_grid : R.layout.item_channel_list
+                    , new OnChannelListener() {
                 @Override
                 public void onChannelClicked(M3UItem item) {
                     setKeyboardVisibility(false);
@@ -107,10 +104,21 @@ public class ChannelFragment extends Fragment {
         }
         channelAdapter.update(getPlaylistItems());
         recyclerView.setAdapter(channelAdapter);
-        //int columnWidthInDp = COLUMN_WIDTH;
-        //int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
-        //Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
-        Utils.modifyListViewForVertical(getActivity(), recyclerView);
+        if (isGridView()) {
+            ViewTreeObserver observer = recyclerView.getViewTreeObserver();
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    ViewTreeObserver o = recyclerView.getViewTreeObserver();
+                    o.removeOnGlobalLayoutListener(this);
+                    int columnWidthInDp = COLUMN_WIDTH;
+                    int spanCount = Utils.getOptimalSpanCount(recyclerView, columnWidthInDp);
+                    Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
+                }
+            });
+        } else {
+            Utils.modifyListViewForVertical(getActivity(), recyclerView);
+        }
         mProgressBar.setVisibility(View.GONE);
         placeholderContainer.setVisibility(View.GONE);
     }
@@ -174,6 +182,24 @@ public class ChannelFragment extends Fragment {
                 return false;
             }
         });
+
+        if (isGridView()) {
+            MenuItem grid = menu.findItem(R.id.grid);
+            grid.setChecked(true);
+            switchListView.setIcon(R.drawable.ic_grid);
+        } else {
+            MenuItem list = menu.findItem(R.id.list);
+            list.setChecked(true);
+            switchListView.setIcon(R.drawable.ic_list);
+        }
+    }
+
+    private boolean isGridView() {
+        return PreferencesUtility.getInstance(getActivity()).isGridViewMode();
+    }
+
+    private void setGridView(boolean value) {
+        PreferencesUtility.getInstance(getActivity()).setGridViewMode(value);
     }
 
     @Override
@@ -184,10 +210,16 @@ public class ChannelFragment extends Fragment {
             case R.id.list:
                 switchListView.setIcon(R.drawable.ic_list);
                 item.setChecked(true);
+                setGridView(false);
+                channelAdapter = null;
+                showChannels();
                 break;
             case R.id.grid:
                 switchListView.setIcon(R.drawable.ic_grid);
                 item.setChecked(true);
+                setGridView(true);
+                channelAdapter = null;
+                showChannels();
                 break;
         }
 

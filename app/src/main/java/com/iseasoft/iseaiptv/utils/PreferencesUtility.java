@@ -64,6 +64,7 @@ public final class PreferencesUtility {
     private static final String PLAYLIST_KEY = "playlist";
     private static final String FAVORITE_CHANNEL_KEY = "favorite_channel_list";
     private static final String LAST_PLAYLIST = "last_playlist";
+    private static final String GRID_VIEW_MODE = "grid_view_mode";
 
     private static PreferencesUtility sInstance;
 
@@ -291,6 +292,16 @@ public final class PreferencesUtility {
 
     public boolean alwaysLoadAlbumImagesFromLastfm() {
         return mPreferences.getBoolean(ALWAYS_LOAD_ALBUM_IMAGES_LASTFM, false);
+    }
+
+    public boolean isGridViewMode() {
+        return mPreferences.getBoolean(GRID_VIEW_MODE, true);
+    }
+
+    public void setGridViewMode(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(GRID_VIEW_MODE, value);
+        editor.apply();
     }
 
     /**
