@@ -206,10 +206,13 @@ public class MainActivity extends BaseActivity
                 navigateToPlaylist();
                 break;
             case R.id.nav_share:
-                //TODO Share
+                shareApp();
+                break;
+            case R.id.nav_rate:
+                launchMarket();
                 break;
             case R.id.nav_about:
-                //TODO About
+                showAbout();
                 break;
             default:
                 break;

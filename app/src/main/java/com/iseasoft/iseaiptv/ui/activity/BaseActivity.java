@@ -2,7 +2,12 @@ package com.iseasoft.iseaiptv.ui.activity;
 
 import android.app.ActivityManager;
 import android.arch.lifecycle.Lifecycle;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +17,15 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.iseasoft.iseaiptv.BuildConfig;
 import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.ui.fragment.AboutFragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,6 +35,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String TAG = BaseActivity.class.getSimpleName();
+    private static final String GOOGLE_PLAY_APP_LINK = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     Unbinder unbinder;
     @BindView(R.id.footer_container)
     RelativeLayout footerContainer;
@@ -85,22 +98,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         return getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED);
     }
 
-    /*
-
-    public void shareApp(Channel channel) {
+    public void shareApp() {
         String[] blacklist = new String[]{"com.any.package", "net.other.package"};
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
 
         String shareBody = getString(R.string.share_boday);
-        if (channel != null) {
-            shareBody = "Watch " + channel.getName();
-        }
+
         shareBody = shareBody + " at: " + GOOGLE_PLAY_APP_LINK;
 
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-        String title = getString(channel != null ? R.string.share_video_title : R.string.share_app_title);
+        String title = getString(R.string.share_app_title);
 
         startActivity(Intent.createChooser(sharingIntent, title));
     }
@@ -161,7 +170,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
         }
     }
-    */
+
 
     private boolean isLastBackStack() {
         return isLastActivityStack() && isLastFragmentStack();
@@ -181,6 +190,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isLastFragmentStack() {
         FragmentManager fm = getSupportFragmentManager();
         return fm.getBackStackEntryCount() == 0;
+    }
+
+    protected void showAbout() {
+        AboutFragment fragment = new AboutFragment();
+        fragment.show(getSupportFragmentManager(), AboutFragment.TAG);
     }
 
 }

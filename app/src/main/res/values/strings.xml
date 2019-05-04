@@ -57,4 +57,12 @@
     <string name="all_channels">All channels</string>
 
     <string name="playing_error">Error playing channel</string>
+
+    <string name="share_subject">Check out iSea IPTV</string>
+    <string name="share_boday">Enjoy IP Television with iSea IPTV</string>
+    <string name="share_app_title">Share this application via</string>
+
+    <string name="app_version">Version: %s</string>
+    <string name="copyright">© 2019 iSeaSoft. All rights reserved.</string>
+    <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.dev@gmail.com.</string>
 </resources>
