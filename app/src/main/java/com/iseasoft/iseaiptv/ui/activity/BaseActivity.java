@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.R;
@@ -21,7 +24,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String TAG = BaseActivity.class.getSimpleName();
     Unbinder unbinder;
-    @BindView(R.id.publisherAdView)
+    @BindView(R.id.footer_container)
+    RelativeLayout footerContainer;
     PublisherAdView publisherAdView;
 
     @Override
@@ -37,6 +41,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     private void setupPublisherBannerAds() {
+        publisherAdView = new PublisherAdView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        publisherAdView.setAdUnitId(getString(R.string.gamob_banner_ad_unit_id));
+        publisherAdView.setAdSizes(AdSize.BANNER);
+        footerContainer.addView(publisherAdView, params);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
                 .build();
