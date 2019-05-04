@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
+import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.iseasoft.iseaiptv.ui.activity.PlaylistActivity;
 import com.iseasoft.iseaiptv.ui.activity.SelectFileActivity;
 
@@ -54,6 +55,9 @@ public class Router {
             case Screens.SELECT_FILE:
                 clasz = SelectFileActivity.class;
                 break;
+            case Screens.PLAYER:
+                clasz = PlayerActivity.class;
+                break;
             default:
                 break;
         }
@@ -73,12 +77,14 @@ public class Router {
     @IntDef(flag = true, value = {
             Screens.MAIN,
             Screens.PLAYLIST,
-            Screens.SELECT_FILE
+            Screens.SELECT_FILE,
+            Screens.PLAYER
 
     })
     public @interface Screens {
         int MAIN = 1 << 1;
         int PLAYLIST = 5;
         int SELECT_FILE = 6;
+        int PLAYER = 7;
     }
 }

@@ -1,6 +1,6 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -13,17 +13,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
+import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.FolderListener;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
-import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
@@ -95,13 +96,12 @@ public class ChannelFragment extends Fragment {
             channelAdapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
                 @Override
                 public void onChannelClicked(M3UItem item) {
-                    Intent intent = new Intent(getActivity(), PlayerActivity.class);
+                    setKeyboardVisibility(false);
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(CHANNEL_KEY, item);
                     bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                    intent.putExtras(bundle);
-                    getActivity().startActivity(intent);
+                    Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
                 }
             });
         }
@@ -200,6 +200,15 @@ public class ChannelFragment extends Fragment {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void setKeyboardVisibility(boolean show) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (show) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        } else {
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

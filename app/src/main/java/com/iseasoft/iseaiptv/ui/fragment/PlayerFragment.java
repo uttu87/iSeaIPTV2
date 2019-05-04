@@ -1,7 +1,6 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -470,14 +468,5 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     @Override
     public void onControlsHidden() {
-    }
-
-    public void setKeyboardVisibility(boolean show) {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (show) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        } else {
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
     }
 }
