@@ -216,8 +216,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController.setNextButtonEnabled(true);
 
         mVideoController.setTitle(mChannel.getItemName());
-        updateFavoriteIcon();
-
 
         //For now we just picked an arbitrary item to play
         playChannel(mChannel);
@@ -233,6 +231,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         videoView.setVideoURI(Uri.parse(channel.getItemUrl()));
         mVideoController.setTitle(channel.getItemName());
         mVideoController.showPlayErrorMessage(false);
+        updateFavoriteIcon();
     }
 
     private void setUpVideoViewSize(boolean isFullscreen) {
