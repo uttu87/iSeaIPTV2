@@ -21,9 +21,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.models.Playlist;
 
@@ -371,6 +373,14 @@ public final class PreferencesUtility {
         return false;
     }
 
+    public void favorite(M3UItem channel) {
+        if (checkFavorite(channel)) {
+            removeFavorite(channel);
+        } else {
+            addFavorite(channel);
+        }
+    }
+
     public void addFavorite(M3UItem channel) {
         ArrayList<M3UItem> favList = getFavoriteChannels();
         if (favList == null) {
@@ -380,6 +390,7 @@ public final class PreferencesUtility {
         if (!checkFavorite(channel)) {
             favList.add(channel);
             saveFavoriteChannels(favList);
+            Toast.makeText(context, R.string.added_favorite_message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -395,6 +406,7 @@ public final class PreferencesUtility {
                         && item.getItemUrl().equals(channel.getItemUrl())) {
                     favList.remove(item);
                     saveFavoriteChannels(favList);
+                    Toast.makeText(context, R.string.removed_favorite_message, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }

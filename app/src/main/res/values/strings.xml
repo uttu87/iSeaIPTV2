@@ -9,12 +9,17 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_play">Play</string>
+    <string name="action_add_favorite">Add to favorites</string>
+    <string name="action_remove_favorite">Remove from favorites</string>
     <string name="action_add">Add Playlist</string>
     <string name="action_add_url">Add URL</string>
     <string name="action_select_file">Select File</string>
     <string name="action_switch_view">Switch view</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
+    <string name="added_favorite_message">This channel was added to Favorites</string>
+    <string name="removed_favorite_message">This channel was removed from Favorites</string>
 
     <string name="menu_show_as_entry_default">Default</string>
 

@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/dark_sky_blue</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/white</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -207,6 +208,10 @@
 
     <style name="ISeaIPTV.InputText.Bold" parent="ISeaIPTV.InputText">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/background_dark</item>
     </style>
 
 </resources>

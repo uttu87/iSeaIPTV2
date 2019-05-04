@@ -146,8 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/exomedia_leanback_ripple_selector_size"
                     android:background="@drawable/ic_playlist_play"
-                    android:minWidth="@dimen/exomedia_min_button_height"
-                    android:minHeight="@dimen/exomedia_min_button_height" />
+                    android:minWidth="@dimen/player_button_size"
+                    android:minHeight="@dimen/player_button_size" />
 
                 <ImageButton
                     android:id="@+id/exomedia_controls_previous_btn"
@@ -213,8 +213,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/exomedia_leanback_ripple_selector_size"
                     android:background="@drawable/ic_favorite"
-                    android:minWidth="@dimen/exomedia_min_button_height"
-                    android:minHeight="@dimen/exomedia_min_button_height" />
+                    android:minWidth="@dimen/player_button_size"
+                    android:minHeight="@dimen/player_button_size" />
             </LinearLayout>
         </LinearLayout>
 

@@ -93,7 +93,7 @@ public class ChannelFragment extends Fragment {
             }
         }
         if (channelAdapter == null) {
-            channelAdapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
+            channelAdapter = new ChannelAdapter(getActivity(), R.layout.item_channel_list, new OnChannelListener() {
                 @Override
                 public void onChannelClicked(M3UItem item) {
                     setKeyboardVisibility(false);

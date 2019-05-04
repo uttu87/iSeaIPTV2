@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iseasoft.iseaiptv.R;
@@ -54,6 +55,7 @@ public class MainActivity extends BaseActivity
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ConstraintLayout placeholderContainer;
+    private ProgressBar progressBar;
 
     private M3UPlaylist mPlaylist;
 
@@ -94,12 +96,18 @@ public class MainActivity extends BaseActivity
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         placeholderContainer = findViewById(R.id.placeholder_container);
+        progressBar = findViewById(R.id.progressBar);
 
         if (Utils.isMarshmallow()) {
             requestStoragePermission();
         } else {
             loadChannels();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void loadChannels() {
@@ -136,8 +144,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void showChannelPlaceholder() {
-        //TODO show Main Placeholder
         tabLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         placeholderContainer.setVisibility(View.VISIBLE);
         Button btnAdd = findViewById(R.id.btn_add_playlist);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +177,7 @@ public class MainActivity extends BaseActivity
         viewPager.setAdapter(adapter);
         tabLayout.setVisibility(View.VISIBLE);
         placeholderContainer.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void loadServer(String url) {
@@ -246,6 +255,7 @@ public class MainActivity extends BaseActivity
                 }
             });
         } catch (FileNotFoundException e) {
+            showChannelPlaceholder();
             e.printStackTrace();
         }
     }

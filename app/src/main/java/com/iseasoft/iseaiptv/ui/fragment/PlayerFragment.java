@@ -177,7 +177,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     private void setupPlaylist() {
         if (adapter == null) {
-            adapter = new ChannelAdapter(getActivity(), new OnChannelListener() {
+            adapter = new ChannelAdapter(getActivity(), R.layout.item_channel_list, new OnChannelListener() {
                 @Override
                 public void onChannelClicked(M3UItem item) {
                     mChannel = item;
@@ -350,12 +350,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     private void favorite() {
         PreferencesUtility preferencesUtility = PreferencesUtility.getInstance(getActivity());
-        boolean isFaved = preferencesUtility.checkFavorite(mChannel);
-        if (!isFaved) {
-            preferencesUtility.addFavorite(mChannel);
-        } else {
-            preferencesUtility.removeFavorite(mChannel);
-        }
+        preferencesUtility.favorite(mChannel);
         updateFavoriteIcon();
     }
 
