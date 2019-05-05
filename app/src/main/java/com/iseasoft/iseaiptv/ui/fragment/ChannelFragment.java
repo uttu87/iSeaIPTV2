@@ -3,6 +3,7 @@ package com.iseasoft.iseaiptv.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
@@ -50,8 +52,10 @@ public class ChannelFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
+    @BindView(R.id.favorite_placeholder_container)
+    LinearLayout favoritePlaceholderContainer;
     @BindView(R.id.placeholder_container)
-    LinearLayout placeholderContainer;
+    ConstraintLayout placeholderContainer;
     MenuItem switchListView;
 
     private ChannelAdapter channelAdapter;
@@ -84,11 +88,14 @@ public class ChannelFragment extends BaseFragment {
         if (groupName == null) {
             return;
         }
-        if (groupName.equals(getString(R.string.favorites))) {
-            if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
+
+        if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
+            if (groupName.equals(getString(R.string.favorites))) {
                 showFavoritePlaceholder();
-                return;
+            } else {
+                showPlaceholder();
             }
+            return;
         }
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity(),
@@ -105,6 +112,8 @@ public class ChannelFragment extends BaseFragment {
                 }
             });
         }
+        hideAllView();
+        recyclerView.setVisibility(View.VISIBLE);
         channelAdapter.update(getPlaylistItems());
         recyclerView.setAdapter(channelAdapter);
         if (isGridView()) {
@@ -112,7 +121,17 @@ public class ChannelFragment extends BaseFragment {
         } else {
             Utils.modifyListViewForVertical(getActivity(), recyclerView);
         }
+    }
+
+    private void showPlaceholder() {
+        hideAllView();
+        placeholderContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void hideAllView() {
+        recyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
+        favoritePlaceholderContainer.setVisibility(View.GONE);
         placeholderContainer.setVisibility(View.GONE);
     }
 
@@ -139,9 +158,8 @@ public class ChannelFragment extends BaseFragment {
     }
 
     private void showFavoritePlaceholder() {
-        recyclerView.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.GONE);
-        placeholderContainer.setVisibility(View.VISIBLE);
+        hideAllView();
+        favoritePlaceholderContainer.setVisibility(View.VISIBLE);
 
     }
 
@@ -257,6 +275,13 @@ public class ChannelFragment extends BaseFragment {
         unbinder.unbind();
 
     }
+
+    @OnClick(R.id.btn_add_playlist)
+    public void onClick(View view) {
+        Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
+    }
+
+
 
     public void setKeyboardVisibility(boolean show) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

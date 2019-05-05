@@ -37,7 +37,6 @@ import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
-import com.iseasoft.iseaiptv.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -98,11 +97,7 @@ public class MainActivity extends BaseActivity
         placeholderContainer = findViewById(R.id.placeholder_container);
         progressBar = findViewById(R.id.progressBar);
 
-        if (Utils.isMarshmallow()) {
-            requestStoragePermission();
-        } else {
-            loadChannels();
-        }
+        loadChannels();
     }
 
     @Override
@@ -266,6 +261,12 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
+        IseaSoft.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     static class GroupChannelAdapter extends FragmentStatePagerAdapter {
         private final List<String> mFragmentTitles = new ArrayList<>();
 
@@ -310,12 +311,6 @@ public class MainActivity extends BaseActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, String[] permissions, int[] grantResults) {
-        IseaSoft.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }
