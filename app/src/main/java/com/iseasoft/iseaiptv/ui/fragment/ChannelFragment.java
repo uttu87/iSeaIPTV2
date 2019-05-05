@@ -140,6 +140,9 @@ public class ChannelFragment extends BaseFragment {
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                if (recyclerView == null) {
+                    return;
+                }
                 ViewTreeObserver o = recyclerView.getViewTreeObserver();
                 o.removeOnGlobalLayoutListener(this);
                 int columnWidthInDp = COLUMN_WIDTH;
@@ -280,7 +283,6 @@ public class ChannelFragment extends BaseFragment {
     public void onClick(View view) {
         Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
     }
-
 
 
     public void setKeyboardVisibility(boolean show) {
