@@ -8,23 +8,23 @@
 
     <ImageView
         android:id="@+id/cimg"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:padding="3dp"
-        android:layout_marginStart="10sp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:padding="5dp"
         android:background="@drawable/channel_background" />
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="13sp"
-        android:lines="1"
+        android:layout_toEndOf="@+id/cimg"
         android:ellipsize="end"
-        android:paddingStart="60sp"
+        android:lines="1"
         android:text="Name"
         android:textColor="@color/slate"
         android:textSize="16sp" />
@@ -32,9 +32,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/item_name"
-        android:layout_marginLeft="70sp"
-        android:layout_marginTop="8dp"
+        android:layout_below="@+id/cimg"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="-4dp"
+        android:layout_toEndOf="@+id/cimg"
         android:background="@color/slate" />
 
 </RelativeLayout>

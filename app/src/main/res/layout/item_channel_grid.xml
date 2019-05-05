@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="80dp"
     android:layout_height="80dp"
-    android:layout_margin="4dp"
+    android:padding="2dp"
     android:background="@drawable/channel_background"
     android:orientation="horizontal">
 
@@ -10,6 +10,7 @@
         android:id="@+id/cimg"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="4dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher_background" />
 
@@ -18,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cimg"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:gravity="center"
         android:lines="1"
         android:textColor="@color/slate"
