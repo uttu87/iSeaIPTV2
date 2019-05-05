@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity
 
         @Override
         public void permissionRefused() {
-
+            requestStoragePermission();
         }
     };
 
@@ -118,6 +118,10 @@ public class MainActivity extends BaseActivity
                     parseAndUpdateUI(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    if (!IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        requestStoragePermission();
+                        return;
+                    }
                     showChannelPlaceholder();
                 }
             }
@@ -230,7 +234,7 @@ public class MainActivity extends BaseActivity
             loadChannels();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
+                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load),
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override

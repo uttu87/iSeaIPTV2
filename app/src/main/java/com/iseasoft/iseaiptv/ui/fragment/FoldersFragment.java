@@ -36,7 +36,6 @@ import java.io.File;
 
 public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener {
 
-    private static final int COLUMN_WIDTH = 70;
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -45,7 +44,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
 
         @Override
         public void permissionRefused() {
-
+            requestStoragePermission();
         }
     };
     private RelativeLayout panelLayout;
@@ -137,7 +136,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
             loadFolders();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, "iSeaMusic will need to read external storage to display songs on your device.",
+                Snackbar.make(panelLayout, R.string.request_storage_permission_message,
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
