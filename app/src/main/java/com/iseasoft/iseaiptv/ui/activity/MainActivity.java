@@ -2,6 +2,7 @@ package com.iseasoft.iseaiptv.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.http.HttpHandler;
@@ -98,6 +100,22 @@ public class MainActivity extends BaseActivity
         progressBar = findViewById(R.id.progressBar);
 
         loadChannels();
+        checkToPlayFromPushNotification();
+    }
+
+    private void checkToPlayFromPushNotification() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            String url = intent.getStringExtra(Constants.PUSH_URL_KEY);
+            String message = intent.getStringExtra(Constants.PUSH_MESSAGE);
+
+            if (!TextUtils.isEmpty(url)) {
+                Intent playerIntent = new Intent(this, PlayerActivity.class);
+                playerIntent.putExtra(Constants.PUSH_URL_KEY, url);
+                playerIntent.putExtra(Constants.PUSH_MESSAGE, message);
+                startActivity(playerIntent);
+            }
+        }
     }
 
     @Override

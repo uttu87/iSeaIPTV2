@@ -1,8 +1,10 @@
 package com.iseasoft.iseaiptv.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -12,10 +14,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.BuildConfig;
+import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.api.APIListener;
 import com.iseasoft.iseaiptv.api.IndiaTvAPI;
-import com.iseasoft.iseaiptv.helpers.Router;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,6 +131,21 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void navigationToMainScreen() {
-        Router.navigateTo(this, Router.Screens.MAIN, true);
+        Intent intent = new Intent(this, MainActivity.class);
+        Intent launchIntent = getIntent();
+        if (launchIntent != null) {
+            String url = launchIntent.getStringExtra(Constants.PUSH_URL_KEY);
+            if (!TextUtils.isEmpty(url)) {
+                intent.putExtra(Constants.PUSH_URL_KEY, url);
+            }
+
+            String message = launchIntent.getStringExtra(Constants.PUSH_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                intent.putExtra(Constants.PUSH_MESSAGE, message);
+            }
+        }
+
+        startActivity(intent);
+        finish();
     }
 }
