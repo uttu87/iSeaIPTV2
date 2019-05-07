@@ -24,6 +24,9 @@ import com.iseasoft.iseaiptv.BuildConfig;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dialogs.PlayStreamDialog;
 import com.iseasoft.iseaiptv.ui.fragment.AboutFragment;
+import com.startapp.android.publish.ads.banner.Banner;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,12 +49,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.footer_container)
     LinearLayout footerContainer;
     PublisherAdView publisherAdView;
+    Banner banner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
         setupPublisherAds();
+        initStartAppSdk();
     }
 
     private void setupPublisherAds() {
@@ -82,8 +87,23 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
+                setupStartAppBanner();
             }
         });
+    }
+
+    private void setupStartAppBanner() {
+        banner = new Banner(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        banner.setLayoutParams(params);
+        footerContainer.addView(banner);
+        banner.loadAd();
+    }
+
+    private void initStartAppSdk() {
+        StartAppSDK.init(this, App.getStartAppId(), false);
+        StartAppAd.disableSplash();
     }
 
     @Override
