@@ -17,12 +17,6 @@ import java.util.List;
 public class FolderLoader {
 
     private static final String[] SUPPORTED_EXT = new String[]{
-            "mp3",
-            "mp4",
-            "m4a",
-            "aac",
-            "ogg",
-            "wav",
             "m3u"
     };
 
