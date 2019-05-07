@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -14,6 +15,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.iseasoft.iseaiptv.App;
+import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
@@ -62,8 +64,20 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_player);
         super.onCreate(savedInstanceState);
-        M3UItem mChannel = (M3UItem) getIntent().getExtras().getSerializable(CHANNEL_KEY);
-        ArrayList<M3UItem> mPlaylist = (ArrayList<M3UItem>) getIntent().getExtras().getSerializable(PLAYLIST_KEY);
+        M3UItem mChannel;
+        ArrayList<M3UItem> mPlaylist = new ArrayList<>();
+        if (getIntent() != null && !TextUtils.isEmpty(getIntent().getStringExtra(Constants.PUSH_URL_KEY))) {
+            String matchUrl = getIntent().getStringExtra(Constants.PUSH_URL_KEY);
+            String message = getIntent().getStringExtra(Constants.PUSH_MESSAGE);
+            mChannel = new M3UItem();
+            mChannel.setItemUrl(matchUrl);
+            mChannel.setItemName(message);
+            mPlaylist.add(mChannel);
+        } else {
+            mChannel = (M3UItem) getIntent().getExtras().getSerializable(CHANNEL_KEY);
+            mPlaylist.addAll((ArrayList<M3UItem>) getIntent().getExtras().getSerializable(PLAYLIST_KEY));
+        }
+
         setupPlayer(mChannel, mPlaylist);
     }
 
