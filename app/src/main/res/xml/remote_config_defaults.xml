@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>today_highlight_status</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>use_admob</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>use_startapp</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>use_richadx</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>use_online_data_flag</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>active_ads</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>interstitial_ads_limit</key>
+        <value>5</value>
+    </entry>
+    <entry>
+        <key>ads_type</key>
+        <value>0</value>
+    </entry>
+    <entry>
+        <key>admob_banner_id</key>
+        <value>/112517806/139301556696907</value>
+    </entry>
+    <entry>
+        <key>admob_interstitial_id</key>
+        <value>/112517806/339301556697019</value>
+    </entry>
+    <entry>
+        <key>start_app_id</key>
+        <value>211223704</value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

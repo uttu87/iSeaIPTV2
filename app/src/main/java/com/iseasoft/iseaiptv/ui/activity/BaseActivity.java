@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.BuildConfig;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dialogs.PlayStreamDialog;
@@ -59,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        publisherAdView.setAdUnitId(getString(R.string.gamob_banner_ad_unit_id));
+        publisherAdView.setAdUnitId(App.getAdmobBannerId());
         publisherAdView.setAdSizes(AdSize.BANNER);
         footerContainer.addView(publisherAdView, params);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()

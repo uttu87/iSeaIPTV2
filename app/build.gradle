@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.iseasoft.iseaiptv"
+        applicationId "com.iseasoft.sportstv"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 100
@@ -11,9 +12,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
-            applicationIdSuffix ".dev"
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -58,4 +56,10 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.firebase:firebase-ads:17.2.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-config:16.5.0'
+    implementation 'com.google.firebase:firebase-firestore:18.2.0'
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 }
+apply plugin: 'com.google.gms.google-services'
