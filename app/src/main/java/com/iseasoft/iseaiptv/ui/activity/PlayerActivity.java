@@ -106,7 +106,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
 
         PlayerFragment playerFragment = PlayerFragment.newInstance(channel, playlist);
         playerFragment.setFragmentEventListener(this);
-        ft.replace(R.id.player_view, playerFragment);
+        ft.replace(R.id.player_view, playerFragment, PlayerFragment.TAG);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
 
@@ -158,5 +158,15 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         super.onDestroy();
         publisherInterstitialAd = null;
         startAppAd = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        PlayerFragment fragment = (PlayerFragment) getSupportFragmentManager().findFragmentByTag(PlayerFragment.TAG);
+        if (fragment != null && fragment.isShowingPlaylist()) {
+            fragment.showPlaylist();
+            return;
+        }
+        super.onBackPressed();
     }
 }
