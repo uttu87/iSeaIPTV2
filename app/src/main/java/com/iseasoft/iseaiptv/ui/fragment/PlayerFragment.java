@@ -24,8 +24,10 @@ import com.devbrackets.android.exomedia.listener.VideoControlsVisibilityListener
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
@@ -71,8 +73,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     RelativeLayout playlistContainer;
     @BindView(R.id.rv_playlist)
     RecyclerView rvPlaylist;
-    @BindView(R.id.publisherAdView)
-    PublisherAdView publisherAdView;
+
+    private PublisherAdView publisherAdView;
 
     private M3UItem mChannel;
     private ArrayList<M3UItem> mPlaylist;
@@ -160,6 +162,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void setupPublisherBannerAds() {
+        publisherAdView = new PublisherAdView(getActivity());
+        publisherAdView.setAdUnitId(App.getAdmobBannerId());
+        publisherAdView.setAdSizes(AdSize.BANNER);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
                 .build();
@@ -169,7 +174,12 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             public void onAdLoaded() {
                 super.onAdLoaded();
                 if (publisherAdView != null) {
-                    publisherAdView.setVisibility(View.VISIBLE);
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                    playlistContainer.addView(publisherAdView, params);
+
                 }
             }
         });
@@ -226,6 +236,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void playChannel(M3UItem channel) {
+        mRetryCount = 0;
         videoView.setVideoURI(Uri.parse(channel.getItemUrl()));
         mVideoController.setTitle(channel.getItemName());
         mVideoController.showPlayErrorMessage(false);
@@ -255,7 +266,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             return;
         }
         showAds();
-
         if (videoView != null) {
             videoView.start();
             mRetryCount = 0;
@@ -272,7 +282,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void showAds() {
-        ((PlayerActivity) getActivity()).setupFullScreenAds();
+        if (mRetryCount == 0) {
+            ((PlayerActivity) getActivity()).setupFullScreenAds();
+        }
     }
 
     @Override

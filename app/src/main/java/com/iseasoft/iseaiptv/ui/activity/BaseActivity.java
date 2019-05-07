@@ -11,9 +11,11 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
@@ -32,6 +34,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -40,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String GOOGLE_PLAY_APP_LINK = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     Unbinder unbinder;
     @BindView(R.id.footer_container)
-    RelativeLayout footerContainer;
+    LinearLayout footerContainer;
     PublisherAdView publisherAdView;
 
     @Override
@@ -57,16 +61,29 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void setupPublisherBannerAds() {
         publisherAdView = new PublisherAdView(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         publisherAdView.setAdUnitId(App.getAdmobBannerId());
         publisherAdView.setAdSizes(AdSize.BANNER);
-        footerContainer.addView(publisherAdView, params);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
                 .build();
         publisherAdView.loadAd(adRequest);
+        publisherAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (publisherAdView != null) {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    publisherAdView.setLayoutParams(params);
+                    footerContainer.addView(publisherAdView);
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+            }
+        });
     }
 
     @Override
@@ -202,6 +219,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void openPlayStreamDialog() {
         PlayStreamDialog dialog = PlayStreamDialog.newInstance(this);
         dialog.show(getSupportFragmentManager(), PlayStreamDialog.TAG);
+    }
+
+    @Optional()
+    @OnClick({R.id.btn_share})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_share:
+                shareApp();
+                break;
+        }
     }
 
 }
