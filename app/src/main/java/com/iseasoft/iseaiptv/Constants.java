@@ -9,6 +9,7 @@ public class Constants {
     public static final String CATALOG_COLLECTION = "catalog";
     public static final int CAROUSEL_ID = 1000;
     public static final int SPORT_TV_ID = 1017;
+    public static final int SPORT_TV_CATALOG_ID = 1000;
     public static final String CHANNEL_KEY = "channels";
     public static final String CATALOG_KEY = "catalog";
     public static final String PUSH_MESSAGE = "push_message";

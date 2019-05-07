@@ -56,7 +56,7 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
  */
 public class PlayerFragment extends BaseFragment implements OnPreparedListener, View.OnClickListener,
         OnCompletionListener, OnErrorListener, VideoControlsButtonListener, VideoControlsVisibilityListener {
-    private static final String TAG = PlayerFragment.class.getSimpleName();
+    public static final String TAG = PlayerFragment.class.getSimpleName();
     private static final float BALANCED_VISIBLE_FRACTION = 0.5625f;
     private static final long OSD_DISP_TIME = 3000;
     private static final int MAX_RETRY_COUNT = 3;
@@ -384,7 +384,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         updateFavoriteIcon();
     }
 
-    private void showPlaylist() {
+    public void showPlaylist() {
         isShowingPlaylist = !isShowingPlaylist;
         playlistContainer.setVisibility(isShowingPlaylist ? View.VISIBLE : View.GONE);
     }
@@ -493,5 +493,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     @Override
     public void onControlsHidden() {
+    }
+
+    public boolean isShowingPlaylist() {
+        return isShowingPlaylist;
     }
 }
