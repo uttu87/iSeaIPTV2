@@ -36,6 +36,7 @@ import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
+import com.startapp.android.publish.ads.banner.Banner;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     RecyclerView rvPlaylist;
 
     private PublisherAdView publisherAdView;
+    private Banner banner;
 
     private M3UItem mChannel;
     private ArrayList<M3UItem> mPlaylist;
@@ -182,7 +184,23 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
                 }
             }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                setupStartAppBanner();
+            }
         });
+    }
+
+    private void setupStartAppBanner() {
+        banner = new Banner(getActivity());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        playlistContainer.addView(banner, params);
+        banner.loadAd();
     }
 
     private void setupPlaylist() {

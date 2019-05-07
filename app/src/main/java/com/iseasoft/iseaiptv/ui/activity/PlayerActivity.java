@@ -20,6 +20,7 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
+import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     public static final String PLAYLIST_KEY = "playlist";
 
     private PublisherInterstitialAd publisherInterstitialAd;
+    private StartAppAd startAppAd;
 
     private boolean isImmersiveAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -57,7 +59,20 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
                     publisherInterstitialAd.show();
                 }
             }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                setupStartAppAd();
+            }
         });
+    }
+
+    private void setupStartAppAd() {
+        if (startAppAd == null) {
+            startAppAd = new StartAppAd(this);
+        }
+        startAppAd.showAd();
     }
 
     @Override
@@ -142,5 +157,6 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     protected void onDestroy() {
         super.onDestroy();
         publisherInterstitialAd = null;
+        startAppAd = null;
     }
 }
