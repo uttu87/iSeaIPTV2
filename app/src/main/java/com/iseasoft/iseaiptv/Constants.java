@@ -6,9 +6,9 @@ public class Constants {
     public static final int RICHADX_TYPE = 1;
     public static final int STARTAPP_TYPE = 2;
 
-    public static final String CATALOG_COLLECTION = "league";
-    public static final int SPORT_TV_CATALOG_ID = 1017;
-    public static final String CHANNEL_KEY = "match";
+    public static final String CATALOG_COLLECTION = "catalog";
+    public static final int SPORT_TV_CATALOG_ID = 1000;
+    public static final String CHANNEL_KEY = "channels";
     public static final String CATALOG_KEY = "catalog";
     public static final String PUSH_MESSAGE = "push_message";
     public static final String PUSH_URL_KEY = "push_match_url";
