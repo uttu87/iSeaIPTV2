@@ -9,7 +9,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.models.Catalog;
-import com.iseasoft.iseaiptv.models.Channel;
+import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.parsers.CatalogParser;
 import com.iseasoft.iseaiptv.parsers.ChannelParser;
 
@@ -118,14 +118,14 @@ public class IndiaTvAPI {
                 });
     }
 
-    public void getChannelList(String league, APIListener<ArrayList<Channel>> listener) {
+    public void getChannelList(String league, APIListener<ArrayList<M3UItem>> listener) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection(CATALOG_COLLECTION).document(league)
                 .get()
                 .addOnCompleteListener(task -> {
                     boolean addDataSuccess = false;
                     if (task.isSuccessful()) {
-                        ArrayList<Channel> channels = new ArrayList<>();
+                        ArrayList<M3UItem> channels = new ArrayList<>();
                         DocumentSnapshot documentSnapshot = task.getResult();
                         Map<String, Object> data = documentSnapshot.getData();
                         if (data == null) {
@@ -136,8 +136,8 @@ public class IndiaTvAPI {
                         for (HashMap<String, String> tmp : list) {
                             JSONObject object = new JSONObject(tmp);
                             try {
-                                Channel channel = ChannelParser.createMatchFromJSONObject(object);
-                                if (!channel.isHidden() || App.isDebugBuild()) {
+                                M3UItem channel = ChannelParser.createMatchFromJSONObject(object);
+                                if (channel != null || App.isDebugBuild()) {
                                     channels.add(channel);
                                 }
                             } catch (JSONException e) {

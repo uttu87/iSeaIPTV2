@@ -9,7 +9,7 @@ public class Catalog extends ViewModel implements Serializable {
     private int id;
     private String name;
     private String description;
-    private ArrayList<Channel> channels;
+    private ArrayList<M3UItem> channels;
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class Catalog extends ViewModel implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<Channel> getChannels() {
+    public ArrayList<M3UItem> getChannels() {
         return channels;
     }
 
-    public void setChannels(ArrayList<Channel> channels) {
+    public void setChannels(ArrayList<M3UItem> channels) {
         this.channels = channels;
     }
 }

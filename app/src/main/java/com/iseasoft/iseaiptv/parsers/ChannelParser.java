@@ -44,6 +44,7 @@ public class ChannelParser {
         }
         if (jsonObject.has(NAME)) {
             channel.setName(jsonObject.getString(NAME));
+            channel.setItemName(jsonObject.getString(NAME));
         }
 
         if (jsonObject.has(DESCRIPTION)) {
@@ -52,9 +53,11 @@ public class ChannelParser {
 
         if (jsonObject.has(STREAM_URL)) {
             channel.setStreamUrl(jsonObject.getString(STREAM_URL));
+            channel.setItemUrl(jsonObject.getString(STREAM_URL));
         }
         if (jsonObject.has(IMAGE_URL)) {
             channel.setThumbnailUrl(jsonObject.getString(IMAGE_URL));
+            channel.setItemIcon(jsonObject.getString(IMAGE_URL));
         }
         if (jsonObject.has(TYPE)) {
             channel.setType(jsonObject.getString(TYPE));

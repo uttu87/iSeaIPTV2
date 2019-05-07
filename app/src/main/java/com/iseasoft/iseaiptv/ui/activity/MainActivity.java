@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity
             requestStoragePermission();
         }
     };
+    private GroupChannelAdapter adapter;
 
     public M3UPlaylist getPlaylist() {
         return mPlaylist;
@@ -133,19 +134,14 @@ public class MainActivity extends BaseActivity
                 try {
                     File file = new File(lastPlaylist.getLink());
                     InputStream inputStream = new FileInputStream(file);
-                    parseAndUpdateUI(inputStream);
+                    parsePlaylist(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    if (!IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        requestStoragePermission();
-                        return;
-                    }
-                    showChannelPlaceholder();
+                    updateUI();
                 }
             }
         } else {
-            showChannelPlaceholder();
-            Router.navigateTo(this, Router.Screens.PLAYLIST);
+            updateUI();
         }
 
     }
@@ -174,23 +170,30 @@ public class MainActivity extends BaseActivity
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        GroupChannelAdapter adapter = new GroupChannelAdapter(getSupportFragmentManager());
-        LinkedList<String> groupList = new LinkedList<>();
-        for (int i = 0; i < mPlaylist.getPlaylistItems().size(); i++) {
-            M3UItem m3UItem = mPlaylist.getPlaylistItems().get(i);
-            if (groupList.contains(m3UItem.getItemGroup())) {
-                continue;
-            }
-            groupList.add(m3UItem.getItemGroup());
+        if (adapter == null) {
+            adapter = new GroupChannelAdapter(getSupportFragmentManager());
         }
         adapter.addFragment(getString(R.string.favorites));
-        adapter.addFragment(getString(R.string.all_channels));
-        for (int i = 0; i < groupList.size(); i++) {
-            String groupTitle = groupList.get(i);
-            if (!TextUtils.isEmpty(groupTitle)) {
-                adapter.addFragment(groupTitle);
+        adapter.addFragment(getString(R.string.app_name));
+
+        LinkedList<String> groupList = new LinkedList<>();
+        if (mPlaylist != null) {
+            for (int i = 0; i < mPlaylist.getPlaylistItems().size(); i++) {
+                M3UItem m3UItem = mPlaylist.getPlaylistItems().get(i);
+                if (groupList.contains(m3UItem.getItemGroup())) {
+                    continue;
+                }
+                groupList.add(m3UItem.getItemGroup());
+            }
+            adapter.addFragment(getString(R.string.all_channels));
+            for (int i = 0; i < groupList.size(); i++) {
+                String groupTitle = groupList.get(i);
+                if (!TextUtils.isEmpty(groupTitle)) {
+                    adapter.addFragment(groupTitle);
+                }
             }
         }
+
         viewPager.setAdapter(adapter);
         tabLayout.setVisibility(View.VISIBLE);
         placeholderContainer.setVisibility(View.GONE);
@@ -266,21 +269,24 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void parseAndUpdateUI(InputStream inputStream) {
+    private void parsePlaylist(InputStream inputStream) {
 
         M3UParser m3UParser = new M3UParser();
         try {
             mPlaylist = m3UParser.parseFile(inputStream);
-            new Handler(Looper.getMainLooper()).post(() -> {
-                if (viewPager != null) {
-                    setupViewPager(viewPager);
-                    viewPager.setCurrentItem(ALL_CHANNELS_TAB, true);//Set All channels tab
-                }
-            });
+            updateUI();
         } catch (FileNotFoundException e) {
-            showChannelPlaceholder();
             e.printStackTrace();
         }
+    }
+
+    private void updateUI() {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (viewPager != null) {
+                setupViewPager(viewPager);
+                viewPager.setCurrentItem(ALL_CHANNELS_TAB, true);//Set All channels tab
+            }
+        });
     }
 
     @Override
@@ -325,7 +331,7 @@ public class MainActivity extends BaseActivity
             HttpHandler hh = new HttpHandler();
             InputStream inputStream = hh.makeServiceCall(urls[0]);
 
-            parseAndUpdateUI(inputStream);
+            parsePlaylist(inputStream);
             return null;
         }
 

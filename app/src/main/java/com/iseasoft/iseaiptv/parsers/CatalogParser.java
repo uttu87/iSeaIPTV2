@@ -41,7 +41,7 @@ public class CatalogParser {
             catalog.setDescription(jsonObject.getString(DESCRIPTION));
         }
         if (jsonObject.has(CHANNEL)) {
-            catalog.setChannels(ChannelParser.createMatchFromJSONArray(jsonObject.getJSONArray(CHANNEL)));
+            catalog.setChannels(M3U8Parser.createMatchFromJSONArray(jsonObject.getJSONArray(CHANNEL)));
         }
         return catalog;
     }

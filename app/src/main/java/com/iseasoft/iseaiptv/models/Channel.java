@@ -1,10 +1,8 @@
 package com.iseasoft.iseaiptv.models;
 
-import android.arch.lifecycle.ViewModel;
-
 import java.io.Serializable;
 
-public class Channel extends ViewModel implements Serializable {
+public class Channel extends M3UItem implements Serializable {
     private int id;
     private String name;
     private String description;

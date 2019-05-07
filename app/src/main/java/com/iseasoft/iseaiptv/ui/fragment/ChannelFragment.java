@@ -21,6 +21,8 @@ import android.widget.SearchView;
 
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
+import com.iseasoft.iseaiptv.api.APIListener;
+import com.iseasoft.iseaiptv.api.IndiaTvAPI;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
@@ -36,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.iseasoft.iseaiptv.Constants.SPORT_TV_CATALOG_ID;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
@@ -59,6 +62,7 @@ public class ChannelFragment extends BaseFragment {
     MenuItem switchListView;
 
     private ChannelAdapter channelAdapter;
+    private ArrayList<M3UItem> sportTvList = new ArrayList<>();
 
     private String groupName;
 
@@ -81,7 +85,25 @@ public class ChannelFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        showChannels();
+        fetchOnlineData();
+    }
+
+    private void fetchOnlineData() {
+        IndiaTvAPI.getInstance().getChannelList(String.valueOf(SPORT_TV_CATALOG_ID), new APIListener<ArrayList<M3UItem>>() {
+            @Override
+            public void onRequestCompleted(ArrayList<M3UItem> obj, String leagueName) {
+                if (!isStateSafe()) {
+                    return;
+                }
+                sportTvList.addAll(obj);
+                showChannels();
+            }
+
+            @Override
+            public void onError(Error e) {
+
+            }
+        });
     }
 
     private void showChannels() {
@@ -92,10 +114,11 @@ public class ChannelFragment extends BaseFragment {
         if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
             if (groupName.equals(getString(R.string.favorites))) {
                 showFavoritePlaceholder();
-            } else {
+                return;
+            } else if (!groupName.equals(getString(R.string.app_name))) {
                 showPlaceholder();
+                return;
             }
-            return;
         }
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity(),
@@ -167,21 +190,28 @@ public class ChannelFragment extends BaseFragment {
     }
 
     private ArrayList<M3UItem> getPlaylistItems() {
+        if (groupName.equals(getString(R.string.app_name))) {
+            return sportTvList;
+        }
+
         MainActivity mainActivity = (MainActivity) getActivity();
-        ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
-        if (groupName.equals(getString(R.string.all_channels))) {
-            return allChannels;
-        } else if (groupName.equals(getString(R.string.favorites))) {
-            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
-        }
-        ArrayList<M3UItem> list = new ArrayList<>();
-        for (int i = 0; i < allChannels.size(); i++) {
-            M3UItem item = allChannels.get(i);
-            if (groupName.equals(item.getItemGroup())) {
-                list.add(item);
+        if (mainActivity.getPlaylist() != null) {
+            ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
+            if (groupName.equals(getString(R.string.all_channels))) {
+                return allChannels;
+            } else if (groupName.equals(getString(R.string.favorites))) {
+                return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
             }
+            ArrayList<M3UItem> list = new ArrayList<>();
+            for (int i = 0; i < allChannels.size(); i++) {
+                M3UItem item = allChannels.get(i);
+                if (groupName.equals(item.getItemGroup())) {
+                    list.add(item);
+                }
+            }
+            return list;
         }
-        return list;
+        return null;
     }
 
     private void setItemDecoration() {
