@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
@@ -34,7 +35,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     private void setupPublisherInterstitialAds() {
         if (publisherInterstitialAd == null) {
             publisherInterstitialAd = new PublisherInterstitialAd(this);
-            publisherInterstitialAd.setAdUnitId(getString(R.string.gamob_interstitial_ad_unit_id));
+            publisherInterstitialAd.setAdUnitId(App.getAdmobInterstitialId());
         }
         requestNewInterstitial();
     }
