@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.afollestad.appthemeengine.ATE;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.FolderAdapter;
 import com.iseasoft.iseaiptv.dialogs.StorageSelectDialog;
@@ -92,16 +91,6 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        boolean dark = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false);
-        if (dark) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
-        if (mAdapter != null) {
-            mAdapter.applyTheme(dark);
-            mAdapter.notifyDataSetChanged();
-        }
 
         if (Utils.isMarshmallow()) {
             requestStoragePermission();
