@@ -48,9 +48,20 @@ public class SelectFileActivity extends BaseActivity implements FolderListener {
 
         FoldersFragment foldersFragment = FoldersFragment.newInstance();
         foldersFragment.setListener(this);
-        ft.replace(R.id.select_file_container, foldersFragment);
+        ft.replace(R.id.select_file_container, foldersFragment, FoldersFragment.TAG);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FoldersFragment fragment = (FoldersFragment) getSupportFragmentManager().findFragmentByTag(FoldersFragment.TAG);
+        if (fragment != null) {
+            if (fragment.onBackPressed()) {
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 
     @Override
