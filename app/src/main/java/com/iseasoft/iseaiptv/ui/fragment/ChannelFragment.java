@@ -1,6 +1,5 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -65,6 +63,7 @@ public class ChannelFragment extends BaseFragment {
     private ArrayList<M3UItem> sportTvList = new ArrayList<>();
 
     private String groupName;
+    private SearchView searchView;
 
     public static ChannelFragment newInstance(String groupName) {
         ChannelFragment fragment = new ChannelFragment();
@@ -126,8 +125,9 @@ public class ChannelFragment extends BaseFragment {
                     , new OnChannelListener() {
                 @Override
                 public void onChannelClicked(M3UItem item) {
-                    setKeyboardVisibility(false);
-
+                    if (searchView != null) {
+                        searchView.clearFocus();
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(CHANNEL_KEY, item);
                     bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
@@ -178,6 +178,10 @@ public class ChannelFragment extends BaseFragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        updateGridView();
+    }
+
+    private void updateGridView() {
         if (isGridView()) {
             setupGridView();
         }
@@ -231,7 +235,7 @@ public class ChannelFragment extends BaseFragment {
         inflater.inflate(R.menu.main, menu);
         switchListView = menu.findItem(R.id.action_switch_view);
         MenuItem search = menu.findItem(R.id.app_bar_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        searchView = (SearchView) MenuItemCompat.getActionView(search);
         searchView.setQueryHint("Search channel name");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -312,15 +316,5 @@ public class ChannelFragment extends BaseFragment {
     @OnClick(R.id.btn_add_playlist)
     public void onClick(View view) {
         Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
-    }
-
-
-    public void setKeyboardVisibility(boolean show) {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (show) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        } else {
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
     }
 }
