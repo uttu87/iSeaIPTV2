@@ -35,6 +35,7 @@ import java.io.File;
  */
 
 public class FoldersFragment extends Fragment implements StorageSelectDialog.OnDirSelectListener {
+    public static final String TAG = FoldersFragment.class.getSimpleName();
 
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
@@ -148,6 +149,13 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
                 IseaSoft.askForPermission(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, permissionReadstorageCallback);
             }
         }
+    }
+
+    public boolean onBackPressed() {
+        if (mAdapter == null) {
+            return false;
+        }
+        return mAdapter.goUpAsync();
     }
 
     @SuppressLint("StaticFieldLeak")
