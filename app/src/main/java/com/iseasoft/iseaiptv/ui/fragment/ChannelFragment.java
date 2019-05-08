@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.api.APIListener;
@@ -30,6 +33,8 @@ import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -316,5 +321,52 @@ public class ChannelFragment extends BaseFragment {
     @OnClick(R.id.btn_add_playlist)
     public void onClick(View view) {
         Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
+    }
+
+    private void postToFirestore(ArrayList<M3UItem> list) {
+        if (false) {
+            for (M3UItem item : list) {
+                Map<String, String> matchData = new HashMap<>();
+                matchData.put("name", item.getItemName());
+                matchData.put("streamURL", item.getItemUrl());
+                matchData.put("imageURL", item.getItemIcon());
+
+                /*
+                ArrayList<Map<String, String>> matchList = new ArrayList<>();
+                matchList.add(matchData);
+                newLeague.put("match", matchList);
+
+                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                CollectionReference collectionReference = firebaseFirestore.collection(LEAGUE_COLLECTION);
+                collectionReference.document(leagueId).set(newLeague)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AdminActivity.this, "Add new league: "
+                                        + match.getLeague() + " successful", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AdminActivity.this, "Add new league: "
+                                        + match.getLeague() + " failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        */
+            }
+
+        } else {
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+            DocumentReference documentReference = firebaseFirestore.collection("catalog")
+                    .document("1001");
+            for (M3UItem item : list) {
+                Map<String, String> matchData = new HashMap<>();
+                matchData.put("name", item.getItemName());
+                matchData.put("streamURL", item.getItemUrl());
+                matchData.put("imageURL", item.getItemIcon());
+                documentReference.update("channels", FieldValue.arrayUnion(matchData));
+            }
+        }
     }
 }
