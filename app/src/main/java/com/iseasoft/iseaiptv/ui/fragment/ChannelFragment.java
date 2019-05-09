@@ -120,16 +120,6 @@ public class ChannelFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isStateSafe()) {
-            if (groupName.equals(getString(R.string.favorites))) {
-                showChannels();
-            }
-        }
-    }
-
     private void showChannels() {
         if (groupName == null) {
             return;
@@ -270,7 +260,6 @@ public class ChannelFragment extends BaseFragment {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                channelAdapter.update(getPlaylistItems());
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);
                 }
@@ -323,6 +312,7 @@ public class ChannelFragment extends BaseFragment {
 
     private boolean filter(final String newText) {
         if (channelAdapter != null) {
+            channelAdapter.update(getPlaylistItems());
             channelAdapter.getFilter().filter(newText);
             return true;
         } else {
