@@ -105,6 +105,16 @@ public class ChannelFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isStateSafe()) {
+            if (groupName.equals(getString(R.string.favorites))) {
+                showChannels();
+            }
+        }
+    }
+
     private void showChannels() {
         if (groupName == null) {
             return;
