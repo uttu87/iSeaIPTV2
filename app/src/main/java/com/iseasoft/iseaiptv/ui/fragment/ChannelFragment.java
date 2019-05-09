@@ -260,6 +260,9 @@ public class ChannelFragment extends BaseFragment {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
+                if (channelAdapter != null) {
+                    channelAdapter.update(getPlaylistItems());
+                }
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);
                 }
@@ -312,7 +315,6 @@ public class ChannelFragment extends BaseFragment {
 
     private boolean filter(final String newText) {
         if (channelAdapter != null) {
-            channelAdapter.update(getPlaylistItems());
             channelAdapter.getFilter().filter(newText);
             return true;
         } else {
