@@ -99,8 +99,8 @@ public class MainActivity extends BaseActivity
         placeholderContainer = findViewById(R.id.placeholder_container);
         progressBar = findViewById(R.id.progressBar);
 
-        loadChannels();
         checkToPlayFromPushNotification();
+        loadChannels();
     }
 
     private void checkToPlayFromPushNotification() {
@@ -110,12 +110,26 @@ public class MainActivity extends BaseActivity
             String message = intent.getStringExtra(Constants.PUSH_MESSAGE);
 
             if (!TextUtils.isEmpty(url)) {
-                Intent playerIntent = new Intent(this, PlayerActivity.class);
-                playerIntent.putExtra(Constants.PUSH_URL_KEY, url);
-                playerIntent.putExtra(Constants.PUSH_MESSAGE, message);
-                startActivity(playerIntent);
+                if (checkPlayableUrl(url)) {
+                    Intent playerIntent = new Intent(this, PlayerActivity.class);
+                    playerIntent.putExtra(Constants.PUSH_URL_KEY, url);
+                    playerIntent.putExtra(Constants.PUSH_MESSAGE, message);
+                    startActivity(playerIntent);
+                } else {
+                    Playlist playlist = new Playlist();
+                    playlist.setName(message);
+                    playlist.setLink(url);
+                    PreferencesUtility.getInstance(this).savePlaylist(playlist);
+                }
             }
         }
+    }
+
+    private boolean checkPlayableUrl(String url) {
+        if (url.contains(".m3u8") || url.contains(".ts") || url.contains(".mp4")) {
+            return true;
+        }
+        return false;
     }
 
     @Override
