@@ -82,6 +82,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
         return new Filter() { //TODO search it on github
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results == null) {
+                    return;
+                }
                 mItem.clear();
                 mItem.addAll((ArrayList<M3UItem>) results.values);
                 notifyDataSetChanged();
