@@ -22,6 +22,9 @@ public class M3UParser {
     private static final String EXT_URL = "http://";
 
     public String convertStreamToString(InputStream is) {
+        if (is == null) {
+            return "";
+        }
         try {
             return new Scanner(is).useDelimiter("\\A").next();
         } catch (NoSuchElementException e) {
