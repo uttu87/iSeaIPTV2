@@ -13,3 +13,5 @@
 .externalNativeBuild
 .idea/encodings.xml
 .idea/vcs.xml
+app/release/app-release.apk
+app/release/output.json
