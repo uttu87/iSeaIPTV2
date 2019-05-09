@@ -225,7 +225,9 @@ public class ChannelFragment extends BaseFragment {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                channelAdapter.update(getPlaylistItems());
+                if (channelAdapter != null) {
+                    channelAdapter.update(getPlaylistItems());
+                }
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);
                 }
