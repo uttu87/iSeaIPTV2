@@ -215,6 +215,8 @@ public class ChannelFragment extends BaseFragment {
 
         if (groupName.equals(getString(R.string.app_name))) {
             return sportTvList;
+        } else if (groupName.equals(getString(R.string.favorites))) {
+            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
 
         MainActivity mainActivity = (MainActivity) getActivity();
@@ -228,8 +230,6 @@ public class ChannelFragment extends BaseFragment {
         }
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
-        } else if (groupName.equals(getString(R.string.favorites))) {
-            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
         ArrayList<M3UItem> list = new ArrayList<>();
         for (int i = 0; i < allChannels.size(); i++) {
