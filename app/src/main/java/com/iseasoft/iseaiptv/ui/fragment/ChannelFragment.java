@@ -2,6 +2,7 @@ package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,6 @@ import android.widget.SearchView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
-import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
@@ -70,7 +70,7 @@ public class ChannelFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_folders, container, false);
         unbinder = ButterKnife.bind(this, rootView);
@@ -78,7 +78,7 @@ public class ChannelFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         showChannels();
     }
@@ -94,7 +94,7 @@ public class ChannelFragment extends BaseFragment {
     }
 
     private void showChannels() {
-        if (groupName == null) {
+        if (TextUtils.isEmpty(groupName)) {
             return;
         }
 
@@ -109,17 +109,17 @@ public class ChannelFragment extends BaseFragment {
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity(),
                     isGridView() ? R.layout.item_channel_grid : R.layout.item_channel_list
-                    , new OnChannelListener() {
-                @Override
-                public void onChannelClicked(M3UItem item) {
-                    if (searchView != null) {
-                        searchView.clearFocus();
-                    }
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(CHANNEL_KEY, item);
-                    bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                    Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
+                    , item -> {
+                if (getActivity() == null) {
+                    return;
                 }
+                if (searchView != null) {
+                    searchView.clearFocus();
+                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(CHANNEL_KEY, item);
+                bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
+                Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
             });
         }
         hideAllView();
@@ -181,15 +181,26 @@ public class ChannelFragment extends BaseFragment {
     }
 
     private ArrayList<M3UItem> getPlaylistItems() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity == null || mainActivity.getPlaylist() == null) {
+        if (getActivity() == null) {
             return new ArrayList<>();
         }
+
+        if (groupName.equals(getString(R.string.favorites))) {
+            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
+        }
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity.getPlaylist() == null) {
+            return new ArrayList<>();
+        }
+
         ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
+        if (allChannels == null || allChannels.size() == 0) {
+            return new ArrayList<>();
+        }
+
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
-        } else if (groupName.equals(getString(R.string.favorites))) {
-            return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
         ArrayList<M3UItem> list = new ArrayList<>();
         for (int i = 0; i < allChannels.size(); i++) {
@@ -299,7 +310,10 @@ public class ChannelFragment extends BaseFragment {
     }
 
     @OnClick(R.id.btn_add_playlist)
-    public void onClick(View view) {
+    public void onClick() {
+        if (getActivity() == null) {
+            return;
+        }
         Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
     }
 }

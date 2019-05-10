@@ -6,7 +6,7 @@ package com.iseasoft.iseaiptv.adapters;
 
 
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,7 +34,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
     private final Context mContext;
     private final LayoutInflater mInflater;
     private ArrayList<M3UItem> mItem = new ArrayList<>();
-    private TextDrawable textDrawable;
     private ColorGenerator generator = ColorGenerator.MATERIAL;
     private OnChannelListener listener;
     private int layoutId;
@@ -46,8 +45,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
         mInflater = LayoutInflater.from(mContext);
     }
 
+    @NonNull
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View sView = mInflater.inflate(layoutId, parent, false);
         return new ItemHolder(sView);
     }
@@ -58,7 +58,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
     }
 
     @Override
-    public void onBindViewHolder(final ItemHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ItemHolder holder, final int position) {
         final M3UItem item = mItem.get(position);
         if (item != null) {
             holder.update(item);
@@ -113,7 +113,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnLongClickListener {
 
-        final PackageManager pm = mContext.getPackageManager();
         TextView name;
         ImageView cImg;
 
@@ -129,7 +128,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
             try {
                 name.setText(item.getItemName());
                 int color = generator.getRandomColor();
-                textDrawable = TextDrawable.builder()
+                TextDrawable textDrawable = TextDrawable.builder()
                         .buildRoundRect(String.valueOf(item.getItemName().charAt(0)), color, 100);
 
                 if (TextUtils.isEmpty(item.getItemIcon())) {
@@ -166,19 +165,16 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
             MenuItem favoriteItem = popupMenu.getMenu().findItem(R.id.action_favorite);
             boolean faved = PreferencesUtility.getInstance(mContext).checkFavorite(getItem());
             favoriteItem.setTitle(faved ? R.string.action_remove_favorite : R.string.action_add_favorite);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.action_play:
-                            callbackListener();
-                            break;
-                        case R.id.action_favorite:
-                            favorite();
-                            break;
-                    }
-                    return false;
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_play:
+                        callbackListener();
+                        break;
+                    case R.id.action_favorite:
+                        favorite();
+                        break;
                 }
+                return false;
             });
             popupMenu.show();
             return true;
