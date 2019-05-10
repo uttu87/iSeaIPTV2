@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.OnConfirmationDialogListener;
@@ -18,7 +19,6 @@ import com.iseasoft.iseaiptv.models.M3UItem;
 import java.util.ArrayList;
 
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
-import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 public class PlayStreamDialog extends ConfirmationDialog {
     public static final String TAG = PlayStreamDialog.class.getSimpleName();
@@ -46,7 +46,8 @@ public class PlayStreamDialog extends ConfirmationDialog {
                     bundle.putSerializable(CHANNEL_KEY, channel);
                     ArrayList<M3UItem> playlist = new ArrayList<>();
                     playlist.add(channel);
-                    bundle.putSerializable(PLAYLIST_KEY, playlist);
+                    //bundle.putSerializable(PLAYLIST_KEY, playlist);
+                    App.setChannelList(playlist);
                     Router.navigateTo(context, Router.Screens.PLAYER, bundle, false);
                 }
 

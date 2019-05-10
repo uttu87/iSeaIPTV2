@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.api.APIListener;
@@ -38,7 +39,6 @@ import butterknife.Unbinder;
 
 import static com.iseasoft.iseaiptv.Constants.SPORT_TV_CATALOG_ID;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
-import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 /**
  * Created by nv95 on 10.11.16.
@@ -141,7 +141,8 @@ public class ChannelFragment extends BaseFragment {
                 }
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(CHANNEL_KEY, item);
-                bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
+                //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
+                App.setChannelList(getPlaylistItems());
                 Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
             });
         }

@@ -87,17 +87,29 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
             mChannel = new M3UItem();
             mChannel.setItemUrl(matchUrl);
             mChannel.setItemName(message);
-            mPlaylist.add(mChannel);
+            //mPlaylist.add(mChannel);
         } else {
             mChannel = (M3UItem) getIntent().getExtras().getSerializable(CHANNEL_KEY);
-            mPlaylist.addAll((ArrayList<M3UItem>) getIntent().getExtras().getSerializable(PLAYLIST_KEY));
+            //mPlaylist.addAll((ArrayList<M3UItem>) getIntent().getExtras().getSerializable(PLAYLIST_KEY));
         }
 
-        setupPlayer(mChannel, mPlaylist);
+        setupPlayer(mChannel);
     }
 
     public void setupFullScreenAds() {
         setupPublisherInterstitialAds();
+    }
+
+    private void setupPlayer(M3UItem channel) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        PlayerFragment playerFragment = PlayerFragment.newInstance(channel);
+        playerFragment.setFragmentEventListener(this);
+        ft.replace(R.id.player_view, playerFragment, PlayerFragment.TAG);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.commit();
+
     }
 
     private void setupPlayer(M3UItem channel, ArrayList<M3UItem> playlist) {
