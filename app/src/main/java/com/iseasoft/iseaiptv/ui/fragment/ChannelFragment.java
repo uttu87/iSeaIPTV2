@@ -205,7 +205,7 @@ public class ChannelFragment extends BaseFragment {
     }
 
     private ArrayList<M3UItem> getPlaylistItems() {
-        if (getActivity() == null) {
+        if (getActivity() == null || TextUtils.isEmpty(groupName)) {
             return new ArrayList<>();
         }
 
