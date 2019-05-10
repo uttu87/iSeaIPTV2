@@ -28,7 +28,6 @@ import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHolder> implements Filterable {
 
@@ -82,18 +81,20 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
         return new Filter() { //TODO search it on github
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results == null) {
+                if (results == null || results.values == null) {
                     return;
                 }
-                mItem.clear();
-                mItem.addAll((ArrayList<M3UItem>) results.values);
+                if (results.values instanceof ArrayList) {
+                    mItem.clear();
+                    mItem.addAll((ArrayList<M3UItem>) results.values);
+                }
                 notifyDataSetChanged();
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<M3UItem> resultList = new ArrayList<>();
+                ArrayList<M3UItem> resultList = new ArrayList<>();
                 if (!(constraint.length() == 0)) {
                     final String filtePatt = constraint.toString().toLowerCase().trim();
                     for (M3UItem itm : mItem) {

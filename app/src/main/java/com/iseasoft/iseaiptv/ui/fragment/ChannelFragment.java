@@ -87,7 +87,7 @@ public class ChannelFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isStateSafe()) {
-            if (groupName.equals(getString(R.string.favorites))) {
+            if (!TextUtils.isEmpty(groupName) && groupName.equals(getString(R.string.favorites))) {
                 showChannels();
             }
         }
@@ -182,6 +182,9 @@ public class ChannelFragment extends BaseFragment {
 
     private ArrayList<M3UItem> getPlaylistItems() {
         MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity == null || mainActivity.getPlaylist() == null) {
+            return new ArrayList<>();
+        }
         ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
