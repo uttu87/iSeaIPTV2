@@ -46,7 +46,6 @@ import butterknife.Unbinder;
 
 import static com.google.android.exoplayer2.Player.REPEAT_MODE_ONE;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
-import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.PLAYLIST_KEY;
 
 
 /**
@@ -113,7 +112,15 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putSerializable(CHANNEL_KEY, item);
-        args.putSerializable(PLAYLIST_KEY, playlist);
+        //args.putSerializable(PLAYLIST_KEY, playlist);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PlayerFragment newInstance(M3UItem item) {
+        PlayerFragment fragment = new PlayerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(CHANNEL_KEY, item);
         fragment.setArguments(args);
         return fragment;
     }
@@ -127,7 +134,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mChannel = (M3UItem) getArguments().getSerializable(CHANNEL_KEY);
-            mPlaylist = (ArrayList<M3UItem>) getArguments().getSerializable(PLAYLIST_KEY);
+            mPlaylist = App.getChannelList();
             mVideoUrl = mChannel.getItemUrl();
 
         }

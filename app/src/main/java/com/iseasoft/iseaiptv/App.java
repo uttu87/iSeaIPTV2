@@ -3,6 +3,7 @@ package com.iseasoft.iseaiptv;
 import android.app.Application;
 import android.content.Context;
 
+import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -11,6 +12,7 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class App extends Application {
 
@@ -27,6 +29,17 @@ public class App extends Application {
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
     private static String startAppId = "";
+
+    private static ArrayList<M3UItem> channelList = new ArrayList<>();
+
+    public static ArrayList<M3UItem> getChannelList() {
+        return channelList;
+    }
+
+    public static void setChannelList(ArrayList<M3UItem> channelList) {
+        App.channelList.clear();
+        App.channelList.addAll(channelList);
+    }
 
     public static boolean isUseOnlineData() {
         return useOnlineData;
