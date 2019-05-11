@@ -109,14 +109,14 @@ public class ChannelFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isStateSafe()) {
-            if (groupName.equals(getString(R.string.favorites))) {
+            if (!TextUtils.isEmpty(groupName) && groupName.equals(getString(R.string.favorites))) {
                 showChannels();
             }
         }
     }
 
     private void showChannels() {
-        if (groupName == null) {
+        if (TextUtils.isEmpty(groupName)) {
             return;
         }
 
