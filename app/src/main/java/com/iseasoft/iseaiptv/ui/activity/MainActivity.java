@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity
         TextView playlistName = header.findViewById(R.id.nav_header_title);
         TextView playlistLink = header.findViewById(R.id.nav_header_description);
         playlistName.setText(lastPlaylist.getName());
-        playlistLink.setText(lastPlaylist.getLink());
+        //playlistLink.setText(lastPlaylist.getLink());
         getSupportActionBar().setTitle(lastPlaylist.getName());
     }
 
@@ -236,12 +236,12 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_playlist:
-                navigateToPlaylist();
-                break;
-            case R.id.nav_live_stream:
-                openPlayStreamDialog();
-                break;
+//            case R.id.nav_playlist:
+//                navigateToPlaylist();
+//                break;
+//            case R.id.nav_live_stream:
+//                openPlayStreamDialog();
+//                break;
             case R.id.nav_share:
                 shareApp();
                 break;
