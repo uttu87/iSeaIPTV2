@@ -126,7 +126,7 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
             loadFolders();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, R.string.request_storage_permission_message,
+                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message, getString(R.string.app_name)),
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override

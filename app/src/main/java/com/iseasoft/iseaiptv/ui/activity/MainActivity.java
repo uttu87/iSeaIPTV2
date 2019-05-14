@@ -269,7 +269,8 @@ public class MainActivity extends BaseActivity
             loadChannels();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load),
+                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load,
+                        getString(R.string.app_name)),
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
