@@ -18,6 +18,8 @@ import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.api.APIListener;
 import com.iseasoft.iseaiptv.api.IndiaTvAPI;
+import com.iseasoft.iseaiptv.models.Playlist;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +28,7 @@ import static com.iseasoft.iseaiptv.Constants.ACTIVE_ADS_KEY;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
+import static com.iseasoft.iseaiptv.Constants.BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
 import static com.iseasoft.iseaiptv.Constants.START_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.TODAY_HIGHLIGHT_STATUS;
@@ -128,6 +131,15 @@ public class SplashActivity extends AppCompatActivity {
         App.setAdmobBannerId(mFirebaseRemoteConfig.getString(ADMOB_BANNER_ID));
         App.setAdmobInterstitialId(mFirebaseRemoteConfig.getString(ADMOB_INTERSTITIAL_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
+        App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        savePlaylist();
+    }
+
+    private void savePlaylist() {
+        Playlist playlist = new Playlist();
+        playlist.setLink(App.getBaseUrl());
+        playlist.setName(getString(R.string.app_name));
+        PreferencesUtility.getInstance(this).savePlaylist(playlist);
     }
 
     private void navigationToMainScreen() {

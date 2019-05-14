@@ -28,5 +28,6 @@ public class Constants {
     public static final String ADMOB_BANNER_ID = "admob_banner_id";
     public static final String ADMOB_INTERSTITIAL_ID = "admob_interstitial_id";
     public static final String START_APP_ID = "start_app_id";
+    public static final String BASE_URL = "base_url";
 
 }

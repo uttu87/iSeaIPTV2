@@ -18,6 +18,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
+    private static String baseUrl = "";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -39,6 +40,14 @@ public class App extends Application {
     public static void setChannelList(ArrayList<M3UItem> channelList) {
         App.channelList.clear();
         App.channelList.addAll(channelList);
+    }
+
+    public static String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public static void setBaseUrl(String baseUrl) {
+        App.baseUrl = baseUrl;
     }
 
     public static boolean isUseOnlineData() {

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
 <defaultsMap>
     <entry>
+        <key>base_url</key>
+        <value>https://raw.githubusercontent.com/freearhey/iptv/master/channels/in.m3u</value>
+    </entry>
+    <entry>
         <key>today_highlight_status</key>
         <value></value>
     </entry>
@@ -42,6 +46,6 @@
     </entry>
     <entry>
         <key>start_app_id</key>
-        <value>211223704</value>
+        <value>200486509</value>
     </entry>
 </defaultsMap><!-- END xml_defaults -->

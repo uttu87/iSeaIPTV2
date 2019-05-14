@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity
             adapter = new GroupChannelAdapter(getSupportFragmentManager());
         }
         adapter.addFragment(getString(R.string.favorites));
-        adapter.addFragment(getString(R.string.app_name));
+        //adapter.addFragment(getString(R.string.app_name));
 
         LinkedList<String> groupList = new LinkedList<>();
         if (mPlaylist != null) {

@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:160524091467:android:1fcd2cfe739c4807",
+        "android_client_info": {
+          "package_name": "com.iseasoft.indiatv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtcgN2CSg3ElJQSMQMSTZhgoDQZKClmkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:160524091467:android:5c606bd6b1da0081",
         "android_client_info": {
           "package_name": "com.iseasoft.iseafootball"
@@ -98,6 +127,35 @@
         "mobilesdk_app_id": "1:160524091467:android:960de3db0484783f",
         "android_client_info": {
           "package_name": "com.iseasoft.iseagoals.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtcgN2CSg3ElJQSMQMSTZhgoDQZKClmkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160524091467:android:18cb1df5782504fa",
+        "android_client_info": {
+          "package_name": "com.iseasoft.iseaiptv"
         }
       },
       "oauth_client": [
