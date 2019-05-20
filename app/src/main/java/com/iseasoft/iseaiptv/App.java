@@ -18,7 +18,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "";
+    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/it.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
