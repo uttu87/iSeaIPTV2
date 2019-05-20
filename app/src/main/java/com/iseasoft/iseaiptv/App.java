@@ -132,9 +132,15 @@ public class App extends Application {
         return getApplication().getApplicationContext();
     }
 
+    public static int getUserLevel() {
+        return PreferencesUtility.getInstance(App.self()).getUserLevel();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mSelf = this;
 
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
@@ -149,5 +155,14 @@ public class App extends Application {
 
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
         IseaSoft.init(this);
+
+        updateUserLevel();
+    }
+
+    private void updateUserLevel() {
+        PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
+        int userLevel = prefs.getUserLevel();
+        userLevel++;
+        prefs.setUserLevel(userLevel);
     }
 }

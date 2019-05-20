@@ -14,6 +14,7 @@ public class ChannelParser {
     public static final String IS_LIVE = "isLive";
     public static final String IS_YOUTUBE = "isYoutube";
     public static final String IS_HIDDEN = "isHidden";
+    public static final String LEVEL = "level";
     public static final String CATALOG = "catalog";
     public static final String TYPE = "type";
     public static final String IMAGE_URL = "imageURL";
@@ -75,6 +76,11 @@ public class ChannelParser {
             channel.setHidden(jsonObject.getBoolean(IS_HIDDEN));
         } else {
             channel.setHidden(false);
+        }
+        if (jsonObject.has(LEVEL)) {
+            channel.setLevel(jsonObject.getInt(LEVEL));
+        } else {
+            channel.setLevel(0);
         }
         return channel;
     }

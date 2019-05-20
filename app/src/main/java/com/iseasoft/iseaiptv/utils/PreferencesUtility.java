@@ -65,6 +65,7 @@ public final class PreferencesUtility {
     private static final String FAVORITE_CHANNEL_KEY = "favorite_channel_list";
     private static final String LAST_PLAYLIST = "last_playlist";
     private static final String GRID_VIEW_MODE = "grid_view_mode";
+    private static final String USER_LEVEL = "user_level";
 
     private static PreferencesUtility sInstance;
 
@@ -304,6 +305,16 @@ public final class PreferencesUtility {
         editor.apply();
     }
 
+
+    public int getUserLevel() {
+        return mPreferences.getInt(USER_LEVEL, 0);
+    }
+
+    public void setUserLevel(final int userLevel) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(USER_LEVEL, userLevel);
+        editor.apply();
+    }
     /**
      * Save and get ArrayList in SharedPreference
      */

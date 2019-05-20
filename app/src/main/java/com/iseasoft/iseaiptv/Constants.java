@@ -6,6 +6,8 @@ public class Constants {
     public static final int RICHADX_TYPE = 1;
     public static final int STARTAPP_TYPE = 2;
 
+    public static final int PREMIUM_LEVEL = 10;
+
     public static final String CATALOG_COLLECTION = "catalog";
     public static final int SPORT_TV_CATALOG_ID = 1001;
     public static final String CHANNEL_KEY = "channels";

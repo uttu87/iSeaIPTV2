@@ -7,7 +7,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.models.Catalog;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.parsers.CatalogParser;
@@ -137,7 +136,7 @@ public class IndiaTvAPI {
                             JSONObject object = new JSONObject(tmp);
                             try {
                                 M3UItem channel = ChannelParser.createMatchFromJSONObject(object);
-                                if (channel != null || App.isDebugBuild()) {
+                                if (channel != null && channel.isVisible()) {
                                     channels.add(channel);
                                 }
                             } catch (JSONException e) {

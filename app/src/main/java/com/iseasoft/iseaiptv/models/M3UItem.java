@@ -1,5 +1,7 @@
 package com.iseasoft.iseaiptv.models;
 
+import com.iseasoft.iseaiptv.App;
+
 import java.io.Serializable;
 
 public class M3UItem implements Serializable {
@@ -13,6 +15,8 @@ public class M3UItem implements Serializable {
     private String itemIcon;
 
     private String itemGroup;
+
+    private int level;
 
     public String getItemDuration() {
         return itemDuration;
@@ -52,5 +56,22 @@ public class M3UItem implements Serializable {
 
     public void setItemGroup(String itemGroup) {
         this.itemGroup = itemGroup;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public boolean isVisible() {
+        if (level <= 0) {
+            return true;
+        }
+
+        int userLevel = App.getUserLevel();
+        return userLevel >= level;
     }
 }
