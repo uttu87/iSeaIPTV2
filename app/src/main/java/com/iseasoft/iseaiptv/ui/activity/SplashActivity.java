@@ -97,12 +97,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void fetchRemoteConfig() {
-        long cacheExpiration = 3600; // seconds.
-
-        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-            cacheExpiration = 0;
-        }
-
+        long cacheExpiration = 0; // seconds.
         mFirebaseRemoteConfig.fetch(cacheExpiration)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
