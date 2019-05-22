@@ -48,6 +48,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.iseasoft.iseaiptv.Constants.DEFAULT_BASE_URL;
+
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -139,7 +141,13 @@ public class MainActivity extends BaseActivity
     }
 
     private void loadChannels() {
-        final Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
+        Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
+        if(lastPlaylist == null) {
+            lastPlaylist = new Playlist();
+            lastPlaylist.setName(getString(R.string.app_name));
+            lastPlaylist.setLink(DEFAULT_BASE_URL);
+        }
+
         if (lastPlaylist != null) {
             displayPlaylistInfo(lastPlaylist);
             if (lastPlaylist.getLink().startsWith("http")) {

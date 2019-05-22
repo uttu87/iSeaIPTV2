@@ -29,6 +29,7 @@ import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
 import static com.iseasoft.iseaiptv.Constants.BASE_URL;
+import static com.iseasoft.iseaiptv.Constants.DEFAULT_BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
 import static com.iseasoft.iseaiptv.Constants.START_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.TODAY_HIGHLIGHT_STATUS;
@@ -132,7 +133,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void savePlaylist() {
         Playlist playlist = new Playlist();
-        playlist.setLink(App.getBaseUrl());
+        final String url = TextUtils.isEmpty(App.getBaseUrl()) ? DEFAULT_BASE_URL : App.getBaseUrl();
+        playlist.setLink(url);
         playlist.setName(getString(R.string.app_name));
         PreferencesUtility.getInstance(this).savePlaylist(playlist);
     }

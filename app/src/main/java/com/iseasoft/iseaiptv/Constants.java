@@ -29,5 +29,6 @@ public class Constants {
     public static final String ADMOB_INTERSTITIAL_ID = "admob_interstitial_id";
     public static final String START_APP_ID = "start_app_id";
     public static final String BASE_URL = "base_url";
+    public static final String DEFAULT_BASE_URL = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/de.m3u";
 
 }
