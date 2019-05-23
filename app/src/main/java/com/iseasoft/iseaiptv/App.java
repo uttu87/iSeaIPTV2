@@ -27,8 +27,11 @@ public class App extends Application {
     private static String todayHighlightStatus;
     private static long interstitialAdsLimit = 5;
     private static long adsType = 1;
+    private static String admobAppId = "";
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
+    private static String publisherBannerId = "";
+    private static String publisherInterstitialId = "";
     private static String startAppId = "";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
@@ -118,6 +121,14 @@ public class App extends Application {
         App.todayHighlightStatus = todayHighlightStatus;
     }
 
+    public static String getAdmobAppId() {
+        return admobAppId;
+    }
+
+    public static void setAdmobAppId(String admobAppId) {
+        App.admobAppId = admobAppId;
+    }
+
     public static String getAdmobBannerId() {
         return admobBannerId;
     }
@@ -132,6 +143,22 @@ public class App extends Application {
 
     public static void setAdmobInterstitialId(String admobInterstitialId) {
         App.admobInterstitialId = admobInterstitialId;
+    }
+
+    public static String getPublisherBannerId() {
+        return publisherBannerId;
+    }
+
+    public static void setPublisherBannerId(String publisherBannerId) {
+        App.publisherBannerId = publisherBannerId;
+    }
+
+    public static String getPublisherInterstitialId() {
+        return publisherInterstitialId;
+    }
+
+    public static void setPublisherInterstitialId(String publisherInterstitialId) {
+        App.publisherInterstitialId = publisherInterstitialId;
     }
 
     public static String getStartAppId() {

@@ -37,11 +37,23 @@
         <value>0</value>
     </entry>
     <entry>
+        <key>admob_app_id</key>
+        <value>ca-app-pub-2628087333612345~1890150337</value>
+    </entry>
+    <entry>
         <key>admob_banner_id</key>
-        <value>/112517806/139301556696907</value>
+        <value>ca-app-pub-2628087333612345/6698612127</value>
     </entry>
     <entry>
         <key>admob_interstitial_id</key>
+        <value>ca-app-pub-2628087333612345/8025626926</value>
+    </entry>
+    <entry>
+        <key>publisher_banner_id</key>
+        <value>/112517806/139301556696907</value>
+    </entry>
+    <entry>
+        <key>publisher_interstitial_id</key>
         <value>/112517806/339301556697019</value>
     </entry>
     <entry>
