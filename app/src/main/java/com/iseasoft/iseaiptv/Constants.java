@@ -25,8 +25,11 @@ public class Constants {
     public static final String TODAY_HIGHLIGHT_STATUS = "today_highlight_status";
     public static final String INTERSTITIAL_ADS_LIMIT = "interstitial_ads_limit";
     public static final String ADS_TYPE = "ads_type";
+    public static final String ADMOB_APP_ID = "admob_app_id";
     public static final String ADMOB_BANNER_ID = "admob_banner_id";
     public static final String ADMOB_INTERSTITIAL_ID = "admob_interstitial_id";
+    public static final String PUBLISHER_BANNER_ID = "publisher_banner_id";
+    public static final String PUBLISHER_INTERSTITIAL_ID = "publisher_interstitial_id";
     public static final String START_APP_ID = "start_app_id";
 
 }

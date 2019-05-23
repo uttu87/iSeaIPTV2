@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">USA TV</string>
+    <string name="admob_app_id">ca-app-pub-2628087333612345~7426670203</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
