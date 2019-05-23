@@ -41,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupFirebaseRemoteConfig();
-        getAppConfig();
     }
 
     private void getAppConfig() {
@@ -112,6 +111,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                         }
                         applyRemoteConfig();
+                        navigationToMainScreen();
                     }
                 });
         // [END fetch_config_with_callback]
