@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity
         final Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
         if (lastPlaylist != null) {
             displayPlaylistInfo(lastPlaylist);
-            if (lastPlaylist.getLink().startsWith("http")) {
+            if (lastPlaylist.getLink().trim().startsWith("http")) {
                 loadServer(lastPlaylist.getLink());
             } else {
                 try {

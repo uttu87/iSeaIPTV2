@@ -89,7 +89,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter {
 
         public void setContent(Playlist playlist) {
             this.playlist = playlist;
-            if (playlist.getLink().startsWith("http")) {
+            if (playlist.getLink().trim().startsWith("http")) {
                 icon.setImageResource(R.drawable.ic_link_black_24dp);
             } else {
                 icon.setImageResource(R.drawable.ic_file_black_24dp);

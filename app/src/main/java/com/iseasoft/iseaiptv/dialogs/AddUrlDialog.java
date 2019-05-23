@@ -36,7 +36,8 @@ public class AddUrlDialog extends ConfirmationDialog {
                 final String playlistUrl = fragment.txtPlaylistUrl.getText().toString();
                 if (!TextUtils.isEmpty(playlistUrl)) {
                     Playlist playlist = new Playlist();
-                    playlist.setLink(playlistUrl);
+                    final String link = playlistUrl.trim();
+                    playlist.setLink(link);
                     final String playlistName = fragment.txtPlaylistName.getText().toString();
                     if (!TextUtils.isEmpty(playlistName)) {
                         playlist.setName(playlistName);
