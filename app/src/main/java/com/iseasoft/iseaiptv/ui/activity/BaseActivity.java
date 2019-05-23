@@ -16,7 +16,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.App;
@@ -50,13 +53,48 @@ public abstract class BaseActivity extends AppCompatActivity {
     LinearLayout footerContainer;
     PublisherAdView publisherAdView;
     Banner banner;
+    private AdView adView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        setupPublisherAds();
+        initAdmob();
         initStartAppSdk();
+        setupAdmob();
+
+    }
+
+    private void setupAdmob() {
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(App.getAdmobBannerId());
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (adView != null) {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    adView.setLayoutParams(params);
+                    footerContainer.addView(adView);
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                setupPublisherAds();
+            }
+        });
+    }
+
+    private void initAdmob() {
+        MobileAds.initialize(this, App.getAdmobAppId());
     }
 
     private void setupPublisherAds() {
@@ -66,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void setupPublisherBannerAds() {
         publisherAdView = new PublisherAdView(this);
-        publisherAdView.setAdUnitId(App.getAdmobBannerId());
+        publisherAdView.setAdUnitId(App.getPublisherBannerId());
         publisherAdView.setAdSizes(AdSize.BANNER);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
@@ -109,6 +147,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
         if (publisherAdView != null) {
             publisherAdView.resume();
         }
@@ -117,6 +158,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
         if (publisherAdView != null) {
             publisherAdView.pause();
         }
@@ -125,6 +169,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (adView != null) {
+            adView.destroy();
+        }
         if (publisherAdView != null) {
             publisherAdView.destroy();
         }
