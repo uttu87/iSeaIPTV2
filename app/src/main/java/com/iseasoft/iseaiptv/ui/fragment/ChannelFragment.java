@@ -84,7 +84,8 @@ public class ChannelFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fetchOnlineData();
+        //fetchOnlineData();
+        showChannels();
     }
 
     private void fetchOnlineData() {
@@ -128,6 +129,10 @@ public class ChannelFragment extends BaseFragment {
                 showPlaceholder();
                 return;
             }
+//            else if (!groupName.equals(getString(R.string.app_name))) {
+//                showPlaceholder();
+//                return;
+//            }
         }
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity(),
@@ -209,9 +214,10 @@ public class ChannelFragment extends BaseFragment {
             return new ArrayList<>();
         }
 
-        if (groupName.equals(getString(R.string.app_name))) {
-            return sportTvList;
-        } else if (groupName.equals(getString(R.string.favorites))) {
+//        if (groupName.equals(getString(R.string.app_name))) {
+//            return sportTvList;
+//        }
+        if (groupName.equals(getString(R.string.favorites))) {
             return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
 

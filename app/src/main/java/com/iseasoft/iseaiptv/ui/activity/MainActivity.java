@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity
         TextView playlistName = header.findViewById(R.id.nav_header_title);
         TextView playlistLink = header.findViewById(R.id.nav_header_description);
         playlistName.setText(lastPlaylist.getName());
-        playlistLink.setText(lastPlaylist.getLink());
+        //playlistLink.setText(lastPlaylist.getLink());
         getSupportActionBar().setTitle(lastPlaylist.getName());
     }
 
@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity
             adapter = new GroupChannelAdapter(getSupportFragmentManager());
         }
         adapter.addFragment(getString(R.string.favorites));
-        adapter.addFragment(getString(R.string.app_name));
+        //adapter.addFragment(getString(R.string.app_name));
 
         LinkedList<String> groupList = new LinkedList<>();
         if (mPlaylist != null) {
@@ -236,6 +236,12 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
+//            case R.id.nav_playlist:
+//                navigateToPlaylist();
+//                break;
+//            case R.id.nav_live_stream:
+//                openPlayStreamDialog();
+//                break;
             case R.id.nav_share:
                 shareApp();
                 break;
@@ -263,7 +269,8 @@ public class MainActivity extends BaseActivity
             loadChannels();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load),
+                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load,
+                        getString(R.string.app_name)),
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override

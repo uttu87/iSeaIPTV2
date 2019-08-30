@@ -18,6 +18,8 @@ import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.api.APIListener;
 import com.iseasoft.iseaiptv.api.IndiaTvAPI;
+import com.iseasoft.iseaiptv.models.Playlist;
+import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import static com.iseasoft.iseaiptv.Constants.ADMOB_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
+import static com.iseasoft.iseaiptv.Constants.BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
 import static com.iseasoft.iseaiptv.Constants.PUBLISHER_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.PUBLISHER_INTERSTITIAL_ID;
@@ -96,12 +99,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void fetchRemoteConfig() {
-        long cacheExpiration = 3600; // seconds.
-
-        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-            cacheExpiration = 0;
-        }
-
+        long cacheExpiration = 0; // seconds.
         mFirebaseRemoteConfig.fetch(cacheExpiration)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -134,6 +132,17 @@ public class SplashActivity extends AppCompatActivity {
         App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
         App.setPublisherInterstitialId(mFirebaseRemoteConfig.getString(PUBLISHER_INTERSTITIAL_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
+        if (!TextUtils.isEmpty(mFirebaseRemoteConfig.getString(BASE_URL))) {
+            App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        }
+        savePlaylist();
+    }
+
+    private void savePlaylist() {
+        Playlist playlist = new Playlist();
+        playlist.setLink(App.getBaseUrl());
+        playlist.setName(getString(R.string.app_name));
+        PreferencesUtility.getInstance(this).savePlaylist(playlist);
     }
 
     private void navigationToMainScreen() {
