@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
                             if (mFirebaseRemoteConfig != null) {
-                                mFirebaseRemoteConfig.activateFetched();
+                                mFirebaseRemoteConfig.fetchAndActivate();
                             }
                         }
                         applyRemoteConfig();
