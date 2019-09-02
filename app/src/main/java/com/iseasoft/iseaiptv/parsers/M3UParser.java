@@ -20,6 +20,7 @@ public class M3UParser {
     private static final String EXT_LOGO = "tvg-logo";
     private static final String EXT_GROUP = "group-title";
     private static final String EXT_URL = "http";
+    private static final String IGNORE_CHANNEL = "Jusmin";
 
     public String convertStreamToString(InputStream is) {
         if (is == null) {
@@ -94,7 +95,8 @@ public class M3UParser {
                     } catch (Exception fdfd) {
                         Log.e("M3UParser", "Error: " + fdfd.fillInStackTrace());
                     }
-                    if (!TextUtils.isEmpty(playlistItem.getItemUrl())) {
+                    if (!TextUtils.isEmpty(playlistItem.getItemUrl()) &&
+                            !playlistItem.getItemName().contains(IGNORE_CHANNEL)) {
                         playlistItems.add(playlistItem);
                     }
                 }
