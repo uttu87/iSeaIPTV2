@@ -21,6 +21,7 @@ public class M3UParser {
     private static final String EXT_GROUP = "group-title";
     private static final String EXT_URL = "http";
     private static final String IGNORE_CHANNEL = "Jusmin";
+    private static final String ADULT_GROUP = "XXX";
 
     public String convertStreamToString(InputStream is) {
         if (is == null) {
@@ -96,7 +97,8 @@ public class M3UParser {
                         Log.e("M3UParser", "Error: " + fdfd.fillInStackTrace());
                     }
                     if (!TextUtils.isEmpty(playlistItem.getItemUrl()) &&
-                            !playlistItem.getItemName().contains(IGNORE_CHANNEL)) {
+                            !playlistItem.getItemName().contains(IGNORE_CHANNEL) &&
+                            !playlistItem.getItemGroup().contains(ADULT_GROUP)) {
                         playlistItems.add(playlistItem);
                     }
                 }
