@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.isea14.portugaltv"
+        applicationId "com.isea14.turkeytv"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 100
