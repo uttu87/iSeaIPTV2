@@ -240,6 +240,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:160524091467:android:e5553cc4cedf717e880dce",
+        "android_client_info": {
+          "package_name": "com.isea14.hongkongtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtcgN2CSg3ElJQSMQMSTZhgoDQZKClmkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:160524091467:android:c2384a7009c52a9d880dce",
         "android_client_info": {
           "package_name": "com.isea14.indiatv"
