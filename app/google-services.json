@@ -414,6 +414,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:160524091467:android:d1bc0713cfde5860880dce",
+        "android_client_info": {
+          "package_name": "com.isea14.thailandtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtcgN2CSg3ElJQSMQMSTZhgoDQZKClmkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160524091467-6l18jd71jubkbqk3o94ol5dbid8i9vvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:160524091467:android:10524dede230ad6f880dce",
         "android_client_info": {
           "package_name": "com.isea14.turkeytv"
