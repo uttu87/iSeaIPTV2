@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/gr.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/eg.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -30,7 +30,7 @@ public class App extends Application {
     private static long adsType = 1;
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
-    private static String startAppId = "208302112";
+    private static String startAppId = "208521310";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
