@@ -4,8 +4,8 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.isea14.maroctv"
-        minSdkVersion 21
+        applicationId "com.isea14.spaintv"
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 100
         versionName "1.0"
@@ -41,7 +41,7 @@ dependencies {
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     implementation 'net.steamcrafted:materialiconlib:1.1.4'
-    implementation 'de.Maxr1998:track-selector-lib:1.2'
+    //implementation 'de.Maxr1998:track-selector-lib:1.2'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
