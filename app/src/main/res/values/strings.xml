@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">iSea IPTV</string>
-    <string name="admob_app_id">ca-app-pub-2628087333612345~7426670203</string>
+    <string name="admob_app_id">ca-app-pub-4598992956351116~5769419007</string>
+    <string name="admob_banner_id">ca-app-pub-4598992956351116/3040341558</string>
+    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/1543427056</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 

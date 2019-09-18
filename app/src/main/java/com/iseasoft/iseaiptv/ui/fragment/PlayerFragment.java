@@ -175,7 +175,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     private void setupAdmobBannerAds() {
         adView = new AdView(getActivity());
-        adView.setAdUnitId(App.getAdmobBannerId());
+        adView.setAdUnitId(getString(R.string.admob_banner_id));
         adView.setAdSize(AdSize.BANNER);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")

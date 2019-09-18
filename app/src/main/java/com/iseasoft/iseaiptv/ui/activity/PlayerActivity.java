@@ -42,7 +42,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     private void setupAdmobInterstitialAds() {
         if (interstitialAd == null) {
             interstitialAd = new InterstitialAd(this);
-            interstitialAd.setAdUnitId(App.getAdmobInterstitialId());
+            interstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
         }
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")

@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void setupAdmob() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(App.getAdmobBannerId());
+        adView.setAdUnitId(getString(R.string.admob_banner_id));
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
                 .build();
@@ -94,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initAdmob() {
-        MobileAds.initialize(this, App.getAdmobAppId());
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
     }
 
     private void setupPublisherAds() {
