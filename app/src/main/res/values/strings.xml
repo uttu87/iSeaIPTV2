@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Italia TV</string>
-    <string name="admob_app_id">ca-app-pub-2628087333612345~1890150337</string>
+    <string name="admob_app_id">ca-app-pub-4598992956351116~7999178289</string>
+    <string name="admob_banner_id">ca-app-pub-4598992956351116/3361929275</string>
+    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/6534887523</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
