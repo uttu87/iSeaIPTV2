@@ -7,8 +7,8 @@ android {
         applicationId "com.isea14.android.usatv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 204
-        versionName "2.4"
+        versionCode 205
+        versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
