@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/it.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/it.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -125,7 +125,7 @@ public class App extends Application {
     }
 
     public static String getAdmobAppId() {
-        return admobAppId;
+        return mSelf.getString(R.string.admob_app_id);
     }
 
     public static void setAdmobAppId(String admobAppId) {
