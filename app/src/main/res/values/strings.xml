@@ -1,12 +1,15 @@
 <resources>
-    <string name="app_name">Maroc TV</string>
+    <string name="app_name">iSea IPTV</string>
+    <string name="admob_app_id">ca-app-pub-4598992956351116~5769419007</string>
+    <string name="admob_banner_id">ca-app-pub-4598992956351116/3040341558</string>
+    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/1543427056</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">iSea IPTV</string>
+    <string name="nav_header_subtitle">iseasoft.dev@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_play">Play</string>
@@ -50,7 +53,7 @@
     <string name="common_dialog_not">Not really</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="question">Enjoying USA TV?</string>
+    <string name="question">Enjoying iSea IPTV?</string>
     <string name="rating">How about a rating on the Play Store, then?</string>
     <string name="feedback">Would you mind to give us some feedback?</string>
 
@@ -61,14 +64,14 @@
 
     <string name="playing_error">Error playing channel</string>
 
-    <string name="share_subject">Check out %s</string>
-    <string name="share_boday">Enjoy IP Television with %s</string>
+    <string name="share_subject">Check out iSea IPTV</string>
+    <string name="share_boday">Enjoy IP Television with iSea IPTV</string>
     <string name="share_app_title">Share this application via</string>
 
     <string name="app_version">Version: %s</string>
     <string name="copyright">© 2019 iSeaSoft. All rights reserved.</string>
     <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.dev@gmail.com.</string>
 
-    <string name="request_storage_permission_message">"%s will need to read external storage to display playlist files on your device."</string>
-    <string name="request_storage_permission_message_load">"%s will need to read external storage to load playlist files on your device."</string>
+    <string name="request_storage_permission_message">"iSeaIPTV will need to read external storage to display playlist files on your device."</string>
+    <string name="request_storage_permission_message_load">"iSeaIPTV will need to read external storage to load playlist files on your device."</string>
 </resources>
