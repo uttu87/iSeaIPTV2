@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/it.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/us.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -33,7 +33,7 @@ public class App extends Application {
     private static String admobInterstitialId = "";
     private static String publisherBannerId = "";
     private static String publisherInterstitialId = "";
-    private static String startAppId = "";
+    private static String startAppId = "204168730";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -125,7 +125,7 @@ public class App extends Application {
     }
 
     public static String getAdmobAppId() {
-        return admobAppId;
+        return mSelf.getString(R.string.admob_app_id);
     }
 
     public static void setAdmobAppId(String admobAppId) {
@@ -133,7 +133,7 @@ public class App extends Application {
     }
 
     public static String getAdmobBannerId() {
-        return admobBannerId;
+        return mSelf.getString(R.string.admob_banner_id);
     }
 
     public static void setAdmobBannerId(String admobBannerId) {
@@ -141,7 +141,7 @@ public class App extends Application {
     }
 
     public static String getAdmobInterstitialId() {
-        return admobInterstitialId;
+        return mSelf.getString(R.string.admob_interstitial_id);
     }
 
     public static void setAdmobInterstitialId(String admobInterstitialId) {
@@ -169,7 +169,9 @@ public class App extends Application {
     }
 
     public static void setStartAppId(String startappId) {
-        App.startAppId = startappId;
+        if (!TextUtils.isEmpty(startappId)) {
+            App.startAppId = startappId;
+        }
     }
 
     public static App self() {
@@ -187,6 +189,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mSelf = this;
 
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
