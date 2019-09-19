@@ -167,8 +167,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (savedInstanceState == null) {
             setupVideoView();
             setupPlaylist();
-            setupStartAppBanner();
-            //setupAdmobBannerAds();
+            setupAdmobBannerAds();
         }
 
         return view;
@@ -360,6 +359,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
         screenModeChange(isFullscreen, false);
 
+        if (adView != null) {
+            adView.resume();
+        }
+
         if (publisherAdView != null) {
             publisherAdView.resume();
         }
@@ -372,6 +375,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             videoView.pause();
         }
 
+        if (adView != null) {
+            adView.pause();
+        }
         if (publisherAdView != null) {
             publisherAdView.pause();
         }
@@ -391,6 +397,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mChannel = null;
         mPlaylist = null;
         fragmentEventListener = null;
+        if (adView != null) {
+            adView.destroy();
+        }
         if (publisherAdView != null) {
             publisherAdView.destroy();
         }

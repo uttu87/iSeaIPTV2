@@ -132,7 +132,9 @@ public class SplashActivity extends AppCompatActivity {
         App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
         App.setPublisherInterstitialId(mFirebaseRemoteConfig.getString(PUBLISHER_INTERSTITIAL_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
-        App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        if (!TextUtils.isEmpty(mFirebaseRemoteConfig.getString(BASE_URL))) {
+            App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        }
         savePlaylist();
     }
 

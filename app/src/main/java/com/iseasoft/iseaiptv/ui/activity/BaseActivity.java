@@ -59,10 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        //initAdmob();
+        initAdmob();
         initStartAppSdk();
-        setupPublisherAds();
-        //setupAdmob();
+        setupAdmob();
 
     }
 

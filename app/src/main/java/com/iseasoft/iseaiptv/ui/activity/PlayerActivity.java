@@ -126,8 +126,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     }
 
     public void setupFullScreenAds() {
-        //setupAdmobInterstitialAds();
-        setupStartAppAd();
+        setupAdmobInterstitialAds();
     }
 
     private void setupPlayer(M3UItem channel) {
