@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity
     private ProgressBar progressBar;
 
     private M3UPlaylist mPlaylist;
-
+    private GroupChannelAdapter adapter;
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -72,7 +72,6 @@ public class MainActivity extends BaseActivity
             requestStoragePermission();
         }
     };
-    private GroupChannelAdapter adapter;
 
     public M3UPlaylist getPlaylist() {
         return mPlaylist;

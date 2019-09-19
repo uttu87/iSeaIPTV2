@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/cn.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/de.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -28,9 +28,12 @@ public class App extends Application {
     private static String todayHighlightStatus;
     private static long interstitialAdsLimit = 5;
     private static long adsType = 1;
+    private static String admobAppId = "";
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
-    private static String startAppId = "204703090";
+    private static String publisherBannerId = "";
+    private static String publisherInterstitialId = "";
+    private static String startAppId = "204027010";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -121,8 +124,16 @@ public class App extends Application {
         App.todayHighlightStatus = todayHighlightStatus;
     }
 
+    public static String getAdmobAppId() {
+        return mSelf.getString(R.string.admob_app_id);
+    }
+
+    public static void setAdmobAppId(String admobAppId) {
+        App.admobAppId = admobAppId;
+    }
+
     public static String getAdmobBannerId() {
-        return admobBannerId;
+        return mSelf.getString(R.string.admob_banner_id);
     }
 
     public static void setAdmobBannerId(String admobBannerId) {
@@ -130,11 +141,27 @@ public class App extends Application {
     }
 
     public static String getAdmobInterstitialId() {
-        return admobInterstitialId;
+        return mSelf.getString(R.string.admob_interstitial_id);
     }
 
     public static void setAdmobInterstitialId(String admobInterstitialId) {
         App.admobInterstitialId = admobInterstitialId;
+    }
+
+    public static String getPublisherBannerId() {
+        return publisherBannerId;
+    }
+
+    public static void setPublisherBannerId(String publisherBannerId) {
+        App.publisherBannerId = publisherBannerId;
+    }
+
+    public static String getPublisherInterstitialId() {
+        return publisherInterstitialId;
+    }
+
+    public static void setPublisherInterstitialId(String publisherInterstitialId) {
+        App.publisherInterstitialId = publisherInterstitialId;
     }
 
     public static String getStartAppId() {
