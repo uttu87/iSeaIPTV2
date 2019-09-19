@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/de.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/ua.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -33,7 +33,7 @@ public class App extends Application {
     private static String admobInterstitialId = "";
     private static String publisherBannerId = "";
     private static String publisherInterstitialId = "";
-    private static String startAppId = "204027010";
+    private static String startAppId = "208681604";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
