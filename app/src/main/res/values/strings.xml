@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Deutschland TV</string>
+    <string name="admob_app_id">ca-app-pub-4598992956351116~5098802332</string>
+    <string name="admob_banner_id">ca-app-pub-4598992956351116/9017866042</string>
+    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/7639552800</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
