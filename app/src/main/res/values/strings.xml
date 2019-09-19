@@ -71,4 +71,7 @@
 
     <string name="request_storage_permission_message">"%s will need to read external storage to display playlist files on your device."</string>
     <string name="request_storage_permission_message_load">"%s will need to read external storage to load playlist files on your device."</string>
+    <string name="admob_app_id">ca-app-pub-4598992956351116~6668363864</string>
+    <string name="admob_banner_id">ca-app-pub-4598992956351116/5384036504</string>
+    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/5081973542</string>
 </resources>
