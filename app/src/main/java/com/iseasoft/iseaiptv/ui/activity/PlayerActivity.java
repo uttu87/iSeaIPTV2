@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.iseasoft.iseaiptv.App;
@@ -29,6 +31,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
 
+    private InterstitialAd interstitialAd;
     private PublisherInterstitialAd publisherInterstitialAd;
     private StartAppAd startAppAd;
 
@@ -36,10 +39,36 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
+    private void setupAdmobInterstitialAds() {
+        if (interstitialAd == null) {
+            interstitialAd = new InterstitialAd(this);
+            interstitialAd.setAdUnitId(App.getAdmobInterstitialId());
+        }
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
+                .build();
+        interstitialAd.loadAd(adRequest);
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (interstitialAd != null) {
+                    interstitialAd.show();
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                setupPublisherInterstitialAds();
+            }
+        });
+    }
+
     private void setupPublisherInterstitialAds() {
         if (publisherInterstitialAd == null) {
             publisherInterstitialAd = new PublisherInterstitialAd(this);
-            publisherInterstitialAd.setAdUnitId(App.getAdmobInterstitialId());
+            publisherInterstitialAd.setAdUnitId(App.getPublisherInterstitialId());
         }
         requestNewInterstitial();
     }
@@ -97,8 +126,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     }
 
     public void setupFullScreenAds() {
-        //setupPublisherInterstitialAds();
-        setupStartAppAd();
+        setupAdmobInterstitialAds();
     }
 
     private void setupPlayer(M3UItem channel) {
@@ -169,6 +197,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        interstitialAd = null;
         publisherInterstitialAd = null;
         startAppAd = null;
     }
