@@ -52,7 +52,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int ALL_CHANNELS_TAB = 1;
+    private int allChannelTabIndex = 1;
     private CoordinatorLayout panelLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -199,6 +199,10 @@ public class MainActivity extends BaseActivity
             groupList.add(m3UItem.getItemGroup());
         }
         adapter.addFragment(getString(R.string.favorites));
+        if (!PreferencesUtility.getInstance(this).hasNoHistoryWatching()) {
+            adapter.addFragment(getString(R.string.history_watching));
+            allChannelTabIndex = 2;
+        }
         adapter.addFragment(getString(R.string.all_channels));
         for (int i = 0; i < groupList.size(); i++) {
             String groupTitle = groupList.get(i);
@@ -290,7 +294,7 @@ public class MainActivity extends BaseActivity
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (viewPager != null) {
                     setupViewPager(viewPager);
-                    viewPager.setCurrentItem(ALL_CHANNELS_TAB, true);//Set All channels tab
+                    viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
                 }
             });
         } catch (FileNotFoundException e) {
