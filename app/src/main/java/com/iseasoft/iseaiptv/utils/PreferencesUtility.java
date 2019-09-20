@@ -63,6 +63,7 @@ public final class PreferencesUtility {
     private static final String ALWAYS_LOAD_ALBUM_IMAGES_LASTFM = "always_load_album_images_lastfm";
     private static final String PLAYLIST_KEY = "playlist";
     private static final String FAVORITE_CHANNEL_KEY = "favorite_channel_list";
+    private static final String HISTORY_CHANNEL_KEY = "history_channel_list";
     private static final String LAST_PLAYLIST = "last_playlist";
     private static final String GRID_VIEW_MODE = "grid_view_mode";
 
@@ -434,6 +435,57 @@ public final class PreferencesUtility {
         Type type = new TypeToken<ArrayList<M3UItem>>() {
         }.getType();
         return gson.fromJson(json, type);
+    }
+
+    public boolean checkHistory(M3UItem channel) {
+        ArrayList<M3UItem> historyList = getHistoryChannels();
+        if (historyList == null || historyList.size() == 0) {
+            return false;
+        }
+        for (M3UItem item : historyList) {
+            if (item.getItemName().equals(channel.getItemName())
+                    && item.getItemUrl().equals(channel.getItemUrl())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addHistory(M3UItem channel) {
+        ArrayList<M3UItem> historyList = getHistoryChannels();
+        if (historyList == null) {
+            historyList = new ArrayList<>();
+        }
+
+        if (checkHistory(channel)) {
+            ArrayList<M3UItem> listToRemove = new ArrayList<>();
+            for (M3UItem item : historyList) {
+                if (item.getItemName().equals(channel.getItemName())
+                        && item.getItemUrl().equals(channel.getItemUrl())) {
+                    listToRemove.add(item);
+                }
+            }
+            historyList.removeAll(listToRemove);
+        }
+        historyList.add(0, channel);
+        saveHistoryChannels(historyList);
+    }
+
+    public void saveHistoryChannels(ArrayList<M3UItem> list) {
+        saveArrayList(list, HISTORY_CHANNEL_KEY);
+    }
+
+    public ArrayList<M3UItem> getHistoryChannels() {
+        Gson gson = new Gson();
+        String json = mPreferences.getString(HISTORY_CHANNEL_KEY, null);
+        Type type = new TypeToken<ArrayList<M3UItem>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public boolean hasNoHistoryWatching() {
+        ArrayList<M3UItem> historyList = getHistoryChannels();
+        return historyList == null || historyList.isEmpty();
     }
 }
 
