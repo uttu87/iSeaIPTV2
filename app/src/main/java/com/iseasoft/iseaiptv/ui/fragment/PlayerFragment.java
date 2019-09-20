@@ -300,6 +300,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController.setTitle(channel.getItemName());
         mVideoController.showPlayErrorMessage(false);
         updateFavoriteIcon();
+        PreferencesUtility.getInstance(getActivity()).addHistory(channel);
     }
 
     private void setUpVideoViewSize(boolean isFullscreen) {
