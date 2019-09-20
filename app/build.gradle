@@ -7,8 +7,8 @@ android {
         applicationId "com.isea14.ukrainetv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 102
-        versionName "1.2"
+        versionCode 103
+        versionName "1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
