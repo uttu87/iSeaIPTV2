@@ -39,6 +39,7 @@ import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
+import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +52,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int ALL_CHANNELS_TAB = 1;
+    private int allChannelTabIndex = 1;
     private CoordinatorLayout panelLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -71,7 +72,6 @@ public class MainActivity extends BaseActivity
             requestStoragePermission();
         }
     };
-    private GroupChannelAdapter adapter;
 
     public M3UPlaylist getPlaylist() {
         return mPlaylist;
@@ -142,20 +142,25 @@ public class MainActivity extends BaseActivity
         final Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
         if (lastPlaylist != null) {
             displayPlaylistInfo(lastPlaylist);
-            if (lastPlaylist.getLink().startsWith("http")) {
+            if (lastPlaylist.getLink().trim().startsWith("http")) {
                 loadServer(lastPlaylist.getLink());
             } else {
                 try {
                     File file = new File(lastPlaylist.getLink());
                     InputStream inputStream = new FileInputStream(file);
-                    parsePlaylist(inputStream);
+                    parseAndUpdateUI(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    updateUI();
+                    if (!IseaSoft.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        requestStoragePermission();
+                        return;
+                    }
+                    showChannelPlaceholder();
                 }
             }
         } else {
-            updateUI();
+            showChannelPlaceholder();
+            Router.navigateTo(this, Router.Screens.PLAYLIST);
         }
 
     }
@@ -166,7 +171,7 @@ public class MainActivity extends BaseActivity
         TextView playlistName = header.findViewById(R.id.nav_header_title);
         TextView playlistLink = header.findViewById(R.id.nav_header_description);
         playlistName.setText(lastPlaylist.getName());
-        //playlistLink.setText(lastPlaylist.getLink());
+        playlistLink.setText(lastPlaylist.getLink());
         getSupportActionBar().setTitle(lastPlaylist.getName());
     }
 
@@ -184,30 +189,27 @@ public class MainActivity extends BaseActivity
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        if (adapter == null) {
-            adapter = new GroupChannelAdapter(getSupportFragmentManager());
+        GroupChannelAdapter adapter = new GroupChannelAdapter(getSupportFragmentManager());
+        LinkedList<String> groupList = new LinkedList<>();
+        for (int i = 0; i < mPlaylist.getPlaylistItems().size(); i++) {
+            M3UItem m3UItem = mPlaylist.getPlaylistItems().get(i);
+            if (groupList.contains(m3UItem.getItemGroup())) {
+                continue;
+            }
+            groupList.add(m3UItem.getItemGroup());
         }
         adapter.addFragment(getString(R.string.favorites));
-        //adapter.addFragment(getString(R.string.app_name));
-
-        LinkedList<String> groupList = new LinkedList<>();
-        if (mPlaylist != null) {
-            for (int i = 0; i < mPlaylist.getPlaylistItems().size(); i++) {
-                M3UItem m3UItem = mPlaylist.getPlaylistItems().get(i);
-                if (groupList.contains(m3UItem.getItemGroup())) {
-                    continue;
-                }
-                groupList.add(m3UItem.getItemGroup());
-            }
-            adapter.addFragment(getString(R.string.all_channels));
-            for (int i = 0; i < groupList.size(); i++) {
-                String groupTitle = groupList.get(i);
-                if (!TextUtils.isEmpty(groupTitle)) {
-                    adapter.addFragment(groupTitle);
-                }
+        if (!PreferencesUtility.getInstance(this).hasNoHistoryWatching()) {
+            adapter.addFragment(getString(R.string.history_watching));
+            allChannelTabIndex = 2;
+        }
+        adapter.addFragment(getString(R.string.all_channels));
+        for (int i = 0; i < groupList.size(); i++) {
+            String groupTitle = groupList.get(i);
+            if (!TextUtils.isEmpty(groupTitle)) {
+                adapter.addFragment(groupTitle);
             }
         }
-
         viewPager.setAdapter(adapter);
         tabLayout.setVisibility(View.VISIBLE);
         placeholderContainer.setVisibility(View.GONE);
@@ -225,6 +227,7 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            StartAppAd.onBackPressed(this);
             super.onBackPressed();
         }
     }
@@ -236,12 +239,12 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
-//            case R.id.nav_playlist:
-//                navigateToPlaylist();
-//                break;
-//            case R.id.nav_live_stream:
-//                openPlayStreamDialog();
-//                break;
+            case R.id.nav_playlist:
+                navigateToPlaylist();
+                break;
+            case R.id.nav_live_stream:
+                openPlayStreamDialog();
+                break;
             case R.id.nav_share:
                 shareApp();
                 break;
@@ -269,8 +272,7 @@ public class MainActivity extends BaseActivity
             loadChannels();
         } else {
             if (IseaSoft.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load,
-                        getString(R.string.app_name)),
+                Snackbar.make(panelLayout, getString(R.string.request_storage_permission_message_load),
                         Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener() {
                             @Override
@@ -284,24 +286,21 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void parsePlaylist(InputStream inputStream) {
+    private void parseAndUpdateUI(InputStream inputStream) {
 
         M3UParser m3UParser = new M3UParser();
         try {
             mPlaylist = m3UParser.parseFile(inputStream);
-            updateUI();
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (viewPager != null) {
+                    setupViewPager(viewPager);
+                    viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
+                }
+            });
         } catch (FileNotFoundException e) {
+            showChannelPlaceholder();
             e.printStackTrace();
         }
-    }
-
-    private void updateUI() {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            if (viewPager != null) {
-                setupViewPager(viewPager);
-                viewPager.setCurrentItem(ALL_CHANNELS_TAB, true);//Set All channels tab
-            }
-        });
     }
 
     @Override
@@ -346,7 +345,7 @@ public class MainActivity extends BaseActivity
             HttpHandler hh = new HttpHandler();
             InputStream inputStream = hh.makeServiceCall(urls[0]);
 
-            parsePlaylist(inputStream);
+            parseAndUpdateUI(inputStream);
             return null;
         }
 
