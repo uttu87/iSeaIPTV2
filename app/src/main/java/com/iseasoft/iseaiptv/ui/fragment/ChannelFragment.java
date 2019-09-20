@@ -110,7 +110,8 @@ public class ChannelFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isStateSafe()) {
-            if (!TextUtils.isEmpty(groupName) && groupName.equals(getString(R.string.favorites))) {
+            if (!TextUtils.isEmpty(groupName) &&
+                    (groupName.equals(getString(R.string.favorites)) || groupName.equals(getString(R.string.history_watching)))) {
                 showChannels();
             }
         }
@@ -203,6 +204,12 @@ public class ChannelFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showChannels();
+    }
+
     private void showFavoritePlaceholder() {
         hideAllView();
         favoritePlaceholderContainer.setVisibility(View.VISIBLE);
@@ -219,6 +226,10 @@ public class ChannelFragment extends BaseFragment {
 //        }
         if (groupName.equals(getString(R.string.favorites))) {
             return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
+        }
+
+        if (groupName.equals(getString(R.string.history_watching))) {
+            return PreferencesUtility.getInstance(getActivity()).getHistoryChannels();
         }
 
         MainActivity mainActivity = (MainActivity) getActivity();
