@@ -126,10 +126,10 @@ public class MainActivity extends BaseActivity
     }
 
     private boolean checkPlayableUrl(String url) {
-        if (url.contains(".m3u8") || url.contains(".ts") || url.contains(".mp4")) {
-            return true;
-        }
-        return false;
+//        if (url.contains(".m3u8") || url.contains(".ts") || url.contains(".mp4")) {
+//            return true;
+//        }
+        return true;
     }
 
     @Override
