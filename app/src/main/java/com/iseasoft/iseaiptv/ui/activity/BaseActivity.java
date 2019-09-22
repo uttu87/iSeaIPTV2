@@ -81,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     adView.setLayoutParams(params);
+                    footerContainer.removeView(adView);
                     footerContainer.addView(adView);
                 }
             }
@@ -118,6 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     publisherAdView.setLayoutParams(params);
+                    footerContainer.removeView(publisherAdView);
                     footerContainer.addView(publisherAdView);
                 }
             }
@@ -135,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         banner.setLayoutParams(params);
+        footerContainer.removeView(banner);
         footerContainer.addView(banner);
         banner.loadAd();
     }
