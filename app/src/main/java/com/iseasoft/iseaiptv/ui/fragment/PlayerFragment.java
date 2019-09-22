@@ -24,7 +24,9 @@ import com.devbrackets.android.exomedia.listener.VideoControlsVisibilityListener
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.App;
@@ -74,6 +76,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     @BindView(R.id.rv_playlist)
     RecyclerView rvPlaylist;
 
+    private AdView adView;
     private PublisherAdView publisherAdView;
     private Banner banner;
 
@@ -164,16 +167,47 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (savedInstanceState == null) {
             setupVideoView();
             setupPlaylist();
-            //setupPublisherBannerAds();
-            setupStartAppBanner();
+            setupAdmobBannerAds();
         }
 
         return view;
     }
 
+    private void setupAdmobBannerAds() {
+        adView = new AdView(getActivity());
+        adView.setAdUnitId(getString(R.string.admob_banner_id));
+        adView.setAdSize(AdSize.BANNER);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (adView != null) {
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                    playlistContainer.removeAllViews();
+                    playlistContainer.addView(adView, params);
+
+                }
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                setupPublisherBannerAds();
+            }
+        });
+
+    }
+
     private void setupPublisherBannerAds() {
         publisherAdView = new PublisherAdView(getActivity());
-        publisherAdView.setAdUnitId(App.getAdmobBannerId());
+        publisherAdView.setAdUnitId(App.getPublisherBannerId());
         publisherAdView.setAdSizes(AdSize.BANNER);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
@@ -188,6 +222,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                     params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                    playlistContainer.removeAllViews();
                     playlistContainer.addView(publisherAdView, params);
 
                 }
@@ -207,6 +242,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        playlistContainer.removeAllViews();
         playlistContainer.addView(banner, params);
         banner.loadAd();
     }
