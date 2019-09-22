@@ -123,8 +123,13 @@ public class Utils {
     }
 
     public static int getOptimalSpanCount(RecyclerView recyclerView, int columnWidthInDp) {
-        return getOptimalSpanCount(recyclerView.getWidth(),
+        int spanCount = getOptimalSpanCount(recyclerView.getWidth(),
                 (int) Utils.convertDp2Px(recyclerView.getContext(), columnWidthInDp));
+        if (spanCount == 0) {
+            spanCount = getOptimalSpanCount(getScreenWidth(),
+                    (int) Utils.convertDp2Px(recyclerView.getContext(), columnWidthInDp));
+        }
+        return spanCount;
     }
 
     public static int getOptimalSpanCount(int recyclerViewWidth, int columnWidthInPx) {
