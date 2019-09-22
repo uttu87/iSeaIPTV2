@@ -81,6 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onError(Error e) {
+                savePlaylist();
                 navigationToMainScreen();
             }
         });
