@@ -2,6 +2,7 @@ package com.iseasoft.iseaiptv;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.permissions.IseaSoft;
@@ -18,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/fr.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -29,7 +30,7 @@ public class App extends Application {
     private static long adsType = 1;
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
-    private static String startAppId = "";
+    private static String startAppId = "208274262";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -47,7 +48,9 @@ public class App extends Application {
     }
 
     public static void setBaseUrl(String baseUrl) {
-        App.baseUrl = baseUrl;
+        if (!TextUtils.isEmpty(baseUrl)) {
+            App.baseUrl = baseUrl;
+        }
     }
 
     public static boolean isUseOnlineData() {
@@ -139,7 +142,9 @@ public class App extends Application {
     }
 
     public static void setStartAppId(String startappId) {
-        App.startAppId = startappId;
+        if (!TextUtils.isEmpty(startappId)) {
+            App.startAppId = startappId;
+        }
     }
 
     public static App self() {
@@ -157,7 +162,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mSelf = this;
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
 
