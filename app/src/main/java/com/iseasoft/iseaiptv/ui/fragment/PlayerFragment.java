@@ -190,7 +190,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                     params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                    playlistContainer.removeView(adView);
+                    playlistContainer.removeAllViews();
                     playlistContainer.addView(adView, params);
 
                 }
@@ -222,7 +222,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                     params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                    playlistContainer.removeView(publisherAdView);
+                    playlistContainer.removeAllViews();
                     playlistContainer.addView(publisherAdView, params);
 
                 }
@@ -242,7 +242,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        playlistContainer.removeView(banner);
+        playlistContainer.removeAllViews();
         playlistContainer.addView(banner, params);
         banner.loadAd();
     }
