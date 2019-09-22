@@ -81,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     adView.setLayoutParams(params);
+                    footerContainer.removeView(adView);
                     footerContainer.addView(adView);
                 }
             }
@@ -118,6 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     publisherAdView.setLayoutParams(params);
+                    footerContainer.removeView(publisherAdView);
                     footerContainer.addView(publisherAdView);
                 }
             }
@@ -135,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         banner.setLayoutParams(params);
+        footerContainer.removeView(banner);
         footerContainer.addView(banner);
         banner.loadAd();
     }
@@ -189,11 +192,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
 
-        String shareBody = getString(R.string.share_boday, getString(R.string.app_name));
+        String shareBody = getString(R.string.share_boday);
 
         shareBody = shareBody + " at: " + GOOGLE_PLAY_APP_LINK;
 
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject, getString(R.string.app_name)));
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
         String title = getString(R.string.share_app_title);
 
