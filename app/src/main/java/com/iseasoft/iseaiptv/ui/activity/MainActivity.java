@@ -39,7 +39,6 @@ import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
-import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -229,7 +228,6 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            StartAppAd.onBackPressed(this);
             super.onBackPressed();
         }
     }
