@@ -35,7 +35,7 @@ import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
-import com.iseasoft.iseaiptv.ui.activity.PlayerActivity;
+import com.iseasoft.iseaiptv.ui.activity.InterstitialActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.startapp.android.publish.ads.banner.Banner;
@@ -295,7 +295,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     }
 
     private void playChannel(M3UItem channel) {
-        mRetryCount = 0;
         videoView.setVideoURI(Uri.parse(channel.getItemUrl()));
         mVideoController.setTitle(channel.getItemName());
         mVideoController.showPlayErrorMessage(false);
@@ -325,10 +324,10 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (!isStateSafe()) {
             return;
         }
-        showAds();
+
         if (videoView != null) {
             videoView.start();
-            mRetryCount = 0;
+            mRetryCount++;
             videoView.setRepeatMode(REPEAT_MODE_ONE);
 
             if (mVideoController != null) {
@@ -338,12 +337,14 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             if (currentPosition > 0) {
                 videoView.seekTo(currentPosition);
             }
+            showAds();
         }
     }
 
     private void showAds() {
-        if (mRetryCount == 0) {
-            ((PlayerActivity) getActivity()).setupFullScreenAds();
+        if (mRetryCount >= App.getInterstitialAdsLimit()) {
+            ((InterstitialActivity) getActivity()).setupFullScreenAds();
+            mRetryCount = 0;
         }
     }
 

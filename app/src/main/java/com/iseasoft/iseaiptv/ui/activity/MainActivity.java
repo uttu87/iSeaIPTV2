@@ -314,6 +314,12 @@ public class MainActivity extends BaseActivity
         IseaSoft.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setupFullScreenAds();
+    }
+
     static class GroupChannelAdapter extends FragmentStatePagerAdapter {
         private final List<String> mFragmentTitles = new ArrayList<>();
 
@@ -358,6 +364,6 @@ public class MainActivity extends BaseActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
-    }
 
+    }
 }
