@@ -167,7 +167,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (savedInstanceState == null) {
             setupVideoView();
             setupPlaylist();
-            setupAdmobBannerAds();
+            //setupAdmobBannerAds();
+            setupPublisherBannerAds();
         }
 
         return view;
