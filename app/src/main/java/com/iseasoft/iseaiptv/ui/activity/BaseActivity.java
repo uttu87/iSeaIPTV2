@@ -59,16 +59,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initAdmob();
+        //initAdmob();
         initStartAppSdk();
         //setupAdmob();
+        setupPublisherAds();
 
     }
 
-    protected void setupAdmob() {
+    private void setupAdmob() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.admob_banner_id));
+        adView.setAdUnitId(App.getAdmobBannerId());
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
                 .build();
@@ -95,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initAdmob() {
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        MobileAds.initialize(this, App.getAdmobAppId());
     }
 
     private void setupPublisherAds() {
@@ -192,11 +193,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
 
-        String shareBody = getString(R.string.share_boday);
+        String shareBody = getString(R.string.share_boday, getString(R.string.app_name));
 
         shareBody = shareBody + " at: " + GOOGLE_PLAY_APP_LINK;
 
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject, getString(R.string.app_name)));
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
         String title = getString(R.string.share_app_title);
 
