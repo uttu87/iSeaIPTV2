@@ -84,7 +84,8 @@ public class InterstitialActivity extends AppCompatActivity {
     }
 
     public void setupFullScreenAds() {
-        setupAdmobInterstitialAds();
+        //setupAdmobInterstitialAds();
+        setupPublisherInterstitialAds();
     }
 
 
