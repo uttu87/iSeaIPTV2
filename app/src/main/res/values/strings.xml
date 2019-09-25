@@ -61,6 +61,7 @@
     <string name="no_favorites">No favorites</string>
     <string name="how_to_add_favorite">To add favorite: long press on channel, then select \"Add to favorites\" from the context menu</string>
     <string name="all_channels">All channels</string>
+    <string name="history_watching">Watching History</string>
 
     <string name="playing_error">Error playing channel</string>
 
