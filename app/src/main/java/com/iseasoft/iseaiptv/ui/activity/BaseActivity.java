@@ -60,11 +60,9 @@ public abstract class BaseActivity extends InterstitialActivity {
         unbinder = ButterKnife.bind(this);
         initAdmob();
         initStartAppSdk();
-        setupAdmob();
-
     }
 
-    private void setupAdmob() {
+    public void setupAdmob() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId(App.getAdmobBannerId());

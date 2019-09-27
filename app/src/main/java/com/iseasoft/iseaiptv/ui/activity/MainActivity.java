@@ -302,6 +302,7 @@ public class MainActivity extends BaseActivity
             if (viewPager != null) {
                 setupViewPager(viewPager);
                 viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
+                setupAdmob();
             }
         });
     }
