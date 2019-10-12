@@ -49,6 +49,15 @@
             </RatingBar>
 
             <TextView
+                android:id="@+id/album_title"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/album_artist"
                 style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
                 android:layout_width="fill_parent"
@@ -58,14 +67,6 @@
                 android:singleLine="true"
                 android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/album_title"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
