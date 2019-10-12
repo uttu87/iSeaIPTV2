@@ -21,8 +21,6 @@ import android.widget.SearchView;
 import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
-import com.iseasoft.iseaiptv.api.APIListener;
-import com.iseasoft.iseaiptv.api.IndiaTvAPI;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
@@ -37,16 +35,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.iseasoft.iseaiptv.Constants.SPORT_TV_CATALOG_ID;
 import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
 
 /**
  * Created by nv95 on 10.11.16.
  */
 
-public class ChannelFragment extends BaseFragment {
+public class ChannelFragment extends AdsFragment {
 
-    private static final int COLUMN_WIDTH = 80;
+    private static final int COLUMN_WIDTH = 160;
 
     Unbinder unbinder;
     @BindView(R.id.recyclerview)
@@ -60,7 +57,6 @@ public class ChannelFragment extends BaseFragment {
     MenuItem switchListView;
 
     private ChannelAdapter channelAdapter;
-    private ArrayList<M3UItem> sportTvList = new ArrayList<>();
 
     private String groupName;
     private SearchView searchView;
@@ -84,26 +80,8 @@ public class ChannelFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //fetchOnlineData();
+        spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
         showChannels();
-    }
-
-    private void fetchOnlineData() {
-        IndiaTvAPI.getInstance().getChannelList(String.valueOf(SPORT_TV_CATALOG_ID), new APIListener<ArrayList<M3UItem>>() {
-            @Override
-            public void onRequestCompleted(ArrayList<M3UItem> obj, String leagueName) {
-                if (!isStateSafe()) {
-                    return;
-                }
-                sportTvList.addAll(obj);
-                showChannels();
-            }
-
-            @Override
-            public void onError(Error e) {
-
-            }
-        });
     }
 
     @Override
@@ -125,15 +103,10 @@ public class ChannelFragment extends BaseFragment {
         if (getPlaylistItems() == null || getPlaylistItems().size() == 0) {
             if (groupName.equals(getString(R.string.favorites))) {
                 showFavoritePlaceholder();
-                return;
-            } else if (!groupName.equals(getString(R.string.app_name))) {
+            } else {
                 showPlaceholder();
-                return;
             }
-//            else if (!groupName.equals(getString(R.string.app_name))) {
-//                showPlaceholder();
-//                return;
-//            }
+            return;
         }
         if (channelAdapter == null) {
             channelAdapter = new ChannelAdapter(getActivity(),
@@ -154,7 +127,9 @@ public class ChannelFragment extends BaseFragment {
         }
         hideAllView();
         recyclerView.setVisibility(View.VISIBLE);
+        spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
         channelAdapter.update(getPlaylistItems());
+        generateDataSet(channelAdapter);
         recyclerView.setAdapter(channelAdapter);
         if (isGridView()) {
             setupGridView();
@@ -221,9 +196,6 @@ public class ChannelFragment extends BaseFragment {
             return new ArrayList<>();
         }
 
-//        if (groupName.equals(getString(R.string.app_name))) {
-//            return sportTvList;
-//        }
         if (groupName.equals(getString(R.string.favorites))) {
             return PreferencesUtility.getInstance(getActivity()).getFavoriteChannels();
         }
@@ -241,6 +213,7 @@ public class ChannelFragment extends BaseFragment {
         if (allChannels == null || allChannels.size() == 0) {
             return new ArrayList<>();
         }
+
         if (groupName.equals(getString(R.string.all_channels))) {
             return allChannels;
         }
@@ -283,6 +256,7 @@ public class ChannelFragment extends BaseFragment {
             public boolean onQueryTextChange(final String newText) {
                 if (channelAdapter != null) {
                     channelAdapter.update(getPlaylistItems());
+                    generateDataSet(channelAdapter);
                 }
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);

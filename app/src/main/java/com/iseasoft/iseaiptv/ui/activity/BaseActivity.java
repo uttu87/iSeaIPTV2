@@ -61,11 +61,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         initAdmob();
         initStartAppSdk();
-        setupAdmob();
+        //setupAdmob();
 
     }
 
-    private void setupAdmob() {
+    protected void setupAdmob() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId(App.getAdmobBannerId());
