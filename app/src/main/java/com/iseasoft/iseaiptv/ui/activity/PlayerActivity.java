@@ -4,75 +4,38 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
-import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
-import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
-import com.startapp.android.publish.adsCommon.StartAppAd;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends AppCompatActivity implements FragmentEventListener {
+public class PlayerActivity extends InterstitialActivity implements FragmentEventListener {
 
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
+    private static final int DELAY_MILLIS = 180000;
 
-    private PublisherInterstitialAd publisherInterstitialAd;
-    private StartAppAd startAppAd;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            setupFullScreenAds();
+        }
+    };
 
     private boolean isImmersiveAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    }
-
-    private void setupPublisherInterstitialAds() {
-        if (publisherInterstitialAd == null) {
-            publisherInterstitialAd = new PublisherInterstitialAd(this);
-            publisherInterstitialAd.setAdUnitId(App.getAdmobInterstitialId());
-        }
-        requestNewInterstitial();
-    }
-
-    private void requestNewInterstitial() {
-        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
-                .build();
-
-        publisherInterstitialAd.loadAd(adRequest);
-
-        publisherInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                if (publisherInterstitialAd != null) {
-                    publisherInterstitialAd.show();
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                setupStartAppAd();
-            }
-        });
-    }
-
-    private void setupStartAppAd() {
-        if (startAppAd == null) {
-            startAppAd = new StartAppAd(this);
-        }
-        startAppAd.showAd();
     }
 
     @Override
@@ -94,10 +57,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         }
 
         setupPlayer(mChannel);
-    }
-
-    public void setupFullScreenAds() {
-        setupPublisherInterstitialAds();
+        mHandler.postDelayed(runnable, DELAY_MILLIS);
     }
 
     private void setupPlayer(M3UItem channel) {
@@ -168,8 +128,9 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        publisherInterstitialAd = null;
-        startAppAd = null;
+        mHandler.removeCallbacks(runnable);
+        mHandler = null;
+        runnable = null;
     }
 
     @Override
