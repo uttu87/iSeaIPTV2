@@ -58,13 +58,12 @@ public abstract class BaseActivity extends InterstitialActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initAdmob();
+        //initAdmob();
         initStartAppSdk();
-        //setupAdmob();
 
     }
 
-    protected void setupAdmob() {
+    private void setupAdmob() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId(App.getAdmobBannerId());
@@ -80,6 +79,7 @@ public abstract class BaseActivity extends InterstitialActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     adView.setLayoutParams(params);
+                    footerContainer.removeView(adView);
                     footerContainer.addView(adView);
                 }
             }
@@ -96,7 +96,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         MobileAds.initialize(this, App.getAdmobAppId());
     }
 
-    private void setupPublisherAds() {
+    protected void setupPublisherAds() {
         setupPublisherBannerAds();
     }
 
@@ -117,6 +117,7 @@ public abstract class BaseActivity extends InterstitialActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     publisherAdView.setLayoutParams(params);
+                    footerContainer.removeView(publisherAdView);
                     footerContainer.addView(publisherAdView);
                 }
             }
@@ -134,6 +135,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         banner.setLayoutParams(params);
+        footerContainer.removeView(banner);
         footerContainer.addView(banner);
         banner.loadAd();
     }
