@@ -76,4 +76,5 @@
     <string name="admob_app_id">ca-app-pub-4598992956351116~5769419007</string>
     <string name="admob_banner_id">ca-app-pub-4598992956351116/3040341558</string>
     <string name="admob_interstitial_id">ca-app-pub-4598992956351116/1543427056</string>
+    <string name="native_ads_id">/21617015150/407539/21858867742</string>
 </resources>
