@@ -60,8 +60,6 @@ public abstract class BaseActivity extends InterstitialActivity {
         unbinder = ButterKnife.bind(this);
         //initAdmob();
         initStartAppSdk();
-        //setupAdmob();
-        setupPublisherAds();
 
     }
 
@@ -98,7 +96,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         MobileAds.initialize(this, App.getAdmobAppId());
     }
 
-    private void setupPublisherAds() {
+    protected void setupPublisherAds() {
         setupPublisherBannerAds();
     }
 
