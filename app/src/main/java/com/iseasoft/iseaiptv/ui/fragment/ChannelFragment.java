@@ -41,9 +41,9 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
  * Created by nv95 on 10.11.16.
  */
 
-public class ChannelFragment extends BaseFragment {
+public class ChannelFragment extends AdsFragment {
 
-    private static final int COLUMN_WIDTH = 80;
+    private static final int COLUMN_WIDTH = 160;
 
     Unbinder unbinder;
     @BindView(R.id.recyclerview)
@@ -80,6 +80,7 @@ public class ChannelFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
         showChannels();
     }
 
@@ -126,7 +127,9 @@ public class ChannelFragment extends BaseFragment {
         }
         hideAllView();
         recyclerView.setVisibility(View.VISIBLE);
+        spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
         channelAdapter.update(getPlaylistItems());
+        generateDataSet(channelAdapter);
         recyclerView.setAdapter(channelAdapter);
         if (isGridView()) {
             setupGridView();
@@ -253,6 +256,7 @@ public class ChannelFragment extends BaseFragment {
             public boolean onQueryTextChange(final String newText) {
                 if (channelAdapter != null) {
                     channelAdapter.update(getPlaylistItems());
+                    generateDataSet(channelAdapter);
                 }
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);
