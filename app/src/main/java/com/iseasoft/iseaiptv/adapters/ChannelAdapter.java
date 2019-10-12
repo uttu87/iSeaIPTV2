@@ -29,37 +29,41 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHolder> implements Filterable {
+public class ChannelAdapter extends AdsAdapter implements Filterable {
 
     private final Context mContext;
     private final LayoutInflater mInflater;
-    private ArrayList<M3UItem> mItem = new ArrayList<>();
     private ColorGenerator generator = ColorGenerator.MATERIAL;
     private OnChannelListener listener;
     private int layoutId;
 
     public ChannelAdapter(Context c, int layoutId, OnChannelListener listener) {
         mContext = c;
+        mItems = new ArrayList<>();
         this.listener = listener;
         this.layoutId = layoutId;
         mInflater = LayoutInflater.from(mContext);
+        isGrid = PreferencesUtility.getInstance(c).isGridViewMode();
     }
 
     @NonNull
     @Override
-    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == NATIVE_EXPRESS_AD_VIEW_TYPE) {
+            return super.onCreateViewHolder(parent, viewType);
+        }
         final View sView = mInflater.inflate(layoutId, parent, false);
         return new ItemHolder(sView);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final ItemHolder holder, final int position) {
-        final M3UItem item = mItem.get(position);
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, final int position) {
+        if (getItemViewType(position) == NATIVE_EXPRESS_AD_VIEW_TYPE) {
+            super.onBindViewHolder(viewHolder, position);
+            return;
+        }
+        ItemHolder holder = (ItemHolder) viewHolder;
+        final M3UItem item = (M3UItem) mItems.get(position);
         if (item != null) {
             holder.update(item);
         }
@@ -67,12 +71,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
 
     @Override
     public int getItemCount() {
-        return mItem.size();
+        return mItems.size();
     }
 
     public void update(ArrayList<M3UItem> _list) {
-        this.mItem.clear();
-        this.mItem.addAll(_list);
+        this.mItems.clear();
+        this.mItems.addAll(_list);
         notifyDataSetChanged();
     }
 
@@ -85,10 +89,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
                     return;
                 }
                 if (results.values instanceof ArrayList) {
-                    mItem.clear();
-                    mItem.addAll((ArrayList<M3UItem>) results.values);
-                    notifyDataSetChanged();
+                    mItems.clear();
+                    mItems.addAll((ArrayList<M3UItem>) results.values);
                 }
+                notifyDataSetChanged();
             }
 
             @Override
@@ -97,9 +101,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
                 ArrayList<M3UItem> resultList = new ArrayList<>();
                 if (!(constraint.length() == 0)) {
                     final String filtePatt = constraint.toString().toLowerCase().trim();
-                    for (M3UItem itm : mItem) {
-                        if (itm.getItemName().toLowerCase().contains(filtePatt)) {
-                            resultList.add(itm);
+                    for (Object itm : mItems) {
+                        if (itm instanceof M3UItem) {
+                            M3UItem m3UItem = (M3UItem) itm;
+                            if (m3UItem.getItemName().toLowerCase().contains(filtePatt)) {
+                                resultList.add(m3UItem);
+                            }
                         }
                     }
                 }
@@ -182,7 +189,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ItemHold
 
         private M3UItem getItem() {
             int position = getLayoutPosition();
-            return mItem.get(position);
+            return (M3UItem) mItems.get(position);
         }
 
         private void favorite() {
