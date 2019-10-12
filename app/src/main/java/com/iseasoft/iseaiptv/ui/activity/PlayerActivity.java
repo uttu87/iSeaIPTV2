@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -22,6 +24,15 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
 
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
+    private static final int DELAY_MILLIS = 180000;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            setupFullScreenAds();
+        }
+    };
 
     private boolean isImmersiveAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -46,6 +57,7 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
         }
 
         setupPlayer(mChannel);
+        mHandler.postDelayed(runnable, DELAY_MILLIS);
     }
 
     private void setupPlayer(M3UItem channel) {
@@ -116,6 +128,9 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacks(runnable);
+        mHandler = null;
+        runnable = null;
     }
 
     @Override
