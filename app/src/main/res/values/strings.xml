@@ -74,4 +74,5 @@
 
     <string name="request_storage_permission_message">"iSeaIPTV will need to read external storage to display playlist files on your device."</string>
     <string name="request_storage_permission_message_load">"iSeaIPTV will need to read external storage to load playlist files on your device."</string>
+    <string name="native_ads_id">/21617015150/407539/21858867742</string>
 </resources>

@@ -7,14 +7,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.webkit.WebView;
 
@@ -116,8 +117,7 @@ public class Utils {
         if (spanCount == 0) {
             spanCount = getOptimalSpanCount(recyclerView, columnWidthInDp);
         }
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount,
-                StaggeredGridLayoutManager.VERTICAL);
+        GridLayoutManager layoutManager = new GridLayoutManager(recyclerView.getContext(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
         //recyclerView.setNestedScrollingEnabled(false);
     }
@@ -189,5 +189,12 @@ public class Utils {
             activeNetwork = manager.getActiveNetworkInfo();
         }
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static int getBlackWhiteColor(int color) {
+        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        if (darkness >= 0.5) {
+            return Color.WHITE;
+        } else return Color.BLACK;
     }
 }
