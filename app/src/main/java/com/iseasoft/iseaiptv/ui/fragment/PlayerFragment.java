@@ -35,7 +35,6 @@ import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
-import com.iseasoft.iseaiptv.ui.activity.InterstitialActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.startapp.android.publish.ads.banner.Banner;
@@ -167,7 +166,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         if (savedInstanceState == null) {
             setupVideoView();
             setupPlaylist();
-            setupAdmobBannerAds();
+            setupPublisherBannerAds();
         }
 
         return view;
@@ -175,7 +174,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
     private void setupAdmobBannerAds() {
         adView = new AdView(getActivity());
-        adView.setAdUnitId(App.getAdmobBannerId());
+        adView.setAdUnitId(getString(R.string.admob_banner_id));
         adView.setAdSize(AdSize.BANNER);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
@@ -340,14 +339,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             if (currentPosition > 0) {
                 videoView.seekTo(currentPosition);
             }
-            showAds();
-        }
-    }
-
-    private void showAds() {
-        if (mRetryCount >= App.getInterstitialAdsLimit()) {
-            ((InterstitialActivity) getActivity()).setupFullScreenAds();
-            mRetryCount = 0;
         }
     }
 
@@ -364,10 +355,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
 
         screenModeChange(isFullscreen, false);
 
-        if (adView != null) {
-            adView.resume();
-        }
-
         if (publisherAdView != null) {
             publisherAdView.resume();
         }
@@ -380,9 +367,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             videoView.pause();
         }
 
-        if (adView != null) {
-            adView.pause();
-        }
         if (publisherAdView != null) {
             publisherAdView.pause();
         }
@@ -402,9 +386,6 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mChannel = null;
         mPlaylist = null;
         fragmentEventListener = null;
-        if (adView != null) {
-            adView.destroy();
-        }
         if (publisherAdView != null) {
             publisherAdView.destroy();
         }
