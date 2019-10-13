@@ -149,7 +149,7 @@ public class App extends Application {
     }
 
     public static String getPublisherBannerId() {
-        return publisherBannerId;
+        return "/21617015150/407539/21853188684";
     }
 
     public static void setPublisherBannerId(String publisherBannerId) {
@@ -157,7 +157,7 @@ public class App extends Application {
     }
 
     public static String getPublisherInterstitialId() {
-        return publisherInterstitialId;
+        return "/21617015150/407539/21853476136";
     }
 
     public static void setPublisherInterstitialId(String publisherInterstitialId) {
