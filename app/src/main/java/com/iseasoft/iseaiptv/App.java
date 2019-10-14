@@ -154,6 +154,14 @@ public class App extends Application {
         return getApplication().getApplicationContext();
     }
 
+    public static String getPublisherInterstitialId() {
+        return "/21617015150/407539/21853476136";
+    }
+
+    public static String getPublisherBannerId() {
+        return "/21617015150/407539/21853188684";
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -16,10 +16,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.iseasoft.iseaiptv.App;
@@ -59,51 +57,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initAdmob();
         initStartAppSdk();
-        //setupAdmob();
-
     }
 
-    protected void setupAdmob() {
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.admob_banner_id));
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("FB536EF8C6F97686372A2C5A5AA24BC5")
-                .build();
-        adView.loadAd(adRequest);
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                if (adView != null) {
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    adView.setLayoutParams(params);
-                    footerContainer.removeView(adView);
-                    footerContainer.addView(adView);
-                }
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                setupPublisherAds();
-            }
-        });
-    }
-
-    private void initAdmob() {
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
-    }
-
-    private void setupPublisherAds() {
-        setupPublisherBannerAds();
-    }
-
-
-    private void setupPublisherBannerAds() {
+    protected void setupPublisherBannerAds() {
         publisherAdView = new PublisherAdView(this);
         publisherAdView.setAdUnitId(App.getPublisherBannerId());
         publisherAdView.setAdSizes(AdSize.BANNER);
