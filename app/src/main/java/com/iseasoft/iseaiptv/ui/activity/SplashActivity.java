@@ -45,7 +45,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupFirebaseRemoteConfig();
-        getAppConfig();
     }
 
     private void getAppConfig() {
@@ -129,6 +128,7 @@ public class SplashActivity extends AppCompatActivity {
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
         App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
         savePlaylist();
+        navigationToMainScreen();
     }
 
     private void savePlaylist() {
