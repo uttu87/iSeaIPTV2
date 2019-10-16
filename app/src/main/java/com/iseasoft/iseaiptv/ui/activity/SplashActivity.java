@@ -136,6 +136,7 @@ public class SplashActivity extends AppCompatActivity {
             App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
         }
         savePlaylist();
+        navigationToMainScreen();
     }
 
     private void savePlaylist() {
