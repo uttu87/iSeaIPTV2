@@ -112,7 +112,6 @@ public class SplashActivity extends AppCompatActivity {
                             }
                         }
                         applyRemoteConfig();
-                        navigationToMainScreen();
                     }
                 });
         // [END fetch_config_with_callback]
