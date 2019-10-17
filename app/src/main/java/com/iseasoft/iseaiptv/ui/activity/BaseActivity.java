@@ -58,7 +58,6 @@ public abstract class BaseActivity extends InterstitialActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initAdmob();
         initStartAppSdk();
         //setupAdmob();
 
