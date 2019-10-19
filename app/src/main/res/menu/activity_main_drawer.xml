@@ -5,17 +5,31 @@
 
     <group>
         <item
-            android:id="@+id/nav_rate"
-            android:icon="@drawable/ic_rate"
-            android:title="Rate" />
+            android:id="@+id/nav_playlist"
+            android:icon="@drawable/ic_playlist"
+            android:title="Playlist" />
+
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Share" />
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_about"
-            android:title="About" />
+            android:id="@+id/nav_live_stream"
+            android:icon="@drawable/ic_live_stream"
+            android:title="@string/open_network_stream" />
     </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_rate"
+                android:title="Rate" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="About" />
+        </menu>
+    </item>
 
 </menu>

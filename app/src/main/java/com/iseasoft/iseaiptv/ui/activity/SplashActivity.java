@@ -25,11 +25,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.iseasoft.iseaiptv.Constants.ACTIVE_ADS_KEY;
+import static com.iseasoft.iseaiptv.Constants.ADMOB_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
 import static com.iseasoft.iseaiptv.Constants.BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_BANNER_ID;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.START_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.TODAY_HIGHLIGHT_STATUS;
 import static com.iseasoft.iseaiptv.Constants.USE_ADMOB;
@@ -44,7 +47,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupFirebaseRemoteConfig();
-        getAppConfig();
     }
 
     private void getAppConfig() {
@@ -97,7 +99,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void fetchRemoteConfig() {
-        long cacheExpiration = 0; // seconds.
+        long cacheExpiration = 3600; // seconds.
+
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }
+
         mFirebaseRemoteConfig.fetch(cacheExpiration)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -110,6 +117,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                         }
                         applyRemoteConfig();
+                        navigationToMainScreen();
                     }
                 });
         // [END fetch_config_with_callback]
@@ -123,8 +131,11 @@ public class SplashActivity extends AppCompatActivity {
         App.setUseRichAdx(mFirebaseRemoteConfig.getBoolean(USE_RICHADX));
         App.setInterstitialAdsLimit(mFirebaseRemoteConfig.getLong(INTERSTITIAL_ADS_LIMIT));
         App.setAdsType(mFirebaseRemoteConfig.getLong(ADS_TYPE));
+        App.setAdmobAppId(mFirebaseRemoteConfig.getString(ADMOB_APP_ID));
         App.setAdmobBannerId(mFirebaseRemoteConfig.getString(ADMOB_BANNER_ID));
         App.setAdmobInterstitialId(mFirebaseRemoteConfig.getString(ADMOB_INTERSTITIAL_ID));
+        App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
+        App.setPublisherInterstitialId(mFirebaseRemoteConfig.getString(PUBLISHER_INTERSTITIAL_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
         App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
         savePlaylist();
