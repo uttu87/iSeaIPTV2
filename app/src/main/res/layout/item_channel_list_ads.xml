@@ -31,23 +31,6 @@
             android:orientation="vertical"
             android:paddingTop="5dp">
 
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/gnt_no_margin"
-                android:layout_marginTop="@dimen/gnt_no_margin"
-                android:layout_marginEnd="@dimen/gnt_no_margin"
-                android:layout_marginBottom="@dimen/gnt_no_margin"
-                android:lines="1"
-                android:numStars="0"
-                android:textColor="@color/gnt_gray"
-                android:textSize="@dimen/gnt_text_size_small"
-                android:visibility="visible">
-
-            </RatingBar>
-
             <TextView
                 android:id="@+id/album_title"
                 style="@style/TextAppearance.AppCompat.Body1"
@@ -66,6 +49,25 @@
                 android:paddingTop="3dp"
                 android:singleLine="true"
                 android:textSize="13sp" />
+
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/gnt_no_margin"
+                android:layout_marginTop="@dimen/gnt_no_margin"
+                android:layout_marginEnd="@dimen/gnt_no_margin"
+                android:layout_marginBottom="@dimen/gnt_no_margin"
+                android:lines="1"
+                android:numStars="0"
+                android:textColor="@color/gnt_gray"
+                android:textSize="@dimen/gnt_text_size_small"
+                android:visibility="visible">
+
+            </RatingBar>
+
 
 
             <View

@@ -35,7 +35,7 @@
 
                 <RatingBar
                     android:id="@+id/rating_bar"
-                    style="?android:attr/ratingBarStyleIndicator"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:singleLine="true"
+                    android:visibility="gone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
             </LinearLayout>
 
