@@ -237,12 +237,12 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_playlist:
-                navigateToPlaylist();
-                break;
-            case R.id.nav_live_stream:
-                openPlayStreamDialog();
-                break;
+//            case R.id.nav_playlist:
+//                navigateToPlaylist();
+//                break;
+//            case R.id.nav_live_stream:
+//                openPlayStreamDialog();
+//                break;
             case R.id.nav_share:
                 shareApp();
                 break;
