@@ -4,11 +4,11 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.isea14.ukrainetv"
+        applicationId "com.isea14.musictv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 170
-        versionName "1.7"
+        versionCode 100
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

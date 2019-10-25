@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ukraine TV</string>
+    <string name="app_name">Music TV</string>
     <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
     <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
 
@@ -76,5 +76,5 @@
     <string name="admob_app_id">ca-app-pub-4598992956351116~6668363864</string>
     <string name="admob_banner_id">ca-app-pub-4598992956351116/5384036504</string>
     <string name="admob_interstitial_id">ca-app-pub-4598992956351116/5081973542</string>
-    <string name="native_ads_id">/21617015150/407539/21858867742</string>
+    <string name="native_ads_id">/21617015150/407539/21859668535</string>
 </resources>
