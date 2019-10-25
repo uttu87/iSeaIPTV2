@@ -342,13 +342,13 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     @Override
     public void onResume() {
         super.onResume();
-        if (videoView != null) {
-            videoView.start();
+        if (videoView != null && videoView.isPlaying()) {
+            videoView.setKeepScreenOn(true);
 
         }
-        if (mVideoController != null) {
-            mVideoController.updatePlayPauseImage(true);
-        }
+//        if (mVideoController != null) {
+//            mVideoController.updatePlayPauseImage(true);
+//        }
 
         screenModeChange(isFullscreen, false);
 
@@ -365,7 +365,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
     public void onPause() {
         super.onPause();
         if (videoView != null) {
-            videoView.pause();
+            videoView.setKeepScreenOn(false);
         }
 
         if (adView != null) {
@@ -385,6 +385,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             mVideoController.setButtonListener(null);
             mVideoController.setPlaylistButtonClickListener(null);
             mVideoController.setVisibilityListener(null);
+        }
+        if(videoView != null) {
+            videoView.release();
         }
         mVideoController = null;
         mChannel = null;
