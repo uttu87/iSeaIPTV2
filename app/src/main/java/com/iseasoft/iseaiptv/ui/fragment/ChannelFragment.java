@@ -1,5 +1,6 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.ui.activity.ExpandedControlsActivity;
 import com.iseasoft.iseaiptv.ui.activity.MainActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
@@ -421,6 +423,14 @@ public class ChannelFragment extends AdsFragment {
         if (remoteMediaClient == null) {
             return;
         }
+        remoteMediaClient.registerCallback(new RemoteMediaClient.Callback() {
+            @Override
+            public void onStatusUpdated() {
+                Intent intent = new Intent(getActivity(), ExpandedControlsActivity.class);
+                startActivity(intent);
+                remoteMediaClient.unregisterCallback(this);
+            }
+        });
         remoteMediaClient.load(new MediaLoadRequestData.Builder()
                 .setMediaInfo(buildMediaInfo(channel))
                 .setAutoplay(autoPlay)
@@ -433,11 +443,10 @@ public class ChannelFragment extends AdsFragment {
         movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, channel.getItemGroup());
         movieMetadata.putString(MediaMetadata.KEY_TITLE, channel.getItemName());
         movieMetadata.addImage(new WebImage(Uri.parse(channel.getItemIcon())));
-        movieMetadata.addImage(new WebImage(Uri.parse(channel.getItemIcon())));
 
         return new MediaInfo.Builder(channel.getItemUrl())
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
-                .setContentType("application/dash+xml")
+                .setContentType("application/x-mpegurl")
                 .setMetadata(movieMetadata)
                 .build();
     }

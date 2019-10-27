@@ -10,7 +10,7 @@ android {
         versionCode 140
         versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "CHROMECAST_APP_ID", "\"29A66E17\""
+        buildConfigField "String", "CHROMECAST_APP_ID", "\"4F8B3483\""
     }
     buildTypes {
         release {
