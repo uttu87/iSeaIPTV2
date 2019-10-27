@@ -1,6 +1,7 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -18,6 +19,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaLoadRequestData;
+import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.SessionManagerListener;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.common.images.WebImage;
 import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
@@ -44,7 +54,6 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
 public class ChannelFragment extends AdsFragment {
 
     private static final int COLUMN_WIDTH = 160;
-
     Unbinder unbinder;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -54,12 +63,16 @@ public class ChannelFragment extends AdsFragment {
     LinearLayout favoritePlaceholderContainer;
     @BindView(R.id.placeholder_container)
     ConstraintLayout placeholderContainer;
+
     MenuItem switchListView;
-
+    private PlaybackLocation mLocation;
     private ChannelAdapter channelAdapter;
-
     private String groupName;
     private SearchView searchView;
+    private CastContext mCastContext;
+    private MenuItem mediaRouteMenuItem;
+    private CastSession mCastSession;
+    private SessionManagerListener<CastSession> mSessionManagerListener;
 
     public static ChannelFragment newInstance(String groupName) {
         ChannelFragment fragment = new ChannelFragment();
@@ -82,6 +95,9 @@ public class ChannelFragment extends AdsFragment {
         super.onViewCreated(view, savedInstanceState);
         spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
         showChannels();
+        setupCastListener();
+        mCastContext = CastContext.getSharedInstance(getActivity());
+        mCastSession = mCastContext.getSessionManager().getCurrentCastSession();
     }
 
     @Override
@@ -118,11 +134,16 @@ public class ChannelFragment extends AdsFragment {
                 if (searchView != null) {
                     searchView.clearFocus();
                 }
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(CHANNEL_KEY, item);
-                //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                App.setChannelList(getPlaylistItems());
-                Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
+
+                if (isCastConnected()) {
+                    loadRemoteMedia(item, true);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(CHANNEL_KEY, item);
+                    //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
+                    App.setChannelList(getPlaylistItems());
+                    Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
+                }
             });
         }
         hideAllView();
@@ -183,6 +204,8 @@ public class ChannelFragment extends AdsFragment {
     public void onResume() {
         super.onResume();
         showChannels();
+        mCastContext.getSessionManager().addSessionManagerListener(
+                mSessionManagerListener, CastSession.class);
     }
 
     private void showFavoritePlaceholder() {
@@ -274,6 +297,8 @@ public class ChannelFragment extends AdsFragment {
             list.setChecked(true);
             switchListView.setIcon(R.drawable.ic_list);
         }
+
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(App.self().getApplicationContext(), menu, R.id.media_route_menu_item);
     }
 
     private boolean isGridView() {
@@ -331,5 +356,105 @@ public class ChannelFragment extends AdsFragment {
             return;
         }
         Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, false);
+    }
+
+    private void setupCastListener() {
+        mSessionManagerListener = new SessionManagerListener<CastSession>() {
+
+            @Override
+            public void onSessionEnded(CastSession session, int error) {
+                onApplicationDisconnected();
+            }
+
+            @Override
+            public void onSessionResumed(CastSession session, boolean wasSuspended) {
+                onApplicationConnected(session);
+            }
+
+            @Override
+            public void onSessionResumeFailed(CastSession session, int error) {
+                onApplicationDisconnected();
+            }
+
+            @Override
+            public void onSessionStarted(CastSession session, String sessionId) {
+                onApplicationConnected(session);
+            }
+
+            @Override
+            public void onSessionStartFailed(CastSession session, int error) {
+                onApplicationDisconnected();
+            }
+
+            @Override
+            public void onSessionStarting(CastSession session) {
+            }
+
+            @Override
+            public void onSessionEnding(CastSession session) {
+            }
+
+            @Override
+            public void onSessionResuming(CastSession session, String sessionId) {
+            }
+
+            @Override
+            public void onSessionSuspended(CastSession session, int reason) {
+            }
+
+            private void onApplicationConnected(CastSession castSession) {
+                mCastSession = castSession;
+            }
+
+            private void onApplicationDisconnected() {
+                mLocation = PlaybackLocation.LOCAL;
+                mCastSession = null;
+            }
+        };
+    }
+
+    private void loadRemoteMedia(M3UItem channel, boolean autoPlay) {
+        if (mCastSession == null) {
+            return;
+        }
+        RemoteMediaClient remoteMediaClient = mCastSession.getRemoteMediaClient();
+        if (remoteMediaClient == null) {
+            return;
+        }
+        remoteMediaClient.load(new MediaLoadRequestData.Builder()
+                .setMediaInfo(buildMediaInfo(channel))
+                .setAutoplay(autoPlay)
+                .setCurrentTime(0).build());
+    }
+
+    private MediaInfo buildMediaInfo(M3UItem channel) {
+        MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MOVIE);
+
+        movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, channel.getItemGroup());
+        movieMetadata.putString(MediaMetadata.KEY_TITLE, channel.getItemName());
+        movieMetadata.addImage(new WebImage(Uri.parse(channel.getItemIcon())));
+        movieMetadata.addImage(new WebImage(Uri.parse(channel.getItemIcon())));
+
+        return new MediaInfo.Builder(channel.getItemUrl())
+                .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
+                .setContentType("application/dash+xml")
+                .setMetadata(movieMetadata)
+                .build();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCastContext.getSessionManager().removeSessionManagerListener(
+                mSessionManagerListener, CastSession.class);
+    }
+
+    private boolean isCastConnected() {
+        return mCastSession != null && mCastSession.isConnected();
+    }
+
+    public enum PlaybackLocation {
+        LOCAL,
+        REMOTE
     }
 }

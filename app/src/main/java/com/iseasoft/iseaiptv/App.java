@@ -175,7 +175,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mSelf = this;
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
 

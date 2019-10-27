@@ -32,4 +32,11 @@
             </group>
         </menu>
     </item>
+
+    <item
+        android:id="@+id/media_route_menu_item"
+        android:orderInCategory="103"
+        android:title="Cast"
+        app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+        app:showAsAction="always"/>
 </menu>
