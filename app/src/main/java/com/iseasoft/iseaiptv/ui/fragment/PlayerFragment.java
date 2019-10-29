@@ -489,10 +489,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             return false;
         }
 
-        if (mVideoController != null) {
-            mVideoController.showPlayErrorMessage(true);
-            mVideoController.finishLoading();
-        }
+        onNextClicked();
         return false;
     }
 
