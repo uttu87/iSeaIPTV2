@@ -139,7 +139,11 @@ public class ChannelAdapter extends AdsAdapter implements Filterable {
                         .buildRoundRect(String.valueOf(item.getItemName().charAt(0)), color, 100);
 
                 if (TextUtils.isEmpty(item.getItemIcon())) {
-                    cImg.setImageDrawable(textDrawable);
+                    if (item.getItemName().toLowerCase().contains("bein")) {
+                        cImg.setBackgroundResource(R.drawable.ic_logo);
+                    } else {
+                        cImg.setImageDrawable(textDrawable);
+                    }
                 } else {
                     Picasso.get()
                             .load(item.getItemIcon())
