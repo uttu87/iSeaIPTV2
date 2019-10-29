@@ -3,7 +3,7 @@ package com.iseasoft.iseaiptv.ui.fragment;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
-import com.iseasoft.iseaiptv.R;
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.adapters.AdsAdapter;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class AdsFragment extends BaseFragment {
         if (isExistAds(adapter)) {
             return;
         }
-        AdLoader adLoader = new AdLoader.Builder(getActivity(), getString(R.string.native_ads_id))
+        AdLoader adLoader = new AdLoader.Builder(getActivity(), App.getPublisherNativeId())
                 .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
                     @Override
                     public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {

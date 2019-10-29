@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
 <defaultsMap>
     <entry>
+        <key>base_url</key>
+        <value>https://raw.githubusercontent.com/uttu87/livetv/master/BEINSports.m3u</value>
+    </entry>
+    <entry>
+        <key>app_store_url</key>
+        <value></value>
+    </entry>
+    <entry>
         <key>today_highlight_status</key>
         <value></value>
     </entry>
@@ -46,11 +54,15 @@
     </entry>
     <entry>
         <key>publisher_banner_id</key>
-        <value>/112517806/139301556696907</value>
+        <value>/21617015150/407539/21866047917</value>
     </entry>
     <entry>
         <key>publisher_interstitial_id</key>
-        <value>/112517806/339301556697019</value>
+        <value>/21617015150/407539/21859425686</value>
+    </entry>
+    <entry>
+        <key>publisher_native_id</key>
+        <value>/21617015150/407539/21859668535</value>
     </entry>
     <entry>
         <key>start_app_id</key>

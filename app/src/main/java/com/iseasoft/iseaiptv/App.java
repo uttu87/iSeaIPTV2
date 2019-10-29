@@ -31,7 +31,10 @@ public class App extends Application {
     private static String admobInterstitialId = "";
     private static String publisherBannerId = "";
     private static String publisherInterstitialId = "";
+    private static String publisherNativeId = "";
     private static String startAppId = "";
+    private static String baseUrl = "";
+    private static String appStoreUrl = "";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -152,12 +155,36 @@ public class App extends Application {
         App.publisherInterstitialId = publisherInterstitialId;
     }
 
+    public static String getPublisherNativeId() {
+        return publisherNativeId;
+    }
+
+    public static void setPublisherNativeId(String publisherNativeId) {
+        App.publisherNativeId = publisherNativeId;
+    }
+
     public static String getStartAppId() {
         return startAppId;
     }
 
     public static void setStartAppId(String startappId) {
         App.startAppId = startappId;
+    }
+
+    public static String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public static void setBaseUrl(String baseUrl) {
+        App.baseUrl = baseUrl;
+    }
+
+    public static String getAppStoreUrl() {
+        return appStoreUrl;
+    }
+
+    public static void setAppStoreUrl(String appStoreUrl) {
+        App.appStoreUrl = appStoreUrl;
     }
 
     public static App self() {

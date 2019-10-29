@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.isea14.iptv"
+        applicationId "com.isea14.beinsport"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 140

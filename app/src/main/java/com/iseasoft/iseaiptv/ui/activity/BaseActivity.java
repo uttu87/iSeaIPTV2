@@ -192,7 +192,7 @@ public abstract class BaseActivity extends InterstitialActivity {
 
         String shareBody = getString(R.string.share_boday, getString(R.string.app_name));
 
-        shareBody = shareBody + " at: " + GOOGLE_PLAY_APP_LINK;
+        shareBody = shareBody + " at: " + App.getAppStoreUrl();
 
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject, getString(R.string.app_name)));
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
