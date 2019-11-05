@@ -1,4 +1,4 @@
-<com.google.android.gms.ads.formats.UnifiedNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/template_ads"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             <TextView
                 android:id="@+id/album_title"
                 style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
@@ -43,13 +43,12 @@
             <TextView
                 android:id="@+id/album_artist"
                 style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingTop="3dp"
                 android:singleLine="true"
                 android:textSize="13sp" />
-
 
             <RatingBar
                 android:id="@+id/rating_bar"
@@ -69,7 +68,6 @@
             </RatingBar>
 
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -78,4 +76,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</com.google.android.gms.ads.formats.UnifiedNativeAdView>
+</RelativeLayout>
