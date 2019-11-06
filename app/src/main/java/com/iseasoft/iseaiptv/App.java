@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/cn.m3u";
+    private static String baseUrl = "https://iptv-org.github.io/iptv/languages/zh.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
