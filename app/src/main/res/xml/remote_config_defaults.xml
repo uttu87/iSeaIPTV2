@@ -2,7 +2,7 @@
 <defaultsMap>
     <entry>
         <key>base_url</key>
-        <value>https://raw.githubusercontent.com/uttu87/livetv/master/ua.m3u</value>
+        <value>https://iptv-org.github.io/iptv/languages/uk.m3u</value>
     </entry>
     <entry>
         <key>today_highlight_status</key>
