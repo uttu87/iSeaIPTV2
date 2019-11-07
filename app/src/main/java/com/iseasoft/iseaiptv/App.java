@@ -33,7 +33,7 @@ public class App extends Application {
     private static String admobInterstitialId = "";
     private static String publisherBannerId = "";
     private static String publisherInterstitialId = "";
-    private static String startAppId = "204027010";
+    private static String startAppId = "204703090";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 

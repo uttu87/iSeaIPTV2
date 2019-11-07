@@ -46,7 +46,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupFirebaseRemoteConfig();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        savePlaylist();
+        navigationToMainScreen();
     }
 
     private void getAppConfig() {
