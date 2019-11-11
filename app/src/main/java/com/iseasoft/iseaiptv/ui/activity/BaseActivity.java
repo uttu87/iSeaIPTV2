@@ -130,7 +130,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         });
     }
 
-    private void setupStartAppBanner() {
+    protected void setupStartAppBanner() {
         banner = new Banner(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);

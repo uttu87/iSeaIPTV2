@@ -168,7 +168,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             setupVideoView();
             setupPlaylist();
             //setupAdmobBannerAds();
-            setupPublisherBannerAds();
+            //setupPublisherBannerAds();
+            setupStartAppBanner();
         }
 
         return view;

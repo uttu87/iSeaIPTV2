@@ -25,7 +25,7 @@ public class PlaylistActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         setupPlaylist();
-        setupPublisherAds();
+        setupStartAppBanner();
     }
 
     private void setupPlaylist() {

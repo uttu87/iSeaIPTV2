@@ -36,7 +36,7 @@ public class SelectFileActivity extends BaseActivity implements FolderListener {
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         setupSelectFileView();
-        setupPublisherAds();
+        setupStartAppBanner();
     }
 
     private void updateTitle(String title) {
