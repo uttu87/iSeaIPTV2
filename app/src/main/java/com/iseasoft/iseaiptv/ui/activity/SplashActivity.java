@@ -33,6 +33,7 @@ import static com.iseasoft.iseaiptv.Constants.BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
 import static com.iseasoft.iseaiptv.Constants.PUBLISHER_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.PUBLISHER_INTERSTITIAL_ID;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_NATIVE_ID;
 import static com.iseasoft.iseaiptv.Constants.START_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.TODAY_HIGHLIGHT_STATUS;
 import static com.iseasoft.iseaiptv.Constants.USE_ADMOB;
@@ -131,6 +132,7 @@ public class SplashActivity extends AppCompatActivity {
         App.setAdmobInterstitialId(mFirebaseRemoteConfig.getString(ADMOB_INTERSTITIAL_ID));
         App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
         App.setPublisherInterstitialId(mFirebaseRemoteConfig.getString(PUBLISHER_INTERSTITIAL_ID));
+        App.setPublisherNativeId(mFirebaseRemoteConfig.getString(PUBLISHER_NATIVE_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
         if (!TextUtils.isEmpty(mFirebaseRemoteConfig.getString(BASE_URL))) {
             App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
