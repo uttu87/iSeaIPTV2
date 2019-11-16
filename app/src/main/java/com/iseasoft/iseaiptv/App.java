@@ -28,9 +28,13 @@ public class App extends Application {
     private static String todayHighlightStatus;
     private static long interstitialAdsLimit = 5;
     private static long adsType = 1;
+    private static String admobAppId = "";
     private static String admobBannerId = "";
     private static String admobInterstitialId = "";
-    private static String startAppId = "208334203";
+    private static String publisherBannerId = "";
+    private static String publisherInterstitialId = "";
+    private static String publisherNativeId = "";
+    private static String startAppId = "208280482";
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -137,6 +141,30 @@ public class App extends Application {
         App.admobInterstitialId = admobInterstitialId;
     }
 
+    public static String getPublisherBannerId() {
+        return publisherBannerId;
+    }
+
+    public static void setPublisherBannerId(String publisherBannerId) {
+        App.publisherBannerId = publisherBannerId;
+    }
+
+    public static String getPublisherInterstitialId() {
+        return publisherInterstitialId;
+    }
+
+    public static void setPublisherInterstitialId(String publisherInterstitialId) {
+        App.publisherInterstitialId = publisherInterstitialId;
+    }
+
+    public static String getPublisherNativeId() {
+        return publisherNativeId;
+    }
+
+    public static void setPublisherNativeId(String publisherNativeId) {
+        App.publisherNativeId = publisherNativeId;
+    }
+
     public static String getStartAppId() {
         return startAppId;
     }
@@ -159,18 +187,10 @@ public class App extends Application {
         return getApplication().getApplicationContext();
     }
 
-    public static String getPublisherInterstitialId() {
-        return "/21617015150/407539/21853476136";
-    }
-
-    public static String getPublisherBannerId() {
-        return "/21617015150/407539/21853188684";
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mSelf = this;
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
 
