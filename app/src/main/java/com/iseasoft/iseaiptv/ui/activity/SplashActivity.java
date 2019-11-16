@@ -25,12 +25,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.iseasoft.iseaiptv.Constants.ACTIVE_ADS_KEY;
+import static com.iseasoft.iseaiptv.Constants.ADMOB_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
 import static com.iseasoft.iseaiptv.Constants.BASE_URL;
-import static com.iseasoft.iseaiptv.Constants.DEFAULT_BASE_URL;
 import static com.iseasoft.iseaiptv.Constants.INTERSTITIAL_ADS_LIMIT;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_BANNER_ID;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_INTERSTITIAL_ID;
+import static com.iseasoft.iseaiptv.Constants.PUBLISHER_NATIVE_ID;
 import static com.iseasoft.iseaiptv.Constants.START_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.TODAY_HIGHLIGHT_STATUS;
 import static com.iseasoft.iseaiptv.Constants.USE_ADMOB;
@@ -110,6 +113,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                         }
                         applyRemoteConfig();
+                        navigationToMainScreen();
                     }
                 });
         // [END fetch_config_with_callback]
@@ -123,18 +127,22 @@ public class SplashActivity extends AppCompatActivity {
         App.setUseRichAdx(mFirebaseRemoteConfig.getBoolean(USE_RICHADX));
         App.setInterstitialAdsLimit(mFirebaseRemoteConfig.getLong(INTERSTITIAL_ADS_LIMIT));
         App.setAdsType(mFirebaseRemoteConfig.getLong(ADS_TYPE));
+        App.setAdmobAppId(mFirebaseRemoteConfig.getString(ADMOB_APP_ID));
         App.setAdmobBannerId(mFirebaseRemoteConfig.getString(ADMOB_BANNER_ID));
         App.setAdmobInterstitialId(mFirebaseRemoteConfig.getString(ADMOB_INTERSTITIAL_ID));
+        App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
+        App.setPublisherInterstitialId(mFirebaseRemoteConfig.getString(PUBLISHER_INTERSTITIAL_ID));
+        App.setPublisherNativeId(mFirebaseRemoteConfig.getString(PUBLISHER_NATIVE_ID));
         App.setStartAppId(mFirebaseRemoteConfig.getString(START_APP_ID));
-        App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        if (!TextUtils.isEmpty(mFirebaseRemoteConfig.getString(BASE_URL))) {
+            App.setBaseUrl(mFirebaseRemoteConfig.getString(BASE_URL));
+        }
         savePlaylist();
-        navigationToMainScreen();
     }
 
     private void savePlaylist() {
         Playlist playlist = new Playlist();
-        final String url = TextUtils.isEmpty(App.getBaseUrl()) ? DEFAULT_BASE_URL : App.getBaseUrl();
-        playlist.setLink(url);
+        playlist.setLink(App.getBaseUrl());
         playlist.setName(getString(R.string.app_name));
         PreferencesUtility.getInstance(this).savePlaylist(playlist);
     }
