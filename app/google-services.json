@@ -1,63 +1,34 @@
 {
   "project_info": {
-    "project_number": "968362943472",
-    "firebase_url": "https://isealive-2666f.firebaseio.com",
-    "project_id": "isealive-2666f",
-    "storage_bucket": "isealive-2666f.appspot.com"
+    "project_number": "179675207218",
+    "firebase_url": "https://iseatv-c1ffc.firebaseio.com",
+    "project_id": "iseatv-c1ffc",
+    "storage_bucket": "iseatv-c1ffc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:968362943472:android:81aac8a694866acb2bf335",
+        "mobilesdk_app_id": "1:179675207218:android:da8a72fd7934fe0df64e2b",
         "android_client_info": {
-          "package_name": "com.isea14.armeniatv2"
+          "package_name": "com.iseasoftvn.armeniatv"
         }
       },
       "oauth_client": [
         {
-          "client_id": "968362943472-mepe5369oegjh4ih2sg2js76eb8f14va.apps.googleusercontent.com",
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCEiUcVlTfobS5MNrbWxtbkhGBk8x5fK08"
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "968362943472-mepe5369oegjh4ih2sg2js76eb8f14va.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:968362943472:android:bf1d65feb4096ea9",
-        "android_client_info": {
-          "package_name": "com.iseasoft.isealive"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "968362943472-mepe5369oegjh4ih2sg2js76eb8f14va.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCEiUcVlTfobS5MNrbWxtbkhGBk8x5fK08"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "968362943472-mepe5369oegjh4ih2sg2js76eb8f14va.apps.googleusercontent.com",
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
