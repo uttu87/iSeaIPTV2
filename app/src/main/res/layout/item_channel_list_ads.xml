@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.gms.ads.formats.UnifiedNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/template_ads"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -76,4 +76,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</com.google.android.gms.ads.formats.UnifiedNativeAdView>
