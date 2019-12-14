@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity
     private ProgressBar progressBar;
 
     private M3UPlaylist mPlaylist;
-    private GroupChannelAdapter adapter;
+
     private final PermissionCallback permissionReadstorageCallback = new PermissionCallback() {
         @Override
         public void permissionGranted() {
@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity
             requestStoragePermission();
         }
     };
+    private GroupChannelAdapter adapter;
 
     public M3UPlaylist getPlaylist() {
         return mPlaylist;
@@ -126,9 +127,6 @@ public class MainActivity extends BaseActivity
     }
 
     private boolean checkPlayableUrl(String url) {
-//        if (url.contains(".m3u8") || url.contains(".ts") || url.contains(".mp4")) {
-//            return true;
-//        }
         return true;
     }
 
@@ -141,7 +139,7 @@ public class MainActivity extends BaseActivity
         final Playlist lastPlaylist = PreferencesUtility.getInstance(this).getLastPlaylist();
         if (lastPlaylist != null) {
             displayPlaylistInfo(lastPlaylist);
-            if (lastPlaylist.getLink().startsWith("http")) {
+            if (lastPlaylist.getLink().trim().startsWith("http")) {
                 loadServer(lastPlaylist.getLink());
             } else {
                 try {
@@ -356,6 +354,6 @@ public class MainActivity extends BaseActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
-
     }
+
 }
