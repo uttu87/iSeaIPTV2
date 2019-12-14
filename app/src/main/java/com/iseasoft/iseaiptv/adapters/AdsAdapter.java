@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
+import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.startapp.android.publish.ads.nativead.NativeAdDetails;
@@ -40,8 +42,7 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         final NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) viewHolder;
-        NativeAdDetails nativeAdDetails = (NativeAdDetails) mItems.get(i);
-        nativeExpressHolder.setContent(nativeAdDetails);
+        nativeExpressHolder.setContent(mItems.get(i));
     }
 
     @Override
@@ -60,7 +61,7 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // then return NATIVE_EXPRESS_AD_VIEW_TYPE otherwise DATA_VIEW_TYPE
         // By the logic defined below, an ad unit will be showed after every spaceBetweenAds numbers of data items
         Object item = mItems.get(position);
-        if (item instanceof NativeAdDetails) {
+        if (item instanceof UnifiedNativeAd || item instanceof NativeAdDetails) {
             return NATIVE_EXPRESS_AD_VIEW_TYPE;
         }
         return DATA_VIEW_TYPE;
@@ -68,7 +69,7 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // View Holder for Admob Native Express Ad Unit
     public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
-        protected View templateView;
+        protected UnifiedNativeAdView templateView;
         protected TextView title, artist;
         protected ImageView albumArt;
         protected RatingBar ratingBar;
@@ -76,7 +77,7 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         NativeExpressAdViewHolder(View view) {
             super(view);
-            this.templateView =  view.findViewById(R.id.template_ads);
+            this.templateView = (UnifiedNativeAdView) view.findViewById(R.id.template_ads);
             this.title = (TextView) view.findViewById(R.id.album_title);
             this.artist = (TextView) view.findViewById(R.id.album_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.album_art);
@@ -84,26 +85,49 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.footer = view.findViewById(R.id.footer);
         }
 
-        public void setContent(NativeAdDetails nativeAdDetails) {
-            //templateView.setNativeAd(unifiedNativeAd);
-            nativeAdDetails.registerViewForInteraction(templateView);
-            title.setText(nativeAdDetails.getTitle());
-            artist.setText(nativeAdDetails.getDescription());
-            if (nativeAdDetails.getImageBitmap() != null) {
-                albumArt.setImageBitmap(nativeAdDetails.getImageBitmap());
-            } else {
-                albumArt.setBackgroundResource(R.mipmap.ic_launcher);
-            }
-            //templateView.setCallToActionView(templateView);
-            float starRating = nativeAdDetails.getRating();
-            if (starRating > 0) {
-                ratingBar.setVisibility(VISIBLE);
-                ratingBar.setRating(starRating);
-                ratingBar.setMax(5);
-                //templateView.setStarRatingView(ratingBar);
-                artist.setVisibility(GONE);
-            } else {
-                ratingBar.setVisibility(GONE);
+        public void setContent(Object nativeAds) {
+            if (nativeAds instanceof UnifiedNativeAd) {
+                UnifiedNativeAd unifiedNativeAd = (UnifiedNativeAd) nativeAds;
+                templateView.setNativeAd(unifiedNativeAd);
+                title.setText(unifiedNativeAd.getHeadline());
+                artist.setText(unifiedNativeAd.getBody());
+                if (unifiedNativeAd.getIcon() != null) {
+                    albumArt.setImageDrawable(unifiedNativeAd.getIcon().getDrawable());
+                } else {
+                    albumArt.setBackgroundResource(R.mipmap.ic_launcher);
+                }
+                templateView.setCallToActionView(templateView);
+                Double starRating = unifiedNativeAd.getStarRating();
+                if (starRating != null && starRating > 0) {
+                    ratingBar.setVisibility(VISIBLE);
+                    ratingBar.setRating(starRating.floatValue());
+                    ratingBar.setMax(5);
+                    templateView.setStarRatingView(ratingBar);
+                    artist.setVisibility(GONE);
+                } else {
+                    ratingBar.setVisibility(GONE);
+                }
+            } else if(nativeAds instanceof NativeAdDetails) {
+                NativeAdDetails nativeAdDetails = (NativeAdDetails) nativeAds;
+                nativeAdDetails.registerViewForInteraction(templateView);
+                title.setText(nativeAdDetails.getTitle());
+                artist.setText(nativeAdDetails.getDescription());
+                if (nativeAdDetails.getImageBitmap() != null) {
+                    albumArt.setImageBitmap(nativeAdDetails.getImageBitmap());
+                } else {
+                    albumArt.setBackgroundResource(R.mipmap.ic_launcher);
+                }
+                //templateView.setCallToActionView(templateView);
+                float starRating = nativeAdDetails.getRating();
+                if (starRating > 0) {
+                    ratingBar.setVisibility(VISIBLE);
+                    ratingBar.setRating(starRating);
+                    ratingBar.setMax(5);
+                    //templateView.setStarRatingView(ratingBar);
+                    artist.setVisibility(GONE);
+                } else {
+                    ratingBar.setVisibility(GONE);
+                }
             }
 
             if (isGrid) {
