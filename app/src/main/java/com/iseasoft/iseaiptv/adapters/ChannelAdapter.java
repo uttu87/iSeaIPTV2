@@ -160,41 +160,46 @@ public class ChannelAdapter extends AdsAdapter implements Filterable {
         }
 
         private void callbackListener() {
-            if (listener != null) {
-                listener.onChannelClicked(getItem());
+            if (listener != null && getItem() instanceof M3UItem) {
+                listener.onChannelClicked((M3UItem) getItem());
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            PopupMenu popupMenu = new PopupMenu(mContext, name);
-            popupMenu.inflate(R.menu.menu_options);
-            MenuItem favoriteItem = popupMenu.getMenu().findItem(R.id.action_favorite);
-            boolean faved = PreferencesUtility.getInstance(mContext).checkFavorite(getItem());
-            favoriteItem.setTitle(faved ? R.string.action_remove_favorite : R.string.action_add_favorite);
-            popupMenu.setOnMenuItemClickListener(menuItem -> {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_play:
-                        callbackListener();
-                        break;
-                    case R.id.action_favorite:
-                        favorite();
-                        break;
-                }
-                return false;
-            });
-            popupMenu.show();
-            return true;
+            Object selectedItem = getItem();
+            if (selectedItem instanceof M3UItem) {
+                M3UItem m3UItem = (M3UItem) selectedItem;
+                PopupMenu popupMenu = new PopupMenu(mContext, name);
+                popupMenu.inflate(R.menu.menu_options);
+                MenuItem favoriteItem = popupMenu.getMenu().findItem(R.id.action_favorite);
+                boolean faved = PreferencesUtility.getInstance(mContext).checkFavorite(m3UItem);
+                favoriteItem.setTitle(faved ? R.string.action_remove_favorite : R.string.action_add_favorite);
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case R.id.action_play:
+                            callbackListener();
+                            break;
+                        case R.id.action_favorite:
+                            favorite(m3UItem);
+                            break;
+                    }
+                    return false;
+                });
+                popupMenu.show();
+                return true;
+            }
+            return false;
         }
 
-        private M3UItem getItem() {
+        private Object getItem() {
             int position = getLayoutPosition();
-            return (M3UItem) mItems.get(position);
+            return mItems.get(position);
         }
 
-        private void favorite() {
+        private void favorite(M3UItem m3UItem) {
             PreferencesUtility preferencesUtility = PreferencesUtility.getInstance(mContext);
-            preferencesUtility.favorite(getItem());
+            preferencesUtility.favorite(m3UItem);
         }
     }
 }
