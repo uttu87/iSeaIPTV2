@@ -4,11 +4,11 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.isea14.iptv"
+        applicationId "com.iseasoftvn.iptv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 140
-        versionName "1.4"
+        versionCode 100
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
