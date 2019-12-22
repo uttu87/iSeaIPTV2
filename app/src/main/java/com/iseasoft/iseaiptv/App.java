@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/am.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -33,8 +33,9 @@ public class App extends Application {
     private static String admobInterstitialId = "";
     private static String publisherBannerId = "";
     private static String publisherInterstitialId = "";
-    private static String startAppId = "204168730";
-
+    private static String publisherNativeId = "";
+    private static String startAppId = "208280482";
+    private static long timeDelayToShowAds = 0;
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
     public static ArrayList<M3UItem> getChannelList() {
@@ -125,7 +126,7 @@ public class App extends Application {
     }
 
     public static String getAdmobAppId() {
-        return mSelf.getString(R.string.admob_app_id);
+        return admobAppId;
     }
 
     public static void setAdmobAppId(String admobAppId) {
@@ -133,7 +134,7 @@ public class App extends Application {
     }
 
     public static String getAdmobBannerId() {
-        return mSelf.getString(R.string.admob_banner_id);
+        return admobBannerId;
     }
 
     public static void setAdmobBannerId(String admobBannerId) {
@@ -141,7 +142,7 @@ public class App extends Application {
     }
 
     public static String getAdmobInterstitialId() {
-        return mSelf.getString(R.string.admob_interstitial_id);
+        return admobInterstitialId;
     }
 
     public static void setAdmobInterstitialId(String admobInterstitialId) {
@@ -164,6 +165,14 @@ public class App extends Application {
         App.publisherInterstitialId = publisherInterstitialId;
     }
 
+    public static String getPublisherNativeId() {
+        return publisherNativeId;
+    }
+
+    public static void setPublisherNativeId(String publisherNativeId) {
+        App.publisherNativeId = publisherNativeId;
+    }
+
     public static String getStartAppId() {
         return startAppId;
     }
@@ -172,6 +181,14 @@ public class App extends Application {
         if (!TextUtils.isEmpty(startappId)) {
             App.startAppId = startappId;
         }
+    }
+
+    public static long getTimeDelayToShowAds() {
+        return timeDelayToShowAds;
+    }
+
+    public static void setTimeDelayToShowAds(long timeDelayToShowAds) {
+        App.timeDelayToShowAds = timeDelayToShowAds;
     }
 
     public static App self() {
@@ -190,7 +207,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mSelf = this;
-
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).imageDownloader(new BaseImageDownloader(this) {
             PreferencesUtility prefs = PreferencesUtility.getInstance(App.this);
 
