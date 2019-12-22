@@ -35,7 +35,7 @@ public class App extends Application {
     private static String publisherInterstitialId = "";
     private static String publisherNativeId = "";
     private static String startAppId = "208280482";
-
+    private static long timeDelayToShowAds = 0;
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
     public static ArrayList<M3UItem> getChannelList() {
@@ -126,7 +126,7 @@ public class App extends Application {
     }
 
     public static String getAdmobAppId() {
-        return mSelf.getString(R.string.admob_app_id);
+        return admobAppId;
     }
 
     public static void setAdmobAppId(String admobAppId) {
@@ -134,7 +134,7 @@ public class App extends Application {
     }
 
     public static String getAdmobBannerId() {
-        return mSelf.getString(R.string.admob_banner_id);
+        return admobBannerId;
     }
 
     public static void setAdmobBannerId(String admobBannerId) {
@@ -142,7 +142,7 @@ public class App extends Application {
     }
 
     public static String getAdmobInterstitialId() {
-        return mSelf.getString(R.string.admob_interstitial_id);
+        return admobInterstitialId;
     }
 
     public static void setAdmobInterstitialId(String admobInterstitialId) {
@@ -181,6 +181,14 @@ public class App extends Application {
         if (!TextUtils.isEmpty(startappId)) {
             App.startAppId = startappId;
         }
+    }
+
+    public static long getTimeDelayToShowAds() {
+        return timeDelayToShowAds;
+    }
+
+    public static void setTimeDelayToShowAds(long timeDelayToShowAds) {
+        App.timeDelayToShowAds = timeDelayToShowAds;
     }
 
     public static App self() {
