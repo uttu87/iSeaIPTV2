@@ -33,6 +33,7 @@ public class App extends Application {
     private static String publisherInterstitialId = "";
     private static String publisherNativeId = "";
     private static String startAppId = "";
+    private static long timeDelayToShowAds = 0;
 
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
@@ -167,6 +168,14 @@ public class App extends Application {
 
     public static void setStartAppId(String startappId) {
         App.startAppId = startappId;
+    }
+
+    public static long getTimeDelayToShowAds() {
+        return timeDelayToShowAds;
+    }
+
+    public static void setTimeDelayToShowAds(long timeDelayToShowAds) {
+        App.timeDelayToShowAds = timeDelayToShowAds;
     }
 
     public static App self() {

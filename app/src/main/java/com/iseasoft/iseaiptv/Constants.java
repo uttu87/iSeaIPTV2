@@ -34,5 +34,6 @@ public class Constants {
     public static final String PUBLISHER_INTERSTITIAL_ID = "publisher_interstitial_id";
     public static final String PUBLISHER_NATIVE_ID = "publisher_native_id";
     public static final String START_APP_ID = "start_app_id";
+    public static final String TIME_DELAY_TO_SHOW_ADS = "TIME_DELAY_TO_SHOW_ADS";
 
 }
