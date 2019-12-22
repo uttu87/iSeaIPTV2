@@ -7,6 +7,8 @@ public class Constants {
     public static final int STARTAPP_TYPE = 2;
 
     public static final String CATALOG_COLLECTION = "catalog";
+    public static final int CAROUSEL_ID = 1000;
+    public static final int SPORT_TV_ID = 1017;
     public static final int SPORT_TV_CATALOG_ID = 1000;
     public static final String CHANNEL_KEY = "channels";
     public static final String CATALOG_KEY = "catalog";
@@ -33,5 +35,6 @@ public class Constants {
     public static final String PUBLISHER_NATIVE_ID = "publisher_native_id";
     public static final String START_APP_ID = "start_app_id";
     public static final String BASE_URL = "base_url";
+    public static final String TIME_DELAY_TO_SHOW_ADS = "TIME_DELAY_TO_SHOW_ADS";
 
 }

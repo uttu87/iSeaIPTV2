@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static int screenCount = 0;
     private static App mSelf;
-    private static String baseUrl = "https://raw.githubusercontent.com/freearhey/iptv/master/channels/es.m3u";
+    private static String baseUrl = "https://raw.githubusercontent.com/uttu87/livetv/master/am.m3u";
     private static boolean useOnlineData = true;
     private static boolean activeAds = true;
     private static boolean useAdMob = true;
@@ -35,7 +35,7 @@ public class App extends Application {
     private static String publisherInterstitialId = "";
     private static String publisherNativeId = "";
     private static String startAppId = "208280482";
-
+    private static long timeDelayToShowAds = 0;
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
 
     public static ArrayList<M3UItem> getChannelList() {
@@ -125,6 +125,14 @@ public class App extends Application {
         App.todayHighlightStatus = todayHighlightStatus;
     }
 
+    public static String getAdmobAppId() {
+        return admobAppId;
+    }
+
+    public static void setAdmobAppId(String admobAppId) {
+        App.admobAppId = admobAppId;
+    }
+
     public static String getAdmobBannerId() {
         return admobBannerId;
     }
@@ -173,6 +181,14 @@ public class App extends Application {
         if (!TextUtils.isEmpty(startappId)) {
             App.startAppId = startappId;
         }
+    }
+
+    public static long getTimeDelayToShowAds() {
+        return timeDelayToShowAds;
+    }
+
+    public static void setTimeDelayToShowAds(long timeDelayToShowAds) {
+        App.timeDelayToShowAds = timeDelayToShowAds;
     }
 
     public static App self() {
