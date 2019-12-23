@@ -30,7 +30,6 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
 
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
-    private static final int DELAY_MILLIS = 180000;
 
     private PublisherInterstitialAd publisherInterstitialAd;
     private StartAppAd startAppAd;
@@ -105,7 +104,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         }
 
         setupPlayer(mChannel);
-        mHandler.postDelayed(runnable, DELAY_MILLIS);
+        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     private void setupPlayer(M3UItem channel) {
