@@ -24,7 +24,6 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
 
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
-    private static final int DELAY_MILLIS = 180000;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable runnable = new Runnable() {
@@ -57,7 +56,7 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
         }
 
         setupPlayer(mChannel);
-        mHandler.postDelayed(runnable, DELAY_MILLIS);
+        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     private void setupPlayer(M3UItem channel) {
