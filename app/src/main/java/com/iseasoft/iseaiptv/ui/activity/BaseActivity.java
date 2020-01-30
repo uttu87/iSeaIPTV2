@@ -58,8 +58,9 @@ public abstract class BaseActivity extends InterstitialActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        initAdmob();
-        initStartAppSdk();
+        //initAdmob();
+        //initStartAppSdk();
+        //setupStartAppBanner();
         //setupAdmob();
 
     }
@@ -131,7 +132,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         });
     }
 
-    private void setupStartAppBanner() {
+    protected void setupStartAppBanner() {
         banner = new Banner(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -141,8 +142,8 @@ public abstract class BaseActivity extends InterstitialActivity {
         banner.loadAd();
     }
 
-    private void initStartAppSdk() {
-        StartAppSDK.init(this, App.getStartAppId(), false);
+    protected void initStartAppSdk() {
+        StartAppSDK.init(this, App.getStartAppId(), true);
         StartAppAd.disableSplash();
     }
 
