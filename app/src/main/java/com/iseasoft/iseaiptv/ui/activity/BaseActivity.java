@@ -60,6 +60,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         unbinder = ButterKnife.bind(this);
         initStartAppSdk();
         //setupAdmob();
+        setupStartAppBanner();
 
     }
 
