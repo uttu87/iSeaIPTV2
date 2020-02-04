@@ -57,6 +57,7 @@ public abstract class BaseActivity extends InterstitialActivity {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
         initStartAppSdk();
+        setupStartAppBanner();
     }
 
     protected void setupPublisherBannerAds() {
