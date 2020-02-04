@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.iseasoft.iseaiptv.Constants.ACTIVE_ADS_KEY;
-import static com.iseasoft.iseaiptv.Constants.ADMOB_APP_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_BANNER_ID;
 import static com.iseasoft.iseaiptv.Constants.ADMOB_INTERSTITIAL_ID;
 import static com.iseasoft.iseaiptv.Constants.ADS_TYPE;
@@ -127,7 +126,6 @@ public class SplashActivity extends AppCompatActivity {
         App.setUseRichAdx(mFirebaseRemoteConfig.getBoolean(USE_RICHADX));
         App.setInterstitialAdsLimit(mFirebaseRemoteConfig.getLong(INTERSTITIAL_ADS_LIMIT));
         App.setAdsType(mFirebaseRemoteConfig.getLong(ADS_TYPE));
-        App.setAdmobAppId(mFirebaseRemoteConfig.getString(ADMOB_APP_ID));
         App.setAdmobBannerId(mFirebaseRemoteConfig.getString(ADMOB_BANNER_ID));
         App.setAdmobInterstitialId(mFirebaseRemoteConfig.getString(ADMOB_INTERSTITIAL_ID));
         App.setPublisherBannerId(mFirebaseRemoteConfig.getString(PUBLISHER_BANNER_ID));
