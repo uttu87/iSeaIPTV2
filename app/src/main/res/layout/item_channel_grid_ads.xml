@@ -35,7 +35,7 @@
 
                 <RatingBar
                     android:id="@+id/rating_bar"
-                    style="?android:attr/ratingBarStyleIndicator"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -44,7 +44,8 @@
                     android:layout_marginEnd="@dimen/gnt_no_margin"
                     android:layout_marginBottom="@dimen/gnt_no_margin"
                     android:lines="1"
-                    android:numStars="0"
+                    android:numStars="5"
+                    android:stepSize="1"
                     android:textColor="@color/gnt_gray"
                     android:textSize="@dimen/gnt_text_size_small"
                     android:visibility="gone" />
@@ -56,6 +57,7 @@
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
                     android:maxLines="1"
+                    android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <TextView
@@ -64,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:singleLine="true"
+                    android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
             </LinearLayout>
 
