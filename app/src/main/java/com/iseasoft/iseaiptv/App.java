@@ -10,6 +10,7 @@ import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.startapp.android.publish.ads.nativead.NativeAdDetails;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,16 @@ public class App extends Application {
     private static String startAppId = "208280482";
     private static long timeDelayToShowAds = 0;
     private static ArrayList<M3UItem> channelList = new ArrayList<>();
+    private ArrayList<NativeAdDetails> nativeAdDetails = new ArrayList<>();
+
+    public ArrayList<NativeAdDetails> getNativeAdDetails() {
+        return nativeAdDetails;
+    }
+
+    public void setNativeAdDetails(ArrayList<NativeAdDetails> nativeAdDetails) {
+        this.nativeAdDetails.clear();
+        this.nativeAdDetails.addAll(nativeAdDetails);
+    }
 
     public static ArrayList<M3UItem> getChannelList() {
         return channelList;
