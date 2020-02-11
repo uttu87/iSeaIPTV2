@@ -1,79 +1,77 @@
 <com.google.android.gms.ads.formats.UnifiedNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/template_ads"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:background="@drawable/item_background"
-    android:orientation="vertical">
+    android:background="@drawable/item_background">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:id="@+id/album_art"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="10dp"
             android:background="@drawable/channel_background"
             android:padding="5dp"
-            android:transitionName="transition_album_art" />
+            android:transitionName="transition_album_art"
+            app:layout_constraintHorizontal_weight="1"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toLeftOf="@+id/currentlyPlayingIndicator"
-            android:layout_toRightOf="@+id/album_art"
+            android:layout_marginStart="80dp"
+            app:layout_constraintStart_toEndOf="@id/album_art"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical"
             android:paddingTop="5dp">
-
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/gnt_no_margin"
-                android:layout_marginTop="@dimen/gnt_no_margin"
-                android:layout_marginEnd="@dimen/gnt_no_margin"
-                android:layout_marginBottom="@dimen/gnt_no_margin"
-                android:lines="1"
-                android:numStars="0"
-                android:textColor="@color/gnt_gray"
-                android:textSize="@dimen/gnt_text_size_small"
-                android:visibility="visible">
-
-            </RatingBar>
 
             <TextView
                 android:id="@+id/album_title"
                 style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:lines="1"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/album_artist"
                 style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingTop="3dp"
                 android:singleLine="true"
                 android:textSize="13sp" />
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/slate" />
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:numStars="5"
+                android:stepSize="1"
+                android:textColor="@color/gnt_gray"
+                android:textSize="@dimen/gnt_text_size_small"
+                android:visibility="visible"/>
 
         </LinearLayout>
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="-4dp"
+            android:layout_marginStart="80dp"
+            android:background="@color/slate"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 </com.google.android.gms.ads.formats.UnifiedNativeAdView>
