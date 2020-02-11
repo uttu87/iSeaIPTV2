@@ -1,6 +1,7 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.adapters.AdsAdapter;
 import com.startapp.android.publish.ads.nativead.NativeAdDetails;
 import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
@@ -26,8 +27,18 @@ public class AdsFragment extends BaseFragment {
         if (isExistAds(adapter)) {
             return;
         }
-        int numberOfAds = 3;
+
         final List<Object> mDataSet = adapter.getDataSet();
+
+        if (App.self().getNativeAdDetails().size() > 0) {
+            for (int i = ADS_ITEM_START_INDEX; i <= mDataSet.size(); i += (spaceBetweenAds + 1)) {
+                final int index = new Random().nextInt(App.self().getNativeAdDetails().size());
+                adapter.getDataSet().add(i, App.self().getNativeAdDetails().get(index));
+            }
+            adapter.notifyDataSetChanged();
+            return;
+        }
+        int numberOfAds = 3;
         StartAppNativeAd mStartAppNativeAd = new StartAppNativeAd(getActivity());
         mStartAppNativeAd.loadAd(
                 new NativeAdPreferences()
@@ -37,6 +48,7 @@ public class AdsFragment extends BaseFragment {
                 new AdEventListener() {
                     @Override
                     public void onReceiveAd(Ad ad) {
+                        App.self().setNativeAdDetails(mStartAppNativeAd.getNativeAds());
                         if (isExistAds(adapter)) {
                             return;
                         }
