@@ -1,10 +1,5 @@
 <resources>
-    <string name="app_name">USA TV</string>
-    <string name="admob_app_id">ca-app-pub-4598992956351116~5391172723</string>
-    <string name="admob_banner_id">ca-app-pub-4598992956351116/1941036395</string>
-    <string name="admob_interstitial_id">ca-app-pub-4598992956351116/2746851604</string>
-    <string name="gamob_banner_ad_unit_id">/112517806/139301556696907</string>
-    <string name="gamob_interstitial_ad_unit_id">/112517806/339301556697019</string>
+    <string name="app_name">Persian TV</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -71,10 +66,10 @@
     <string name="share_app_title">Share this application via</string>
 
     <string name="app_version">Version: %s</string>
-    <string name="copyright">© 2019 iSeaSoft. All rights reserved.</string>
-    <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.dev@gmail.com.</string>
+    <string name="copyright">© 2020 iSeaSoft. All rights reserved.</string>
+    <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.vn@gmail.com.</string>
 
-    <string name="request_storage_permission_message">"USA TV will need to read external storage to display playlist files on your device."</string>
-    <string name="request_storage_permission_message_load">"USA TV will need to read external storage to load playlist files on your device."</string>
+    <string name="request_storage_permission_message">"Persian TV will need to read external storage to display playlist files on your device."</string>
+    <string name="request_storage_permission_message_load">"Persian TV will need to read external storage to load playlist files on your device."</string>
     <string name="native_ads_id">/21617015150/407539/21859668535</string>
 </resources>

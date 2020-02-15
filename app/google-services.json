@@ -15,6 +15,188 @@
       },
       "oauth_client": [
         {
+          "client_id": "179675207218-pnvrrcq6sfg7rtpotu1behst5cslelja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iseasoftvn.armeniatv",
+            "certificate_hash": "868a4a2bf233a57f9ff91fd01776c13f5da48dc3"
+          }
+        },
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:0b5fc551917f2eb7f64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.germanytv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:fbbcac8b25dd0ee9f64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.imuzik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:416bdf32707de0acf64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.iptv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:9c3556a9debe88b4f64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.irantv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:d5315820f10e0bcff64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.iseagoals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFYmnf10xM3N-zeNn_ONUknssBni84T3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179675207218:android:2fccbcdeceffae7cf64e2b",
+        "android_client_info": {
+          "package_name": "com.iseasoftvn.spaintv"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -43,6 +225,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "179675207218-v2bs8mvtcvr752uhm5u4lofe6gs1b0uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iseasoftvn.usatv",
+            "certificate_hash": "079c2d30c781345da10d228857c029220b4b64f6"
+          }
+        },
         {
           "client_id": "179675207218-v8q2fbemgtg39sqf4dvn83683gm9scn6.apps.googleusercontent.com",
           "client_type": 3
