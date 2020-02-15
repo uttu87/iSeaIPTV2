@@ -5,6 +5,10 @@
 
     <group>
         <item
+            android:id="@+id/nav_trending_app"
+            android:icon="@drawable/ic_whatshot"
+            android:title="Trending Apps" />
+        <item
             android:id="@+id/nav_rate"
             android:icon="@drawable/ic_rate"
             android:title="Rate" />
