@@ -30,7 +30,7 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            setupFullScreenAds();
+            setupStartAppAd();
         }
     };
 

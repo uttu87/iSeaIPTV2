@@ -9,7 +9,9 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.iseasoft.iseaiptv.App;
+import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 public class InterstitialActivity extends AppCompatActivity {
 
@@ -76,11 +78,21 @@ public class InterstitialActivity extends AppCompatActivity {
         });
     }
 
-    private void setupStartAppAd() {
+    protected void setupStartAppAd() {
         if (startAppAd == null) {
             startAppAd = new StartAppAd(this);
         }
-        startAppAd.showAd();
+        startAppAd.loadAd(StartAppAd.AdMode.VIDEO, new AdEventListener() {
+            @Override
+            public void onReceiveAd(Ad ad) {
+                startAppAd.showAd();
+            }
+
+            @Override
+            public void onFailedToReceiveAd(Ad ad) {
+                setupStartAppAd();
+            }
+        });
     }
 
     public void setupFullScreenAds() {
