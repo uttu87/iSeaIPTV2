@@ -22,7 +22,9 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
+import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.ArrayList;
 
@@ -82,7 +84,17 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         if (startAppAd == null) {
             startAppAd = new StartAppAd(this);
         }
-        startAppAd.showAd();
+        startAppAd.loadAd(StartAppAd.AdMode.VIDEO, new AdEventListener() {
+            @Override
+            public void onReceiveAd(Ad ad) {
+                startAppAd.showAd();
+            }
+
+            @Override
+            public void onFailedToReceiveAd(Ad ad) {
+                setupStartAppAd();
+            }
+        });
     }
 
     @Override
