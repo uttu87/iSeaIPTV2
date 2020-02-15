@@ -68,8 +68,8 @@
     <string name="share_app_title">Share this application via</string>
 
     <string name="app_version">Version: %s</string>
-    <string name="copyright">© 2019 iSeaSoft. All rights reserved.</string>
-    <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.dev@gmail.com.</string>
+    <string name="copyright">© 2020 iSeaSoft. All rights reserved.</string>
+    <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at iseasoft.vn@gmail.com.</string>
 
     <string name="request_storage_permission_message">"%s will need to read external storage to display playlist files on your device."</string>
     <string name="request_storage_permission_message_load">"%s will need to read external storage to load playlist files on your device."</string>
