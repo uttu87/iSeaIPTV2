@@ -39,6 +39,9 @@ import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
+import com.startapp.android.publish.adsCommon.Ad;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -242,9 +245,9 @@ public class MainActivity extends BaseActivity
 //            case R.id.nav_playlist:
 //                navigateToPlaylist();
 //                break;
-//            case R.id.nav_live_stream:
-//                openPlayStreamDialog();
-//                break;
+            case R.id.nav_trending_app:
+                openTrendingApps();
+                break;
             case R.id.nav_share:
                 shareApp();
                 break;
@@ -261,6 +264,21 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void openTrendingApps() {
+        final StartAppAd offerWallAds = new StartAppAd(this);
+        offerWallAds.loadAd(StartAppAd.AdMode.OFFERWALL, new AdEventListener() {
+            @Override
+            public void onReceiveAd(Ad ad) {
+                offerWallAds.showAd();
+            }
+
+            @Override
+            public void onFailedToReceiveAd(Ad ad) {
+                openTrendingApps();
+            }
+        });
     }
 
     private void navigateToPlaylist() {
