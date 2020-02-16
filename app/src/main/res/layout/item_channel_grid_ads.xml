@@ -58,7 +58,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:maxLines="1"
                     android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 <TextView
                     android:id="@+id/album_artist"
