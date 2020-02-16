@@ -35,7 +35,7 @@
 
                 <RatingBar
                     android:id="@+id/rating_bar"
-                    style="?android:attr/ratingBarStyleIndicator"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -45,6 +45,7 @@
                     android:layout_marginBottom="@dimen/gnt_no_margin"
                     android:lines="1"
                     android:numStars="0"
+                    android:max="5"
                     android:textColor="@color/gnt_gray"
                     android:textSize="@dimen/gnt_text_size_small"
                     android:visibility="gone" />
@@ -56,7 +57,7 @@
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-medium"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 <TextView
                     android:id="@+id/album_artist"
