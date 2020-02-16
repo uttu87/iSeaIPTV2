@@ -22,9 +22,7 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
-import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.ArrayList;
 
@@ -34,13 +32,12 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     public static final String PLAYLIST_KEY = "playlist";
 
     private PublisherInterstitialAd publisherInterstitialAd;
-    private StartAppAd startAppAd;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            setupPublisherInterstitialAds();
+            setupStartAppAd();
         }
     };
 
@@ -81,20 +78,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     }
 
     private void setupStartAppAd() {
-        if (startAppAd == null) {
-            startAppAd = new StartAppAd(this);
-        }
-        startAppAd.loadAd(StartAppAd.AdMode.VIDEO, new AdEventListener() {
-            @Override
-            public void onReceiveAd(Ad ad) {
-                startAppAd.showAd();
-            }
-
-            @Override
-            public void onFailedToReceiveAd(Ad ad) {
-                setupStartAppAd();
-            }
-        });
+        StartAppAd.showAd(this);
     }
 
     @Override
@@ -188,7 +172,6 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     protected void onDestroy() {
         super.onDestroy();
         publisherInterstitialAd = null;
-        startAppAd = null;
         mHandler.removeCallbacks(runnable);
         mHandler = null;
         runnable = null;
