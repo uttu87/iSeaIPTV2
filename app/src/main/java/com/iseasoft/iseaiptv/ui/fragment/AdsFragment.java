@@ -61,7 +61,7 @@ public class AdsFragment extends BaseFragment {
 
                     @Override
                     public void onFailedToReceiveAd(Ad ad) {
-
+                        generateDataSet(adapter);
                     }
                 });
     }
