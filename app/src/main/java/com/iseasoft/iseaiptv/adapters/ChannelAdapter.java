@@ -19,7 +19,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
@@ -134,17 +133,14 @@ public class ChannelAdapter extends AdsAdapter implements Filterable {
         void update(final M3UItem item) {
             try {
                 name.setText(item.getItemName());
-                int color = generator.getRandomColor();
-                TextDrawable textDrawable = TextDrawable.builder()
-                        .buildRoundRect(String.valueOf(item.getItemName().charAt(0)), color, 100);
 
                 if (TextUtils.isEmpty(item.getItemIcon())) {
-                    cImg.setImageDrawable(textDrawable);
+                    cImg.setImageResource(R.mipmap.ic_launcher);
                 } else {
                     Picasso.get()
                             .load(item.getItemIcon())
-                            .placeholder(textDrawable)
-                            .error(textDrawable)
+                            .placeholder(R.mipmap.ic_launcher)
+                            .error(R.mipmap.ic_launcher)
                             .into(cImg);
                 }
 
