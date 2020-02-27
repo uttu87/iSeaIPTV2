@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
             //TODO show league match
             Bundle bundle = new Bundle();
             bundle.putString(ChannelActivity.CATALOG_KEY, league);
-            Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, bundle, false);
+            Router.navigateTo(getActivity(), Router.Screens.CHANNEL, bundle, false);
         });
         mCanvasAdapter.setItemClickListener(new OnChannelListener() {
             @Override
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(CHANNEL_KEY, item);
                 //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                Router.navigateTo(getActivity(), Router.Screens.CHANNEL, bundle, false);
+                Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
             }
         });
         rvLeagueList.setAdapter(mCanvasAdapter);
