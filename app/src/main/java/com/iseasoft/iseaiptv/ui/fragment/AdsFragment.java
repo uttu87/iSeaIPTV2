@@ -30,16 +30,16 @@ public class AdsFragment extends BaseFragment {
 
         final List<Object> mDataSet = adapter.getDataSet();
 
-        if (App.self().getNativeAdDetails().size() > 0) {
+        if (App.getNativeAdDetails().size() > 0) {
             for (int i = ADS_ITEM_START_INDEX; i <= mDataSet.size(); i += (spaceBetweenAds + 1)) {
-                final int index = new Random().nextInt(App.self().getNativeAdDetails().size());
-                adapter.getDataSet().add(i, App.self().getNativeAdDetails().get(index));
+                final int index = new Random().nextInt(App.getNativeAdDetails().size());
+                adapter.getDataSet().add(i, App.getNativeAdDetails().get(index));
             }
             adapter.notifyDataSetChanged();
             return;
         }
         int numberOfAds = 3;
-        StartAppNativeAd mStartAppNativeAd = new StartAppNativeAd(getActivity());
+        StartAppNativeAd mStartAppNativeAd = new StartAppNativeAd(App.getContext());
         mStartAppNativeAd.loadAd(
                 new NativeAdPreferences()
                         .setAdsNumber(numberOfAds)
@@ -48,7 +48,7 @@ public class AdsFragment extends BaseFragment {
                 new AdEventListener() {
                     @Override
                     public void onReceiveAd(Ad ad) {
-                        App.self().setNativeAdDetails(mStartAppNativeAd.getNativeAds());
+                        App.setNativeAdDetails(mStartAppNativeAd.getNativeAds());
                         if (isExistAds(adapter)) {
                             return;
                         }

@@ -27,8 +27,12 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dialogs.PlayStreamDialog;
 import com.iseasoft.iseaiptv.ui.fragment.AboutFragment;
 import com.startapp.android.publish.ads.banner.Banner;
+import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
+import com.startapp.android.publish.ads.nativead.StartAppNativeAd;
+import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.StartAppSDK;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,8 +63,8 @@ public abstract class BaseActivity extends InterstitialActivity {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
         //initAdmob();
-        //initStartAppSdk();
-        //setupStartAppBanner();
+        initStartAppSdk();
+        setupStartAppBanner();
         //setupAdmob();
 
     }
@@ -145,6 +149,28 @@ public abstract class BaseActivity extends InterstitialActivity {
     protected void initStartAppSdk() {
         StartAppSDK.init(this, App.getStartAppId(), true);
         StartAppAd.disableSplash();
+        requestNativeAds();
+    }
+
+    private void requestNativeAds() {
+        int numberOfAds = 3;
+        StartAppNativeAd mStartAppNativeAd = new StartAppNativeAd(this);
+        mStartAppNativeAd.loadAd(
+                new NativeAdPreferences()
+                        .setAdsNumber(numberOfAds)
+                        .setAutoBitmapDownload(true)
+                        .setPrimaryImageSize(2),
+                new AdEventListener() {
+                    @Override
+                    public void onReceiveAd(Ad ad) {
+                        App.setNativeAdDetails(mStartAppNativeAd.getNativeAds());
+                    }
+
+                    @Override
+                    public void onFailedToReceiveAd(Ad ad) {
+
+                    }
+                });
     }
 
     @Override

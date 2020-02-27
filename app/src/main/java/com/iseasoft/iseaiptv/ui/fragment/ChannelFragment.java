@@ -1,6 +1,5 @@
 package com.iseasoft.iseaiptv.ui.fragment;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -83,17 +82,6 @@ public class ChannelFragment extends AdsFragment {
         showChannels();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isStateSafe()) {
-            if (!TextUtils.isEmpty(groupName) &&
-                    (groupName.equals(getString(R.string.favorites)) || groupName.equals(getString(R.string.history_watching)))) {
-                showChannels();
-            }
-        }
-    }
-
     private void showChannels() {
         if (TextUtils.isEmpty(groupName)) {
             return;
@@ -108,8 +96,7 @@ public class ChannelFragment extends AdsFragment {
             return;
         }
         if (channelAdapter == null) {
-            channelAdapter = new ChannelAdapter(getActivity(),
-                    isGridView() ? R.layout.item_channel_grid : R.layout.item_channel_list
+            channelAdapter = new ChannelAdapter(getActivity(), R.layout.item_channel_list
                     , item -> {
                 if (getActivity() == null) {
                     return;
@@ -125,15 +112,11 @@ public class ChannelFragment extends AdsFragment {
         }
         hideAllView();
         recyclerView.setVisibility(View.VISIBLE);
-        spaceBetweenAds = isGridView() ? GRID_VIEW_ADS_COUNT : LIST_VIEW_ADS_COUNT;
+        spaceBetweenAds = LIST_VIEW_ADS_COUNT;
         channelAdapter.update(getPlaylistItems());
         generateDataSet(channelAdapter);
         recyclerView.setAdapter(channelAdapter);
-        if (isGridView()) {
-            setupGridView();
-        } else {
-            Utils.modifyListViewForVertical(getActivity(), recyclerView);
-        }
+        Utils.modifyListViewForVertical(getActivity(), recyclerView);
     }
 
     private void showPlaceholder() {
@@ -163,24 +146,6 @@ public class ChannelFragment extends AdsFragment {
                 Utils.modifyRecylerViewForGridView(recyclerView, spanCount, columnWidthInDp);
             }
         });
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateGridView();
-    }
-
-    private void updateGridView() {
-        if (isGridView()) {
-            setupGridView();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        showChannels();
     }
 
     private void showFavoritePlaceholder() {

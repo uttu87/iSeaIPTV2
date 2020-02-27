@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder> {
 
+    private static final int DATA_TYPE = 0;
+    private static final int ADS_TYPE = 1;
+
     private static final int MAX_VISIBLE_PALETTE_ITEM_COUNT = 10;
     private OnChannelListener itemClickListener;
     private OnCanvasListener onCanvasListener;
@@ -49,14 +52,21 @@ public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        int layoutId = R.layout.fragment_horizontal_league;
+        if (viewType == ADS_TYPE) {
+            layoutId = R.layout.item_cover_ads;
+        }
         View view =
-                LayoutInflater.from(context.get()).inflate(R.layout.fragment_horizontal_league,
+                LayoutInflater.from(context.get()).inflate(layoutId,
                         parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (getItemViewType(position) == ADS_TYPE) {
+            return;
+        }
         String catalog = data.get(position);
         ArrayList<M3UItem> list = Utils.getItems(catalog);
         if (list == null || list.size() == 0) {
@@ -87,6 +97,15 @@ public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        String catalog = data.get(position);
+        if (catalog.contains("ads")) {
+            return ADS_TYPE;
+        }
+        return DATA_TYPE;
     }
 
     public void updateData(ArrayList<String> data) {
