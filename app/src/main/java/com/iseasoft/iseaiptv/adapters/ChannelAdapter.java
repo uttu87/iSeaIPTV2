@@ -135,12 +135,12 @@ public class ChannelAdapter extends AdsAdapter implements Filterable {
                 name.setText(item.getItemName());
 
                 if (TextUtils.isEmpty(item.getItemIcon())) {
-                    cImg.setImageResource(R.mipmap.ic_launcher);
+                    cImg.setImageResource(R.drawable.ic_logo);
                 } else {
                     Picasso.get()
                             .load(item.getItemIcon())
-                            .placeholder(R.mipmap.ic_launcher)
-                            .error(R.mipmap.ic_launcher)
+                            .placeholder(R.drawable.ic_logo)
+                            .error(R.drawable.ic_logo)
                             .into(cImg);
                 }
 
