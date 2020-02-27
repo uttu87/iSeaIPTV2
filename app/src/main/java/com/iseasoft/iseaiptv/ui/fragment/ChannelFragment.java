@@ -18,11 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.models.M3UItem;
-import com.iseasoft.iseaiptv.ui.activity.MainActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 import com.iseasoft.iseaiptv.widgets.DividerItemDecoration;
@@ -202,12 +202,7 @@ public class ChannelFragment extends AdsFragment {
             return PreferencesUtility.getInstance(getActivity()).getHistoryChannels();
         }
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity.getPlaylist() == null) {
-            return new ArrayList<>();
-        }
-
-        ArrayList<M3UItem> allChannels = mainActivity.getPlaylist().getPlaylistItems();
+        ArrayList<M3UItem> allChannels = App.getChannelList();
         if (allChannels == null || allChannels.size() == 0) {
             return new ArrayList<>();
         }

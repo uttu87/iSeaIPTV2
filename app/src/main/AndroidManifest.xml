@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iseasoft.iseaiptv">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -11,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.InterstitialActivity"></activity>
+        <activity android:name=".ui.activity.ChannelActivity"></activity>
+        <activity android:name=".ui.activity.InterstitialActivity" />
         <activity
             android:name=".ui.activity.SelectFileActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -67,9 +71,5 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

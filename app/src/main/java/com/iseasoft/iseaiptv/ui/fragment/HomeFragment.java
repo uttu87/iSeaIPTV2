@@ -16,6 +16,7 @@ import com.iseasoft.iseaiptv.adapters.CanvasAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
 import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
+import com.iseasoft.iseaiptv.ui.activity.ChannelActivity;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
 
@@ -94,6 +95,9 @@ public class HomeFragment extends Fragment {
         mCanvasAdapter = new CanvasAdapter(getContext(), mLeagues);
         mCanvasAdapter.setOnCanvasListener(league -> {
             //TODO show league match
+            Bundle bundle = new Bundle();
+            bundle.putString(ChannelActivity.CATALOG_KEY, league);
+            Router.navigateTo(getActivity(), Router.Screens.PLAYLIST, bundle, false);
         });
         mCanvasAdapter.setItemClickListener(new OnChannelListener() {
             @Override
@@ -101,7 +105,7 @@ public class HomeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(CHANNEL_KEY, item);
                 //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
+                Router.navigateTo(getActivity(), Router.Screens.CHANNEL, bundle, false);
             }
         });
         rvLeagueList.setAdapter(mCanvasAdapter);
