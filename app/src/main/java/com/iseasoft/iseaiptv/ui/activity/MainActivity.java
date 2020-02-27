@@ -15,6 +15,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.Constants;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.helpers.Router;
@@ -38,6 +40,7 @@ import com.iseasoft.iseaiptv.parsers.M3UParser;
 import com.iseasoft.iseaiptv.permissions.IseaSoft;
 import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
+import com.iseasoft.iseaiptv.ui.fragment.HomeFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
@@ -312,6 +315,7 @@ public class MainActivity extends BaseActivity
         M3UParser m3UParser = new M3UParser();
         try {
             mPlaylist = m3UParser.parseFile(inputStream);
+            App.setChannelList(mPlaylist.getPlaylistItems());
             updateUI();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -320,11 +324,24 @@ public class MainActivity extends BaseActivity
 
     private void updateUI() {
         new Handler(Looper.getMainLooper()).post(() -> {
-            if (viewPager != null) {
-                setupViewPager(viewPager);
-                viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
-            }
+//            if (viewPager != null) {
+//                setupViewPager(viewPager);
+//                viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
+//            }
+            setupHomeView();
         });
+    }
+
+    private void setupHomeView() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        HomeFragment homeFragment = new HomeFragment();
+        ft.replace(R.id.home_content, homeFragment, HomeFragment.TAG);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.commit();
+        placeholderContainer.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
