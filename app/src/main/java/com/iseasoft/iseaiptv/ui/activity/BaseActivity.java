@@ -154,6 +154,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void requestNativeAds() {
+        if (App.getNativeAdDetails().size() > 0) {
+            return;
+        }
         int numberOfAds = 3;
         StartAppNativeAd mStartAppNativeAd = new StartAppNativeAd(this);
         mStartAppNativeAd.loadAd(
@@ -169,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailedToReceiveAd(Ad ad) {
-
+                        requestNativeAds();
                     }
                 });
     }

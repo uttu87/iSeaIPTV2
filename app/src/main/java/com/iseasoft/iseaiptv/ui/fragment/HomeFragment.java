@@ -90,9 +90,6 @@ public class HomeFragment extends Fragment {
                 String groupTitle = groupList.get(i);
                 if (!TextUtils.isEmpty(groupTitle)) {
                     mLeagues.add(groupTitle);
-                    if (i == COVER_ADS_RANGE) {
-                        mLeagues.add("ads");
-                    }
                 }
             }
         }
