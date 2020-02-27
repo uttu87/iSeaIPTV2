@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
-import com.iseasoft.iseaiptv.App;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.adapters.ChannelAdapter;
 import com.iseasoft.iseaiptv.helpers.Router;
@@ -121,7 +120,6 @@ public class ChannelFragment extends AdsFragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(CHANNEL_KEY, item);
                 //bundle.putSerializable(PLAYLIST_KEY, getPlaylistItems());
-                App.setChannelList(getPlaylistItems());
                 Router.navigateTo(getActivity(), Router.Screens.PLAYER, bundle, false);
             });
         }

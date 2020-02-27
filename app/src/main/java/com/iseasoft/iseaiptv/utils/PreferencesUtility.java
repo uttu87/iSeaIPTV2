@@ -296,7 +296,7 @@ public final class PreferencesUtility {
     }
 
     public boolean isGridViewMode() {
-        return mPreferences.getBoolean(GRID_VIEW_MODE, true);
+        return mPreferences.getBoolean(GRID_VIEW_MODE, false);
     }
 
     public void setGridViewMode(final boolean value) {
@@ -486,6 +486,11 @@ public final class PreferencesUtility {
     public boolean hasNoHistoryWatching() {
         ArrayList<M3UItem> historyList = getHistoryChannels();
         return historyList == null || historyList.isEmpty();
+    }
+
+    public boolean hasNoFavorite() {
+        ArrayList<M3UItem> favoriteList = getFavoriteChannels();
+        return favoriteList == null || favoriteList.isEmpty();
     }
 }
 

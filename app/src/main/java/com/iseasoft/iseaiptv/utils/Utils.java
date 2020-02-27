@@ -16,8 +16,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.webkit.WebView;
+
+import com.iseasoft.iseaiptv.App;
+import com.iseasoft.iseaiptv.models.M3UItem;
+
+import java.util.ArrayList;
 
 public class Utils {
 
@@ -196,5 +202,40 @@ public class Utils {
         if (darkness >= 0.5) {
             return Color.WHITE;
         } else return Color.BLACK;
+    }
+
+    public static ArrayList<M3UItem> getItems(String catalog) {
+        if (TextUtils.isEmpty(catalog)) {
+            return new ArrayList<>();
+        }
+
+        if (catalog.equals("Favorites")) {
+            return PreferencesUtility.getInstance(App.getContext()).getFavoriteChannels();
+        }
+
+        if (catalog.equals("History Watching")) {
+            return PreferencesUtility.getInstance(App.getContext()).getHistoryChannels();
+        }
+
+        if (App.getChannelList() == null) {
+            return new ArrayList<>();
+        }
+
+        ArrayList<M3UItem> allChannels = App.getChannelList();
+        if (allChannels.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        if (catalog.equals("All channels")) {
+            return allChannels;
+        }
+        ArrayList<M3UItem> list = new ArrayList<>();
+        for (int i = 0; i < allChannels.size(); i++) {
+            M3UItem item = allChannels.get(i);
+            if (catalog.equals(item.getItemGroup())) {
+                list.add(item);
+            }
+        }
+        return list;
     }
 }
