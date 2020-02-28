@@ -35,7 +35,6 @@ public class ChannelActivity extends BaseActivity {
         getSupportActionBar().setTitle(catalog);
 
         setupPlaylist(catalog);
-        setupStartAppBanner();
     }
 
     private void setupPlaylist(String catalog) {
