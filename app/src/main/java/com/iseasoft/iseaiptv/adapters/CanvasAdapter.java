@@ -19,7 +19,9 @@ import java.util.ArrayList;
 public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder> {
 
     private static final int DATA_TYPE = 0;
-    private static final int ADS_TYPE = 1;
+    private static final int BANNER_TYPE = 1;
+    private static final int COVER_TYPE = 2;
+    private static final int MREC_TYPE = 3;
 
     private static final int MAX_VISIBLE_PALETTE_ITEM_COUNT = 10;
     private OnChannelListener itemClickListener;
@@ -53,18 +55,26 @@ public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = R.layout.fragment_horizontal_league;
-        if (viewType == ADS_TYPE) {
-            layoutId = R.layout.item_cover_ads;
+        switch (viewType) {
+            case BANNER_TYPE:
+                layoutId = R.layout.item_banner_ads;
+                break;
+            case COVER_TYPE:
+                layoutId = R.layout.item_cover_ads;
+                break;
+            case MREC_TYPE:
+                layoutId = R.layout.item_mrec_ads;
+                break;
+            default:
+                break;
         }
-        View view =
-                LayoutInflater.from(context.get()).inflate(layoutId,
-                        parent, false);
+        View view = LayoutInflater.from(context.get()).inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (getItemViewType(position) == ADS_TYPE) {
+        if (getItemViewType(position) != DATA_TYPE) {
             return;
         }
         String catalog = data.get(position);
@@ -102,9 +112,18 @@ public class CanvasAdapter extends RecyclerView.Adapter<CanvasAdapter.ViewHolder
     @Override
     public int getItemViewType(int position) {
         String catalog = data.get(position);
-        if (catalog.contains("ads")) {
-            return ADS_TYPE;
+        if (catalog.contains("banner")) {
+            return BANNER_TYPE;
         }
+
+        if (catalog.contains("cover")) {
+            return COVER_TYPE;
+        }
+
+        if(catalog.contains("mrec")) {
+            return MREC_TYPE;
+        }
+
         return DATA_TYPE;
     }
 

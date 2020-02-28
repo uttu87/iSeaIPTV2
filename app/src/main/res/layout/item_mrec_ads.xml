@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.startapp.android.publish.ads.banner.Cover
+    <com.startapp.android.publish.ads.banner.Mrec
         android:id="@+id/startAppMrec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
