@@ -34,12 +34,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
     private PublisherInterstitialAd publisherInterstitialAd;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            setupStartAppAd();
-        }
-    };
+    private Runnable runnable = this::setupStartAppAd;
 
     private boolean isImmersiveAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -176,6 +171,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         if (mHandler == null || runnable == null) {
             return;
         }
+        mHandler.removeCallbacks(runnable);
         mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
