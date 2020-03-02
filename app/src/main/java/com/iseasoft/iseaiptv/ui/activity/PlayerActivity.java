@@ -100,7 +100,6 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
         }
 
         setupPlayer(mChannel);
-        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     private void setupPlayer(M3UItem channel) {
@@ -166,6 +165,18 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
             }
             exitFullscreen(this);
         }
+    }
+
+    @Override
+    public void onPlayChannel() {
+        showFullscreenAds();
+    }
+
+    private void showFullscreenAds() {
+        if (mHandler == null || runnable == null) {
+            return;
+        }
+        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     @Override

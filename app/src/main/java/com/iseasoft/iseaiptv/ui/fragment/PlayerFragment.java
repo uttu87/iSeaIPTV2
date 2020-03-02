@@ -52,7 +52,7 @@ import static com.iseasoft.iseaiptv.ui.activity.PlayerActivity.CHANNEL_KEY;
  * Use the {@link PlayerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlayerFragment extends BaseFragment implements OnPreparedListener, View.OnClickListener,
+public class PlayerFragment extends AdsFragment implements OnPreparedListener, View.OnClickListener,
         OnCompletionListener, OnErrorListener, VideoControlsButtonListener, VideoControlsVisibilityListener {
     public static final String TAG = PlayerFragment.class.getSimpleName();
     private static final float BALANCED_VISIBLE_FRACTION = 0.5625f;
@@ -164,7 +164,7 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             setupVideoView();
             setupPlaylist();
             //setupPublisherBannerAds();
-            setupStartAppBanner();
+            //setupStartAppBanner();
         }
 
         return view;
@@ -223,6 +223,8 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
             });
         }
         adapter.update(mPlaylist);
+        spaceBetweenAds = LIST_VIEW_ADS_COUNT / 2;
+        generateDataSet(adapter);
         rvPlaylist.setAdapter(adapter);
         adapter.notifyItemChanged(getChannelPosition());
         Utils.modifyListViewForVertical(getActivity(), rvPlaylist);
@@ -269,6 +271,9 @@ public class PlayerFragment extends BaseFragment implements OnPreparedListener, 
         mVideoController.showPlayErrorMessage(false);
         updateFavoriteIcon();
         PreferencesUtility.getInstance(getActivity()).addHistory(channel);
+        if (fragmentEventListener != null) {
+            fragmentEventListener.onPlayChannel();
+        }
     }
 
     private void setUpVideoViewSize(boolean isFullscreen) {

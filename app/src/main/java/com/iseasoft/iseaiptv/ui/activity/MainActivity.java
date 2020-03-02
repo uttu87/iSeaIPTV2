@@ -319,13 +319,11 @@ public class MainActivity extends BaseActivity
     }
 
     private void updateUI() {
-        new Handler(Looper.getMainLooper()).post(() -> {
-//            if (viewPager != null) {
-//                setupViewPager(viewPager);
-//                viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
-//            }
-            setupHomeView();
-        });
+        //            if (viewPager != null) {
+        //                setupViewPager(viewPager);
+        //                viewPager.setCurrentItem(allChannelTabIndex, true);//Set All channels tab
+        //            }
+        new Handler(Looper.getMainLooper()).post(this::setupHomeView);
     }
 
     private void setupHomeView() {
@@ -335,7 +333,7 @@ public class MainActivity extends BaseActivity
         HomeFragment homeFragment = new HomeFragment();
         ft.replace(R.id.home_content, homeFragment, HomeFragment.TAG);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         placeholderContainer.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
     }
