@@ -57,7 +57,6 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
         }
 
         setupPlayer(mChannel);
-        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     private void setupPlayer(M3UItem channel) {
@@ -123,6 +122,18 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
             }
             exitFullscreen(this);
         }
+    }
+
+    @Override
+    public void onPlayChannel() {
+        showFullscreenAds();
+    }
+
+    private void showFullscreenAds() {
+        if (mHandler == null || runnable == null) {
+            return;
+        }
+        mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
     @Override

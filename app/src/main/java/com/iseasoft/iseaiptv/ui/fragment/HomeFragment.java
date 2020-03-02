@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
             mLeagues.add(getString(R.string.history_watching));
         }
         mLeagues.add(getString(R.string.all_channels));
-        mLeagues.add("cover");
 
         LinkedList<String> groupList = new LinkedList<>();
         ArrayList<M3UItem> channelList = App.getChannelList();
@@ -90,9 +89,6 @@ public class HomeFragment extends Fragment {
                 String groupTitle = groupList.get(i);
                 if (!TextUtils.isEmpty(groupTitle)) {
                     mLeagues.add(groupTitle);
-                    if (i == COVER_ADS_RANGE) {
-                        mLeagues.add("mrec");
-                    }
                 }
             }
         }
