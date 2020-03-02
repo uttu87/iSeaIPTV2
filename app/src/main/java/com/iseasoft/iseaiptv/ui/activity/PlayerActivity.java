@@ -27,12 +27,7 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
     public static final String PLAYLIST_KEY = "playlist";
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            setupStartAppAd();
-        }
-    };
+    private Runnable runnable = this::setupStartAppAd;
 
     private boolean isImmersiveAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -133,6 +128,7 @@ public class PlayerActivity extends InterstitialActivity implements FragmentEven
         if (mHandler == null || runnable == null) {
             return;
         }
+        mHandler.removeCallbacks(runnable);
         mHandler.postDelayed(runnable, App.getTimeDelayToShowAds() * 1000);
     }
 
