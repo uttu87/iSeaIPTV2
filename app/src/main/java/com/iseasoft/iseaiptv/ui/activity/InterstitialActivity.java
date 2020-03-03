@@ -76,7 +76,7 @@ public class InterstitialActivity extends AppCompatActivity {
         });
     }
 
-    private void setupStartAppAd() {
+    protected void setupStartAppAd() {
         if (startAppAd == null) {
             startAppAd = new StartAppAd(this);
         }

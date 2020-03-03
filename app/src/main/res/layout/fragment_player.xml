@@ -75,8 +75,7 @@
                     android:id="@+id/rv_playlist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="true"
-                    android:paddingBottom="@dimen/recyclerview_padding_bottom" />
+                    android:clipToPadding="true" />
 
             </RelativeLayout>
         </RelativeLayout>

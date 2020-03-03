@@ -43,7 +43,7 @@ public class ChannelAdapter extends AdsAdapter implements Filterable {
         this.listener = listener;
         this.layoutId = layoutId;
         mInflater = LayoutInflater.from(mContext);
-        isGrid = PreferencesUtility.getInstance(c).isGridViewMode();
+        isGrid = layoutId == R.layout.item_channel_grid;
     }
 
     @NonNull
