@@ -78,7 +78,7 @@
 
         <meta-data
             android:name="com.startapp.sdk.APPLICATION_ID"
-            android:value="204782935" />
+            android:value="204168730" />
 
         <provider
             android:name="com.startapp.sdk.adsbase.StartAppInitProvider"
