@@ -114,7 +114,7 @@ public class ChannelFragment extends AdsFragment {
         recyclerView.setVisibility(View.VISIBLE);
         spaceBetweenAds = LIST_VIEW_ADS_COUNT;
         channelAdapter.update(getPlaylistItems());
-        generateDataSet(channelAdapter);
+        //generateDataSet(channelAdapter);
         recyclerView.setAdapter(channelAdapter);
         Utils.modifyListViewForVertical(getActivity(), recyclerView);
     }
@@ -214,7 +214,7 @@ public class ChannelFragment extends AdsFragment {
             public boolean onQueryTextChange(final String newText) {
                 if (channelAdapter != null) {
                     channelAdapter.update(getPlaylistItems());
-                    generateDataSet(channelAdapter);
+                    //generateDataSet(channelAdapter);
                 }
                 if (!TextUtils.isEmpty(newText)) {
                     return filter(newText);

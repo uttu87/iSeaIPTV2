@@ -27,13 +27,11 @@ import com.iseasoft.iseaiptv.BuildConfig;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.dialogs.PlayStreamDialog;
 import com.iseasoft.iseaiptv.ui.fragment.AboutFragment;
-import com.startapp.android.publish.ads.banner.Banner;
-import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
-import com.startapp.android.publish.ads.nativead.StartAppNativeAd;
-import com.startapp.android.publish.adsCommon.Ad;
-import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.StartAppSDK;
-import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
+import com.startapp.sdk.ads.banner.Banner;
+import com.startapp.sdk.ads.nativead.NativeAdPreferences;
+import com.startapp.sdk.ads.nativead.StartAppNativeAd;
+import com.startapp.sdk.adsbase.Ad;
+import com.startapp.sdk.adsbase.adlisteners.AdEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String GOOGLE_PLAY_APP_LINK = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     Unbinder unbinder;
     @BindView(R.id.footer_container)
+    @androidx.annotation.Nullable
     LinearLayout footerContainer;
     PublisherAdView publisherAdView;
     Banner banner;
@@ -63,11 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         unbinder = ButterKnife.bind(this);
-        //initAdmob();
-        initStartAppSdk();
-        setupStartAppBanner();
-        //setupAdmob();
-
     }
 
     protected void setupAdmob() {
@@ -138,19 +132,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setupStartAppBanner() {
-        banner = new Banner(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        banner.setLayoutParams(params);
-        footerContainer.removeView(banner);
-        footerContainer.addView(banner);
-        banner.loadAd();
+//        banner = new Banner(this);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT);
+//        banner.setLayoutParams(params);
+//        footerContainer.removeView(banner);
+//        footerContainer.addView(banner);
+//        banner.loadAd();
     }
 
     protected void initStartAppSdk() {
-        StartAppSDK.init(this, App.getStartAppId(), true);
-        StartAppAd.disableSplash();
-        requestNativeAds();
+        //StartAppSDK.init(this, App.getStartAppId(), true);
+        //StartAppAd.disableSplash();
+        //requestNativeAds();
     }
 
     private void requestNativeAds() {

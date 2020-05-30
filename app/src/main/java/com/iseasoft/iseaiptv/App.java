@@ -10,7 +10,7 @@ import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.startapp.android.publish.ads.nativead.NativeAdDetails;
+import com.startapp.sdk.ads.nativead.NativeAdDetails;
 
 import java.io.IOException;
 import java.io.InputStream;

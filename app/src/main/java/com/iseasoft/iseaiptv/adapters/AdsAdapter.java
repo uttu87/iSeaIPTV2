@@ -16,7 +16,7 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.utils.Utils;
-import com.startapp.android.publish.ads.nativead.NativeAdDetails;
+import com.startapp.sdk.ads.nativead.NativeAdDetails;
 
 import java.util.List;
 

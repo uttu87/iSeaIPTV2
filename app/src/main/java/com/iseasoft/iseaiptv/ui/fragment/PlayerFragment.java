@@ -35,7 +35,7 @@ import com.iseasoft.iseaiptv.listeners.OnChannelListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
 import com.iseasoft.iseaiptv.utils.Utils;
-import com.startapp.android.publish.ads.banner.Banner;
+import com.startapp.sdk.ads.banner.Banner;
 
 import java.util.ArrayList;
 
@@ -224,7 +224,7 @@ public class PlayerFragment extends AdsFragment implements OnPreparedListener, V
         }
         adapter.update(mPlaylist);
         spaceBetweenAds = LIST_VIEW_ADS_COUNT / 2;
-        generateDataSet(adapter);
+        //generateDataSet(adapter);
         rvPlaylist.setAdapter(adapter);
         adapter.notifyItemChanged(getChannelPosition());
         Utils.modifyListViewForVertical(getActivity(), rvPlaylist);
@@ -361,6 +361,8 @@ public class PlayerFragment extends AdsFragment implements OnPreparedListener, V
         if (publisherAdView != null) {
             publisherAdView.destroy();
         }
+
+        banner = null;
         unbinder.unbind();
     }
 

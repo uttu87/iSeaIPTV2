@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,11 +21,11 @@ import com.iseasoft.iseaiptv.R;
 import com.iseasoft.iseaiptv.listeners.FragmentEventListener;
 import com.iseasoft.iseaiptv.models.M3UItem;
 import com.iseasoft.iseaiptv.ui.fragment.PlayerFragment;
-import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.sdk.adsbase.StartAppAd;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends AppCompatActivity implements FragmentEventListener {
+public class PlayerActivity extends BaseActivity implements FragmentEventListener {
 
     public static final String CHANNEL_KEY = "channel";
     public static final String PLAYLIST_KEY = "playlist";
@@ -78,6 +77,7 @@ public class PlayerActivity extends AppCompatActivity implements FragmentEventLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initStartAppSdk();
         setContentView(R.layout.activity_player);
         super.onCreate(savedInstanceState);
         M3UItem mChannel;

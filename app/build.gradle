@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.6.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
-    implementation 'com.startapp:inapp-sdk:4.3.0'
+    implementation 'com.startapp:inapp-sdk:4.6.+'
 
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }

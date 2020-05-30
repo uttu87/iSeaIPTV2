@@ -42,9 +42,9 @@ import com.iseasoft.iseaiptv.permissions.PermissionCallback;
 import com.iseasoft.iseaiptv.ui.fragment.ChannelFragment;
 import com.iseasoft.iseaiptv.ui.fragment.HomeFragment;
 import com.iseasoft.iseaiptv.utils.PreferencesUtility;
-import com.startapp.android.publish.adsCommon.Ad;
-import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
+import com.startapp.sdk.adsbase.Ad;
+import com.startapp.sdk.adsbase.StartAppAd;
+import com.startapp.sdk.adsbase.adlisteners.AdEventListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initStartAppSdk();
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
@@ -109,6 +110,7 @@ public class MainActivity extends BaseActivity
 
         checkToPlayFromPushNotification();
         loadChannels();
+        setupStartAppBanner();
     }
 
     private void checkToPlayFromPushNotification() {

@@ -14,6 +14,7 @@ public class ChannelActivity extends BaseActivity {
     public static final String CATALOG_KEY = "catalog";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initStartAppSdk();
         setContentView(R.layout.activity_channel);
         super.onCreate(savedInstanceState);
 
@@ -35,6 +36,7 @@ public class ChannelActivity extends BaseActivity {
         getSupportActionBar().setTitle(catalog);
 
         setupPlaylist(catalog);
+        setupStartAppBanner();
     }
 
     private void setupPlaylist(String catalog) {

@@ -24,6 +24,7 @@ public class SelectFileActivity extends BaseActivity implements FolderListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initStartAppSdk();
         setContentView(R.layout.activity_select_file);
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);

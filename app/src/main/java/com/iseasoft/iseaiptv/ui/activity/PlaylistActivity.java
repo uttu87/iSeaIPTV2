@@ -16,6 +16,7 @@ public class PlaylistActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initStartAppSdk();
         setContentView(R.layout.activity_playlist);
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);

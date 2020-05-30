@@ -75,7 +75,15 @@
                     android:id="@+id/rv_playlist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="true" />
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/recyclerview_padding_bottom"/>
+
+                <com.startapp.sdk.ads.banner.Banner
+                    android:id="@+id/startAppBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"/>
 
             </RelativeLayout>
         </RelativeLayout>
