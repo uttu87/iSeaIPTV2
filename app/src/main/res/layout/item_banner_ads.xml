@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
@@ -38,7 +38,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_league_title"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +53,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_league_title">
 
 
-        </android.support.v7.widget.RecyclerView>
-    </android.support.constraint.ConstraintLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
