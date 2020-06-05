@@ -188,7 +188,7 @@ class PlayerFragment : AdsFragment(), OnPreparedListener, View.OnClickListener, 
         }
         mPlaylist?.let { adapter!!.update(it) }
         spaceBetweenAds = AdsFragment.LIST_VIEW_ADS_COUNT / 2
-        //generateDataSet(adapter);
+        generateDataSet(adapter);
         rvPlaylist?.adapter = adapter
         adapter?.notifyItemChanged(channelPosition)
         activity?.let { rvPlaylist?.let { it1 -> Utils.modifyListViewForVertical(it, it1) } }

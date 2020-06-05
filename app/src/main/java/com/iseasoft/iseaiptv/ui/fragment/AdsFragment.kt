@@ -7,7 +7,7 @@ import com.startapp.sdk.ads.nativead.NativeAdDetails
 open class AdsFragment : BaseFragment() {
     protected var spaceBetweenAds: Int = 0
 
-//    protected fun generateDataSet(adapter: AdsAdapter?) {
+    protected fun generateDataSet(adapter: AdsAdapter?) {
 //        if (activity == null || adapter == null
 //                || adapter.dataSet!!.size < ADS_ITEM_START_INDEX) {
 //            return
@@ -55,7 +55,7 @@ open class AdsFragment : BaseFragment() {
 //                        generateDataSet(adapter)
 //                    }
 //                })
-//    }
+    }
 
     private fun isExistAds(adsAdapter: AdsAdapter): Boolean {
         for (item in adsAdapter.dataSet!!) {

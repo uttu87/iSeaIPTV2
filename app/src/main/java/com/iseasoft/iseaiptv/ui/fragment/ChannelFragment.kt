@@ -138,7 +138,7 @@ class ChannelFragment : AdsFragment() {
         recyclerView?.visibility = View.VISIBLE
         spaceBetweenAds = AdsFragment.LIST_VIEW_ADS_COUNT
         channelAdapter?.update(playlistItems!!)
-        //generateDataSet(channelAdapter);
+        generateDataSet(channelAdapter);
         recyclerView?.adapter = channelAdapter
         recyclerView?.let { Utils.modifyListViewForVertical(activity!!, it) }
     }
@@ -202,7 +202,7 @@ class ChannelFragment : AdsFragment() {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (channelAdapter != null) {
                     channelAdapter!!.update(playlistItems!!)
-                    //generateDataSet(channelAdapter);
+                    generateDataSet(channelAdapter);
                 }
                 return if (!TextUtils.isEmpty(newText)) {
                     filter(newText)
