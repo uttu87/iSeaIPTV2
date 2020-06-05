@@ -24,6 +24,7 @@ import com.startapp.sdk.ads.banner.Banner
 import com.startapp.sdk.ads.nativead.NativeAdPreferences
 import com.startapp.sdk.ads.nativead.StartAppNativeAd
 import com.startapp.sdk.adsbase.Ad
+import com.startapp.sdk.adsbase.StartAppSDK
 import com.startapp.sdk.adsbase.adlisteners.AdEventListener
 import java.util.*
 
@@ -119,7 +120,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun initStartAppSdk() {
-        //StartAppSDK.init(this, App.getStartAppId(), true);
+        StartAppSDK.init(this, App.getStartAppId(), true);
         //StartAppAd.disableSplash();
         //requestNativeAds();
     }
