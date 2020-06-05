@@ -11,11 +11,11 @@ kapt {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.iseasoftvn.usatv"
+        applicationId "com.iseasoft.apps.usatv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 100
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
