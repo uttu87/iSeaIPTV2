@@ -53,7 +53,7 @@ class App : Application() {
         var publisherBannerId = ""
         var publisherInterstitialId = ""
         var publisherNativeId = ""
-        private var startAppId = "208280482"
+        private var startAppId = "211383720"
         var timeDelayToShowAds: Long = 0
         var channelList = ArrayList<M3UItem>()
             set(channelList) {

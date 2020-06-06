@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">USA TV</string>
+    <string name="app_name">Armenia TV</string>
     <string name="admob_app_id">ca-app-pub-4598992956351116~5391172723</string>
     <string name="admob_banner_id">ca-app-pub-4598992956351116/1941036395</string>
     <string name="admob_interstitial_id">ca-app-pub-4598992956351116/2746851604</string>
@@ -53,7 +53,7 @@
     <string name="common_dialog_not">Not really</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="question">Enjoying USA TV?</string>
+    <string name="question">Enjoying Armenia TV?</string>
     <string name="rating">How about a rating on the Play Store, then?</string>
     <string name="feedback">Would you mind to give us some feedback?</string>
 
@@ -66,15 +66,15 @@
 
     <string name="playing_error">Error playing channel</string>
 
-    <string name="share_subject">Check out USA TV</string>
-    <string name="share_boday">Enjoy IP Television with USA TV</string>
+    <string name="share_subject">Check out Armenia TV</string>
+    <string name="share_boday">Enjoy IP Television with Armenia TV</string>
     <string name="share_app_title">Share this application via</string>
 
     <string name="app_version">Version: %s</string>
     <string name="copyright">© 2020 iSeaSoft. All rights reserved.</string>
     <string name="contact">If you have any questions, ideas or suggestions, please feel free contact me at apps.iseasoft@gmail.com.</string>
 
-    <string name="request_storage_permission_message">"USA TV will need to read external storage to display playlist files on your device."</string>
-    <string name="request_storage_permission_message_load">"USA TV will need to read external storage to load playlist files on your device."</string>
+    <string name="request_storage_permission_message">"Armenia TV will need to read external storage to display playlist files on your device."</string>
+    <string name="request_storage_permission_message_load">"Armenia TV will need to read external storage to load playlist files on your device."</string>
     <string name="native_ads_id">/21617015150/407539/21859668535</string>
 </resources>

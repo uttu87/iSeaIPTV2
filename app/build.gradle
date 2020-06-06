@@ -11,7 +11,7 @@ kapt {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.iseasoft.apps.usatv"
+        applicationId "com.iseasoft.apps.armeniatv"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 100

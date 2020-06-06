@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:212706785061:android:d794e30bd0788671978ccc",
+        "android_client_info": {
+          "package_name": "com.iseasoft.apps.armeniatv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212706785061-3t1gh4ohgpv3s4m16enqo44dfgoc1dec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2VzOFMfhSC2PM7IsiswVWNKR0_B-K-dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212706785061-3t1gh4ohgpv3s4m16enqo44dfgoc1dec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:212706785061:android:f6309f1c2ce89c6b978ccc",
         "android_client_info": {
           "package_name": "com.iseasoft.apps.usatv"

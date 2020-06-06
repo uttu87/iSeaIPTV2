@@ -2,7 +2,7 @@
 <defaultsMap>
     <entry>
         <key>base_url</key>
-        <value>https://raw.githubusercontent.com/uttu87/livetv/master/us.m3u</value>
+        <value>https://raw.githubusercontent.com/uttu87/livetv/master/am.m3u</value>
     </entry>
     <entry>
         <key>today_highlight_status</key>
@@ -58,6 +58,6 @@
     </entry>
     <entry>
         <key>start_app_id</key>
-        <value>204168730</value>
+        <value>211383720</value>
     </entry>
 </defaultsMap><!-- END xml_defaults -->
